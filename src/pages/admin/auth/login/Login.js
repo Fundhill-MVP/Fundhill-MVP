@@ -111,6 +111,12 @@ function Login(props) {
   const [activeTabId, setActiveTabId] = useState(0);
 
 
+  const orgs = {
+    "B": "MFB",
+    "I": "MFI",
+    "E": "ESUSU",
+    "C": "COOPERATIVE"
+  }
 
   const login = async (values) => {
     setIsLoading(true);
@@ -132,9 +138,28 @@ function Login(props) {
     setIsLoading(false);
   }
 
-  // const handleChange = (event) => {
-  //   setAge(event.target.value);
-  // };
+  const register = async(values) => {
+    try {
+      setIsLoading(true);
+      console.log(values)
+      localStorage.setItem("email",values.email);
+      
+      const response = await api
+            .service()
+            .push("/accounts/manage/signup/",values,true)
+  
+      if(api.isSuccessful(response)){
+        setTimeout(() => {
+          toast.success('Registration successfully!');
+          navigate("/auth/confirm_email",{replace: true})
+        }, 0);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(true);
+    }
+}
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
@@ -160,69 +185,7 @@ function Login(props) {
                   Something is wrong with your login or password :(
                 </Typography>
               </Fade>
-              {/* <TextField
-                id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
-                margin="normal"
-                placeholder="Email Adress"
-                type="email"
-                fullWidth
-              />
-              <TextField
-                id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                value={passwordValue}
-                onChange={e => setPasswordValue(e.target.value)}
-                margin="normal"
-                placeholder="Password"
-                type="password"
-                fullWidth
-              />
-              <div className={classes.formButtons}>
-                {isLoading ? (
-                  <CircularProgress size={26} className={classes.loginLoader} />
-                ) : (
-                  <Button
-                    disabled={
-                      loginValue.length === 0 || passwordValue.length === 0
-                    }
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        loginValue,
-                        passwordValue,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
-                    constiant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Login
-                  </Button>
-                )}
-                <Button
-                  color="primary"
-                  size="large"
-                  className={classes.forgetButton}
-                >
-                  Forget Password
-                </Button>
-              </div> */}
+
 
               <Formik
                 initialValues={loginInitialFormState()}
@@ -296,22 +259,31 @@ function Login(props) {
                   Something is wrong with your login or password :(
                 </Typography>
               </Fade>
-              {/* <TextField
-                id="first_name"
+              <Formik 
+              initialValues={registerInitialFormState()}
+              validationSchema={registerFormValidation}
+              onSubmit = {async(values) => {
+                  await register(values)
+              }}
+             >
+              <Form>
+              <TextField
+                name = "first_name"
+                id = "first_name"
                 InputProps={{
                   classes: {
                     underline: classes.textFieldUnderline,
                     input: classes.textField,
                   },
                 }}
-                value={nameValue}
-                onChange={e => setNameValue(e.target.value)}
                 margin="normal"
                 placeholder="First Name"
                 type="text"
-                fullWidth
-              />
+                fullWidth             
+               />
+
               <TextField
+                name = "last_name"
                 id="last_name"
                 InputProps={{
                   classes: {
@@ -319,29 +291,29 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={lastnameValue}
-                onChange={e => setLastNameValue(e.target.value)}
                 margin="normal"
                 placeholder="Last Name"
                 type="text"
                 fullWidth
               />
+
               <TextField
-                id="coop"
+                name = "org_name"
+                id="org_name"
                 InputProps={{
                   classes: {
                     underline: classes.textFieldUnderline,
                     input: classes.textField,
                   },
                 }}
-                value={coopValue}
-                onChange={e => setCoopValue(e.target.value)}
                 margin="normal"
                 placeholder="Full Co-operation/Organization Name"
                 type="text"
                 fullWidth
               />
+
               <TextField
+                name="email"
                 id="email"
                 InputProps={{
                   classes: {
@@ -349,14 +321,14 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={loginValue}
-                onChange={e => setLoginValue(e.target.value)}
                 margin="normal"
                 placeholder="Email Adress"
                 type="email"
                 fullWidth
               />
+
               <TextField
+                name="phone"
                 id="number"
                 InputProps={{
                   classes: {
@@ -364,8 +336,6 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={numberValue}
-                onChange={e => setNumberValue(e.target.value)}
                 margin="normal"
                 placeholder="Enter your phone number"
                 type="number"
@@ -373,21 +343,18 @@ function Login(props) {
               />
 
               <FormControl style={{ marginTop: 2, width: '100%' }} size="small">
-                <InputLabel id="demo-select-small">Company Type</InputLabel>
+                {/* <InputLabel id="demo-select-small">Company Type</InputLabel> */}
                 <Select
-                  labelId="demo-select-small"
+                  labelid="demo-select-small"
                   id="demo-select-small"
-                  value={org_type}
-                  name="company"
+                  name="org_type"
                   label="Company Type"
-                  onChange={() => setOrgType(e.target.value)}
-                >
-                  <MenuItem value="MFB">MFB</MenuItem>
-                  <MenuItem value="MFI">MFI</MenuItem>
-                </Select>
+                  options={orgs}
+               />
               </FormControl>
 
               <TextField
+                name="address"
                 id="address"
                 InputProps={{
                   classes: {
@@ -395,14 +362,14 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={addressValue}
-                onChange={e => setAddressValue(e.target.value)}
                 margin="normal"
                 placeholder="Address location of company"
                 type="text"
                 fullWidth
               />
+
               <TextField
+                name="password"
                 id="password"
                 InputProps={{
                   classes: {
@@ -410,39 +377,17 @@ function Login(props) {
                     input: classes.textField,
                   },
                 }}
-                value={passwordValue}
-                onChange={e => setPasswordValue(e.target.value)}
                 margin="normal"
                 placeholder="Password"
                 type="password"
                 fullWidth
               />
-              <div className={classes.creatingButtonContainer}>
+
+                 <div className={classes.creatingButtonContainer}>
                 {isLoading ? (
                   <CircularProgress size={26} />
                 ) : (
                   <Button
-                    onClick={() =>
-                      loginUser(
-                        userDispatch,
-                        nameValue,
-                        lastnameValue,
-                        coopValue,
-                        numberValue,
-                        addressValue,
-                        loginValue,
-                        passwordValue,
-                        age,
-                        props.history,
-                        setIsLoading,
-                        setError,
-                      )
-                    }
-                    disabled={
-                      loginValue.length === 0 ||
-                      passwordValue.length === 0 ||
-                      nameValue.length === 0
-                    }
                     size="large"
                     constiant="contained"
                     color="primary"
@@ -452,7 +397,9 @@ function Login(props) {
                     Create your account
                   </Button>
                 )}
-              </div> */}
+              </div>            
+              </Form>
+             </Formik>
 
             </React.Fragment>
           )}
