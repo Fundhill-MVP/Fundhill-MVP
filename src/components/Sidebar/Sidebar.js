@@ -6,8 +6,8 @@ import {
 } from "@material-ui/icons";
 import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
-import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
-import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
+import BookIcon from '@material-ui/icons/Book';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PaymentOutlinedIcon from '@material-ui/icons/PaymentOutlined';
 import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
 import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
@@ -31,20 +31,23 @@ const structure = [
   },
   {
     id: 1,
-    label: "Membership",
-    links: "/app/typography",
-    icon: <PeopleAltOutlinedIcon />,
+    label: "Accounting",
+    links: "/app/accounting",
+    icon: <BookIcon />,
     children: [
-      { label: "New Members", links: "#" },
-      { label: "Savings Plan", links: "#" },
-      { label: "Pendding Verification", links: "#" },
-      { label: "All Members", links: "#" },
+      { label: "Deposit", links: "#" },
+      { label: "Withdrawal", links: "#" },
+      { label: "Regular Savings", links: "#" },
+      { label: "Targeted Savings", links: "#" },
+      { label: "Fixed Savings", links: "#" },
+      { label: "Customers", links: "#" },
     ],
   },
   {
-    id: 2, label: "Payout", links: "/app/tables", icon: <PersonOutlineOutlinedIcon />,
+    id: 2, label: "Branch", links: "/app/branch", icon: <AccountTreeIcon />,
     children: [
-      { label: "Investment Payout", links: "#" },
+      { label: "All Branch", links: "dashboard/allbranch" },
+      { label: "New Branch", links: "dashboard/newbranch" },
     ],
   },
   {
