@@ -32,7 +32,7 @@ const structure = [
   {
     id: 1,
     label: "Accounting",
-    links: "/app/accounting",
+    links: "#",
     icon: <BookIcon />,
     children: [
       { label: "Deposit", links: "#" },
@@ -44,16 +44,16 @@ const structure = [
     ],
   },
   {
-    id: 2, label: "Branch", links: "/app/branch", icon: <AccountTreeIcon />,
+    id: 2, label: "Branch", links: "#", icon: <AccountTreeIcon />,
     children: [
-      { label: "All Branch", links: "dashboard/allbranch" },
-      { label: "New Branch", links: "dashboard/newbranch" },
+      { label: "All Branch", links: "/admin/dashboard/allbranch" },
+      { label: "New Branch", links: "/admin/dashboard/newbranch" },
     ],
   },
   {
     id: 3,
     label: "Traction",
-    links: "/app/notifications",
+    links: "#",
     icon: <PaymentOutlinedIcon />,
     children: [
       {
@@ -69,7 +69,7 @@ const structure = [
   {
     id: 4,
     label: "Report",
-    links: "/app/ui",
+    links: "#",
     icon: <ReportOutlinedIcon />,
     children: [
       { label: "General Report", links: "#" },
@@ -78,7 +78,7 @@ const structure = [
   {
     id: 5,
     label: "Esusu Management",
-    links: "/app/ui",
+    links: "#",
     icon: <AccountBalanceOutlinedIcon />,
     children: [
       { label: "Esusu Transaction", links: "#" },
@@ -88,7 +88,7 @@ const structure = [
   {
     id: 6,
     label: "Expences",
-    links: "/app/ui",
+    links: "#",
     icon: <AccountBalanceWalletOutlinedIcon />,
     children: [
       { label: "New Expences", links: "#" },

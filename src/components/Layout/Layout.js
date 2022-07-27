@@ -1,12 +1,11 @@
 import React from "react";
 import {
-  Route,
-  Routes,
-  useNavigate,
-  Outlet
+  useLocation,
+  Outlet,
+  Link
 } from "react-router-dom";
 import classnames from "classnames";
-import {Box, IconButton, Link} from '@material-ui/core'
+import {Box, IconButton} from '@material-ui/core'
 import Icon from '@mdi/react'
 
 //icons
@@ -36,16 +35,16 @@ import Charts from "../../pages/charts";
 import { useLayoutState } from "../../context/LayoutContext";
 
 function Layout(props) {
-  var classes = useStyles();
-  const navigate = useNavigate();
+  const classes = useStyles();
   // global
-  var layoutState = useLayoutState();
+  const layoutState = useLayoutState();
+  let location = useLocation();
 
   return (
     <div className={classes.root}>
         <>
           <Header history={props.history} />
-          <Sidebar />
+          <Sidebar location={location} />
 
           <div
             className={classnames(classes.content, {
@@ -66,15 +65,15 @@ function Layout(props) {
               <div>
                 <Link
                   color={'primary'}
-                  href={'https://flatlogic.com/'}
+                  to="#"
                   target={'_blank'}
                   className={classes.link}
                 >
-                  Flatlogic
+                  Fundhill
                 </Link>
                 <Link
                   color={'primary'}
-                  href={'https://flatlogic.com/about'}
+                  to="#"
                   target={'_blank'}
                   className={classes.link}
                 >
@@ -82,7 +81,7 @@ function Layout(props) {
                 </Link>
                 <Link
                   color={'primary'}
-                  href={'https://flatlogic.com/blog'}
+                  to="#"
                   target={'_blank'}
                   className={classes.link}
                 >
@@ -91,7 +90,7 @@ function Layout(props) {
               </div>
               <div>
                 <Link
-                  href={'https://www.facebook.com/flatlogic'}
+                  to="#"
                   target={'_blank'}
                 >
                   <IconButton aria-label="facebook">
@@ -103,7 +102,7 @@ function Layout(props) {
                   </IconButton>
                 </Link>
                 <Link
-                  href={'https://twitter.com/flatlogic'}
+                  to="#"
                   target={'_blank'}
                 >
                   <IconButton aria-label="twitter">
@@ -115,7 +114,7 @@ function Layout(props) {
                   </IconButton>
                 </Link>
                 <Link
-                  href={'https://github.com/flatlogic'}
+                  to="#"
                   target={'_blank'}
                 >
                   <IconButton
