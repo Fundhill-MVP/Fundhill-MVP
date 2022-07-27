@@ -11,9 +11,8 @@ import { useUserDispatch, loginUser } from  "../../../../context/UserContext"
 
 
 import assets from "../../../../components/assets/";
-import TextField from "../../../../components/FormsUI/Textfield";
-// import Button from "../../components/FormsUI/Button";
-import Button from "../../../../components/FormsUI/Button"
+
+import {TextField,Button} from "../../../../components/FormsUI"
 
 import React, { useState,useContext } from "react";
 import {
@@ -24,13 +23,11 @@ import {
   Tab,
   Fade,
   FormControl,
-  InputLabel,
   Select,
-  MenuItem,
 } from "@material-ui/core";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { Link, useHistory,useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners"
