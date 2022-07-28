@@ -1,16 +1,41 @@
-import { Fragment, useState,useEffect,useContext } from "react";
-import { Box, Button, FormControl,TextField,Select, Typography,MenuItem } from '@material-ui/core'
-import PageTitle from '../../../components/PageTitle/PageTitle'
-import { Link,useNavigate } from "react-router-dom";
-import {Formik,Form,Field} from "formik";
-import {object as yupObject, string as yupString} from "yup";
-import {api} from "../../../services";
+import {Fragment,useEffect,useContext,useState} from 'react'
+import { useNavigate } from "react-router-dom";
+// import "./Dashboard.css"
+import { Formik, Form, Field } from "formik";
+import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
+import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners";
+import {BounceLoaderk,DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
-import {DateTimePicker} from "../../../components/FormsUI"
+import PageTitle from "../../../components/PageTitle"
+import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
+import {
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Grid,
+  Typography,
+  TextField,
+  Box,
+  Select,
+  MenuItem,
+  Button
+} from "@material-ui/core";
+import ActionButton from './ActionButton';
+import {DateTimePicker} from "../../../components/FormsUI"
+
+
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 
 
 
@@ -44,14 +69,8 @@ function NewCustomer() {
   const [utility_bill, setUtilityBill] = useState(null);
  
   const [bvn, setBvn] = useState("");
-  // const [BvnError,setBvnError] = useState("");    
 
 
-  // console.log(Country.getAllCountries())
-  // console.log(State.getAllStates())
-  const countries = Country.getAllCountries();
-  const states = State.getAllStates()
-  // console.log(states);
   useEffect(() => {
     setIsLoading(true)
 
@@ -207,11 +226,12 @@ function NewCustomer() {
                 <div className={classes.label}>
                     <Typography >Date of Birth</Typography>
                 </div>
-                <DateTimePicker
+                <TextField
                     className={classes.input}
                     variant="outlined"
                     size='small'
                     name='dob'
+                    type="date"
                     required
                 />
             </div>
@@ -263,7 +283,6 @@ function NewCustomer() {
                     size='small'
                     name='bvn'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -274,7 +293,7 @@ function NewCustomer() {
                     className={classes.input}
                     variant="outlined"
                     size='small'
-                    name='gender'
+                    name='currency'
                     type='text'
                     required
                 >   
@@ -292,8 +311,7 @@ function NewCustomer() {
                     variant="outlined"
                     size='small'
                     name='email'
-                    type='text'
-                    required
+                    type='email'
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -365,9 +383,10 @@ function NewCustomer() {
                         <div className={classes.label}>
                             <Typography >Marketer</Typography>
                         </div>
-                    <Select 
+                    <TextField
+                        select={true} 
                         className={classes.input}
-                        name="branch_head_id"  
+                        name="agent_id"  
                         variant='outlined'
                         fullWidth={true}
                     >
@@ -378,7 +397,7 @@ function NewCustomer() {
                             </MenuItem>
                             )
                         })}
-                        </Select>
+                        </TextField>
                 </div>
                 {
                             isLoading ? 

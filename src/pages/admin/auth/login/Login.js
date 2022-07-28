@@ -128,7 +128,7 @@ function Login(props) {
       setTimeout(() => {
         toast.success('Logged in successfully!');
         // navigate("/admin/dashboard",{replace: true})
-        navigate("/admin/dashboard/allbranch",{replace: true});
+        navigate("/admin/dashboard/branch/allbranch",{replace: true});
       }, 0);
     }
 
