@@ -30,24 +30,22 @@ const override = css`
 `;
 
 
-function AllMarketer() {
-    const classes = useStyles();
+function MarketerAccount() {
+  const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context);
     const [marketers,setMarketers] = useState([]);
 
-
-
     useEffect(() => {
         setIsLoading(true)
 
-        const allMarketer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
+        const allMarketerWallet = async() => {
+          const res = await api.service().fetch("/wallet/marketer/",true);
           console.log(res.data)
           if(api.isSuccessful(res)){
-            //   console.log(res)
+              console.log(res)
             setMarketers(res.data.results)
           }
     
@@ -55,9 +53,8 @@ function AllMarketer() {
     
         }
 
-        allMarketer();
+        allMarketerWallet();
       },[])
-
 
       const edit_marketer = async(values,id) => {
         setLoading(true);
@@ -76,24 +73,21 @@ function AllMarketer() {
         setLoading(false);
     }
     const fund_marketer = async(values,id) => {
-            try {
-                setLoading(true);
-                console.log(values)
+        setLoading(true);
+        console.log(values)
 
-                const response = await api
-                    .service()
-                    .push(`/wallets/marketers/${id}/fund-wallet/`,values,true)
-                if(api.isSuccessful(response)){
-                setTimeout( () => {
-                    toast.success("Transaction successful");
-                    // navigate("/admin/allbranch",{replace: true})
-                },0);
-                }
-                setLoading(false);
-            } catch (error) {
-                console.log(error)
-            }
-                }
+        const response = await api
+            .service()
+            .push(`/wallet/marketer/${id}/fund-wallet/`,values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Transaction successful");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setLoading(false);
+    }
 
 
 
@@ -107,8 +101,9 @@ function AllMarketer() {
             }
   
       }
+
   return (
-    <Fragment>
+<Fragment>
       <PageTitle title="Fundhill" />
       <Grid container spacing={4}>
         {
@@ -132,6 +127,7 @@ function AllMarketer() {
                         <TableCell >Full Name </TableCell>
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
+                        <TableCell>Balance</TableCell>
                         <TableCell>Role</TableCell>
                         <TableCell>Action</TableCell>
 
@@ -144,6 +140,7 @@ function AllMarketer() {
                           <TableCell>{marketer?.first_name} {marketer?.last_name} </TableCell>
                           <TableCell>{marketer?.phone}</TableCell>
                           <TableCell>{marketer?.email}</TableCell>
+                          <TableCell> {marketer?.balance} </TableCell>
                           <TableCell>{marketer?.user_role} </TableCell>
                           <TableCell>
                             <ActionButton />
@@ -159,7 +156,7 @@ function AllMarketer() {
 
       </Grid>
     </Fragment>
-      )
+  )
 }
 
-export default AllMarketer
+export default MarketerAccount

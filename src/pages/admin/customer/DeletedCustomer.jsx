@@ -21,17 +21,14 @@ import {
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
 
-
 // CONTEXT
 const override = css`
   display: block;
   margin: 0 auto;
   border-color: red;
 `;
-
-function PendingCustomer() {
-  const classes = useStyles();
-
+function DeletedCustomer() {
+    const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
     const [Loading, setLoading] = useState(false)
     let [loading, setloading] = useState(true);
@@ -100,7 +97,7 @@ function PendingCustomer() {
 
     
     const activateCustomer = async(id) => {
-        const res = await api.service().fetch(`/accounts/auth/${id}/activate/`,true);
+        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/activate/`,true);
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {
@@ -110,7 +107,7 @@ function PendingCustomer() {
   
       }
     const deactivateCustomer = async(id) => {
-        const res = await api.service().fetch(`/accounts/auth/${id}/deactivate/`,true);
+        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/deactivate/`,true);
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {
@@ -119,19 +116,9 @@ function PendingCustomer() {
             }
   
       }
-
-      const deleteCustomer = async(id) => {
-        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
-        console.log(res.data)
-        if(api.isSuccessful(res)){
-            setTimeout( () => {
-                toast.success("Successfully deleted customer!");
-            },0);
-            }
-  
-      }
+      
   return (
-    <Fragment>
+<Fragment>
     <PageTitle title="Fundhill" />
     <Grid container spacing={4}>
       {
@@ -185,7 +172,7 @@ function PendingCustomer() {
 
     </Grid>
   </Fragment>
-  )
+    )
 }
 
-export default PendingCustomer
+export default DeletedCustomer

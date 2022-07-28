@@ -6,10 +6,22 @@ import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {BounceLoader} from "react-spinners";
+import {BounceLoader,DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 import PageTitle from "../../../components/PageTitle"
 import Widget from "../../../components/Widget/Widget";
+import useStyles from './styles';
+import {
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Grid,
+} from "@material-ui/core";
+import ActionButton from './ActionButton';
+
+
 // CONTEXT
 const override = css`
   display: block;
@@ -18,7 +30,7 @@ const override = css`
 `;
 
 function AllCustomer() {
-
+    const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
     const [Loading, setLoading] = useState(false)
     let [loading, setloading] = useState(true);
@@ -198,6 +210,7 @@ function AllCustomer() {
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
+                        <TableCell >Customer ID </TableCell>
                         <TableCell >Full Name </TableCell>
                         <TableCell >Account Number </TableCell>
                         <TableCell >Telephone </TableCell>
@@ -217,6 +230,7 @@ function AllCustomer() {
                           <TableCell>{customer?.phone}</TableCell>
                           <TableCell>{customer?.email}</TableCell>
                           <TableCell>{customer?.agent.first_name} </TableCell>
+                          <TableCell>{customer?.status}</TableCell>
                           <TableCell>
                             <ActionButton />
                           </TableCell>
