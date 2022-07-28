@@ -30,83 +30,58 @@ const override = css`
 `;
 
 
-function AllMarketer() {
+
+function OngoingLoan() {
     const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
+    const [loader, setLoader] = useState(false);
     let [color, setColor] = useState("#ADD8E6");
-    const {user} = useContext(Context);
-    const [marketers,setMarketers] = useState([]);
-
-
+    const {user} = useContext(Context)
+    const [data,setData] = useState([]);
 
     useEffect(() => {
-        setIsLoading(true)
+        try {
+            setIsLoading(true)
 
-        const allMarketer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
-          console.log(res.data)
-          if(api.isSuccessful(res)){
-            //   console.log(res)
-            setMarketers(res.data.results)
-          }
+            const allCustomer = async() => {
+              const res = await api.service().fetch("/dashboard/loan/?status=PENDING",true);
+              console.log(res.data)
+              if(api.isSuccessful(res)){
+                setData(res.data.results)
+              }
+            setIsLoading(false);
+        
+            }
     
-          setIsLoading(false);
-    
+            allCustomer();
+        } catch (error) {
+            console.log(error)
         }
-
-        allMarketer();
       },[])
 
-
-      const edit_marketer = async(values,id) => {
-        setLoading(true);
-        console.log(values)
-
-        const response = await api
-            .service()
-            .update(`/accounts/auth/${id}/`,values,true)
-
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            toast.success("Marketer profile successfully updated!!");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
-        }
-        setLoading(false);
-    }
-    const fund_marketer = async(values,id) => {
+      const approve_loan = async(values) => {
             try {
-                setLoading(true);
+                setLoader(true);
                 console.log(values)
-
+        
                 const response = await api
                     .service()
-                    .push(`/wallets/marketers/${id}/fund-wallet/`,values,true)
+                    .push("/dashboard/loan/action/",values,true)
+        
                 if(api.isSuccessful(response)){
                 setTimeout( () => {
-                    toast.success("Transaction successful");
-                    // navigate("/admin/allbranch",{replace: true})
+                    toast.success("Successfully approved loan!");
+                    // navigate("/admin/dashboard/add_borrower",{replace: true});
                 },0);
                 }
-                setLoading(false);
+                setLoader(false);
             } catch (error) {
                 console.log(error)
             }
-                }
+    }
 
 
-
-      const deleteMarketer = async(id) => {
-        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
-        console.log(res.data)
-        if(api.isSuccessful(res)){
-            setTimeout( () => {
-                toast.success("Successfully deleted marketer!");
-            },0);
-            }
-  
-      }
   return (
     <Fragment>
       <PageTitle title="Fundhill" />
@@ -128,23 +103,27 @@ function AllMarketer() {
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
-                        <TableCell >Marketer ID </TableCell>
-                        <TableCell >Full Name </TableCell>
-                        <TableCell >Telephone </TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Role</TableCell>
+                        <TableCell > Names </TableCell>
+                        <TableCell > Amount + Interest </TableCell>
+                        <TableCell > Account Number </TableCell>
+                        <TableCell> Loan Product </TableCell>
+                        <TableCell> Payback Date </TableCell>
+                        <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {marketers.map((marketer) => (
-                        <TableRow key={marketer?.id}>
-                          <TableCell className="pl-3 fw-normal">{marketer?.id}</TableCell>
-                          <TableCell>{marketer?.first_name} {marketer?.last_name} </TableCell>
-                          <TableCell>{marketer?.phone}</TableCell>
-                          <TableCell>{marketer?.email}</TableCell>
-                          <TableCell>{marketer?.user_role} </TableCell>
+                      {data.map((customer) => (
+                        <TableRow key={customer?.id}>
+                          <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
+                          <TableCell>{customer?.borrower?.first_name} {customer?.borrower?.last_name} </TableCell>
+                          <TableCell>{customer?.amount_to_repay}</TableCell>
+                          <TableCell>{customer?.account_number}</TableCell>
+                          <TableCell>{customer?.loan_product.name}</TableCell>
+                          <TableCell>{customer?.final_due_date}</TableCell>
+                          <TableCell>{customer?.date_created} </TableCell>
+                          <TableCell>{customer?.status}</TableCell>
                           <TableCell>
                             <ActionButton />
                           </TableCell>
@@ -159,7 +138,7 @@ function AllMarketer() {
 
       </Grid>
     </Fragment>
-      )
+  )
 }
 
-export default AllMarketer
+export default OngoingLoan
