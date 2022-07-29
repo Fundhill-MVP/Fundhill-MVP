@@ -6,7 +6,7 @@ import Table from "./Table/Table";
 import TextField from "./Textfield/TextField";
 
 
-export{
+export {
     Button,
     Checkbox,
     DateTimePicker,

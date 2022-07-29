@@ -7,14 +7,14 @@ import { Context } from "../../../../context/Context";
 // styles
 import useStyles from "./styles";
 // context
-import { useUserDispatch, loginUser } from  "../../../../context/UserContext"
+import { useUserDispatch, loginUser } from "../../../../context/UserContext"
 
 
 import assets from "../../../../components/assets/";
 
-import {TextField,Button} from "../../../../components/FormsUI"
+import { TextField, Button } from "../../../../components/FormsUI"
 
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Grid,
   CircularProgress,
@@ -30,7 +30,7 @@ import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners"
+import { DotLoader } from "react-spinners"
 import { api } from "../../../../services";
 ;
 
@@ -100,7 +100,7 @@ function Login(props) {
 
   const navigate = useNavigate();
   // const history = useHistory();
-  const {dispatch,} = useContext(Context)
+  const { dispatch, } = useContext(Context)
 
   // local
   const [isLoading, setIsLoading] = useState(false);
@@ -123,32 +123,32 @@ function Login(props) {
       .push('/accounts/auth/signin/', values, true);
 
     if (api.isSuccessful(response)) {
-      localStorage.setItem("token",response?.data?.data?.token)
-      dispatch({type: "LOGIN_SUCCESS",payload: response?.data});
+      localStorage.setItem("token", response?.data?.data?.token)
+      dispatch({ type: "LOGIN_SUCCESS", payload: response?.data });
       setTimeout(() => {
         toast.success('Logged in successfully!');
         // navigate("/admin/dashboard",{replace: true})
-        navigate("/admin/dashboard/branch/allbranch",{replace: true});
+        navigate("/admin/dashboard/branch/allbranch", { replace: true });
       }, 0);
     }
 
     setIsLoading(false);
   }
 
-  const register = async(values) => {
+  const register = async (values) => {
     try {
       setIsLoading(true);
       console.log(values)
-      localStorage.setItem("email",values.email);
-      
+      localStorage.setItem("email", values.email);
+
       const response = await api
-            .service()
-            .push("/accounts/manage/signup/",values,true)
-  
-      if(api.isSuccessful(response)){
+        .service()
+        .push("/accounts/manage/signup/", values, true)
+
+      if (api.isSuccessful(response)) {
         setTimeout(() => {
           toast.success('Registration successfully!');
-          navigate("/auth/confirm_email",{replace: true})
+          navigate("/auth/confirm_email", { replace: true })
         }, 0);
       }
       setIsLoading(false);
@@ -156,7 +156,7 @@ function Login(props) {
       console.log(error);
       setIsLoading(true);
     }
-}
+  }
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
@@ -187,61 +187,60 @@ function Login(props) {
               <Formik
                 initialValues={loginInitialFormState()}
                 validationSchema={loginFormValidation}
-                onSubmit = {async(values) => {
+                onSubmit={async (values) => {
                   await login(values)
                 }}
               >
-              <Form>
-                <TextField
-                  name = "email"
-                  id="email"
-                  InputProps={{
-                    classes: {
-                      underline: classes.textFieldUnderline,
-                      input: classes.textField,
-                    },
-                  }}
-                  margin="normal"
-                  placeholder="Email Adress"
-                  type="email"
-                  fullWidth
-                />
+                <Form>
+                  <TextField
+                    variant="outlined"
+                    name="email"
+                    id="email"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Email Adress"
+                    type="email"
+                    fullWidth
+                  />
 
-              <TextField
-                name = "password"
-                id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Password"
-                type="password"
-                fullWidth
-              />
-                <div className={classes.formButtons}>
-                  {isLoading ? (
-                    <CircularProgress size={26} className={classes.loginLoader} />
-                  ) : (
-                    <Button
-
-                      constiant="contained"
-                      color="primary"
-                      size="large"
+                  <TextField
+                    variant="outlined"
+                    name="password"
+                    id="password"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Password"
+                    type="password"
+                    fullWidth
+                  />
+                  <div className={classes.formButtons}>
+                    {isLoading ? (
+                      <CircularProgress size={26} className={classes.loginLoader} />
+                    ) : (
+                      <Button
+                        constiant="contained"
+                        color="primary"
+                        size="large"
+                      >
+                        Login
+                      </Button>
+                    )}
+                    <button
+                      className={classes.forgetButton}
                     >
-                      Login
-                    </Button>
-                  )}
-                  <Button
-                    color="primary"
-                    size="large"
-                    className={classes.forgetButton}
-                  >
-                    Forget Password
-                  </Button>
-                </div>
+                      Forget Password
+                    </button>
+                  </div>
                 </Form>
               </Formik>
             </React.Fragment>
@@ -256,147 +255,155 @@ function Login(props) {
                   Something is wrong with your login or password :(
                 </Typography>
               </Fade>
-              <Formik 
-              initialValues={registerInitialFormState()}
-              validationSchema={registerFormValidation}
-              onSubmit = {async(values) => {
+              <Formik
+                initialValues={registerInitialFormState()}
+                validationSchema={registerFormValidation}
+                onSubmit={async (values) => {
                   await register(values)
-              }}
-             >
-              <Form>
-              <TextField
-                name = "first_name"
-                id = "first_name"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
                 }}
-                margin="normal"
-                placeholder="First Name"
-                type="text"
-                fullWidth             
-               />
-
-              <TextField
-                name = "last_name"
-                id="last_name"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Last Name"
-                type="text"
-                fullWidth
-              />
-
-              <TextField
-                name = "org_name"
-                id="org_name"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Full Co-operation/Organization Name"
-                type="text"
-                fullWidth
-              />
-
-              <TextField
-                name="email"
-                id="email"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Email Adress"
-                type="email"
-                fullWidth
-              />
-
-              <TextField
-                name="phone"
-                id="number"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Enter your phone number"
-                type="number"
-                fullWidth
-              />
-
-              <FormControl style={{ marginTop: 2, width: '100%' }} size="small">
-                {/* <InputLabel id="demo-select-small">Company Type</InputLabel> */}
-                <Select
-                  labelid="demo-select-small"
-                  id="demo-select-small"
-                  name="org_type"
-                  label="Company Type"
-                  options={orgs}
-               />
-              </FormControl>
-
-              <TextField
-                name="address"
-                id="address"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Address location of company"
-                type="text"
-                fullWidth
-              />
-
-              <TextField
-                name="password"
-                id="password"
-                InputProps={{
-                  classes: {
-                    underline: classes.textFieldUnderline,
-                    input: classes.textField,
-                  },
-                }}
-                margin="normal"
-                placeholder="Password"
-                type="password"
-                fullWidth
-              />
-
-                 <div className={classes.creatingButtonContainer}>
-                {isLoading ? (
-                  <CircularProgress size={26} />
-                ) : (
-                  <Button
-                    size="large"
-                    constiant="contained"
-                    color="primary"
+              >
+                <Form>
+                  <TextField
+                    variant="outlined"
+                    name="first_name"
+                    id="first_name"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="First Name"
+                    type="text"
                     fullWidth
-                    className={classes.createAccountButton}
-                  >
-                    Create your account
-                  </Button>
-                )}
-              </div>            
-              </Form>
-             </Formik>
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="last_name"
+                    id="last_name"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Last Name"
+                    type="text"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="org_name"
+                    id="org_name"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Full Co-operation/Organization Name"
+                    type="text"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="email"
+                    id="email"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Email Adress"
+                    type="email"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="phone"
+                    id="number"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Enter your phone number"
+                    type="number"
+                    fullWidth
+                  />
+
+                  <FormControl style={{ marginTop: 2, width: '100%' }} >
+                    {/* <InputLabel id="demo-select-small">Company Type</InputLabel> */}
+                    <Select
+                      variant="outlined"
+                      labelid="demo-select-small"
+                      id="demo-select-small"
+                      name="org_type"
+                      label="Company Type"
+                      options={orgs}
+                    />
+                  </FormControl>
+
+                  <TextField
+                    variant="outlined"
+                    name="address"
+                    id="address"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Address location of company"
+                    type="text"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="password"
+                    id="password"
+                    InputProps={{
+                      classes: {
+                        underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="Password"
+                    type="password"
+                    fullWidth
+                  />
+
+                  <div className={classes.creatingButtonContainer}>
+                    {isLoading ? (
+                      <CircularProgress size={26} />
+                    ) : (
+                      <Button
+                        size="large"
+                        constiant="contained"
+                        color="primary"
+                        fullWidth
+                        className={classes.createAccountButton}
+                      >
+                        Create your account
+                      </Button>
+                    )}
+                  </div>
+                </Form>
+              </Formik>
 
             </React.Fragment>
           )}

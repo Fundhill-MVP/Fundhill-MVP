@@ -2,19 +2,16 @@ import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
   container: {
-    height: "100vh",
+    height: "100%",
     width: "100vw",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    top: 0,
-    left: 0,
+    // alignItems: "center",
   },
   logotypeContainer: {
     backgroundColor: theme.palette.primary.main,
     width: "60%",
-    height: "100%",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -45,6 +42,7 @@ export default makeStyles(theme => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 20,
     [theme.breakpoints.down("md")]: {
       width: "50%",
     },
@@ -132,7 +130,13 @@ export default makeStyles(theme => ({
   },
   forgetButton: {
     textTransform: "none",
-    fontWeight: 400,
+    fontWeight: 600,
+    border: 'none',
+    background: 'none',
+    color: 'blue',
+    padding: 2,
+    fontsize: '1rem',
+    cursor: 'pointer'
   },
   loginLoader: {
     marginLeft: theme.spacing(4),

@@ -8,7 +8,7 @@ import Allmarketers from "../../pages/dashboard/Allmarketers";
 import Allcustomers from "../../pages/dashboard/Allcustomers";
 import NewProduct from "../../pages/dashboard/NewProduct";
 import FixedSavingsRep from "../../pages/dashboard/FixedSavingsRep";
-import AllBranch from "../../pages/dashboard/AllBranch";
+import AllBranch from "../../pages/dashboard/AllBranch/AllBranch";
 
 
 function DashboardRoute() {
