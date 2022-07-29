@@ -165,7 +165,7 @@ const Allmarketers = () => {
                                     <TableCell>zachariahlerit@gmail.com</TableCell>
                                     <TableCell>AGENT</TableCell>
                                     <TableCell>
-                                        <div>
+                                    {/* <div>
                                             <Button
                                                 id="demo-customized-button"
                                                 aria-controls={open ? 'demo-customized-menu' : undefined}
@@ -188,17 +188,15 @@ const Allmarketers = () => {
                                                 open={open}
                                                 onClose={handleClose}
                                             >
-                                                {/* <MenuItem onClick={handleOpen} history disableRipple>
-                                                    Action
-                                                </MenuItem> */}
-                                                <MenuItem onClick={handleUnlock} disableRipple>
+                                        
+                                                <MenuItem  onClick={handleUnlock} disableRipple>
                                                     Edit Profile
                                                 </MenuItem>
                                                 <MenuItem onClick={handleOpen} history disableRipple>
                                                     Fund Wallet
                                                 </MenuItem>
                                             </StyledMenu>
-                                        </div>
+                                        </div> */}
                                     </TableCell>
                                 </TableRow>
                             </TableBody>
@@ -207,8 +205,7 @@ const Allmarketers = () => {
                 </Grid>
             </Grid>
 
-            <div>
-                {/* <Button >Open modal</Button> */}
+            {/* <div>
                 <Modal
                     aria-labelledby="transition-modal-title"
                     aria-describedby="transition-modal-description"
@@ -323,13 +320,14 @@ const Allmarketers = () => {
                             </form>
 
                             <Divider style={{ marginTop: 40 }} />
+
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                                 <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
                             </Box>
                         </Box>
                     </Fade>
                 </Modal>
-            </div>
+            </div> */}
         </Fragment>
 
     )

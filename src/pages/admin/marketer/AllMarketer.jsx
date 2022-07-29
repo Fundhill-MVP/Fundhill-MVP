@@ -124,7 +124,7 @@ function AllMarketer() {
             :
             (
               <Grid item xs={12}>
-                <Widget title="All Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                <Widget title="All Marketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
