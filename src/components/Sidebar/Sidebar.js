@@ -8,10 +8,13 @@ import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 import BookIcon from '@material-ui/icons/Book';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import PaymentOutlinedIcon from '@material-ui/icons/PaymentOutlined';
-import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
-import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
-import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
+import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
+import CreditScoreOutlinedIcon from '@mui/icons-material/CreditScoreOutlined';
+import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 // styles
 import useStyles from "./styles";
 
@@ -49,9 +52,9 @@ const structure = [
       { label: "New Branch", links: "/admin/dashboard/branch/newbranch" },
     ],
   },
-  
+
   {
-    id: 3, label: "Customer", links: "#", icon: <AccountTreeIcon />,
+    id: 3, label: "Customer", links: "#", icon: <PeopleOutlinedIcon />,
     children: [
       { label: "New Customer", links: "/admin/dashboard/customer/newcustomer" },
       { label: "Pending Customer", links: "/admin/dashboard/customer/pendingcustomer" },
@@ -61,7 +64,7 @@ const structure = [
     ],
   },
   {
-    id: 4, label: "Interest Rate", links: "#", icon: <AccountTreeIcon />,
+    id: 4, label: "Interest Rate", links: "#", icon: <SavingsOutlinedIcon />,
     children: [
       { label: "Interest Rate", links: "/admin/dashboard/customer/interest_rate" },
       { label: "Savings Plan", links: "/admin/dashboard/customer/savings_plan" },
@@ -70,7 +73,7 @@ const structure = [
     ],
   },
   {
-    id: 5, label: "Marketer", links: "#", icon: <AccountTreeIcon />,
+    id: 5, label: "Marketer", links: "#", icon: <PersonOutlineOutlinedIcon />,
     children: [
       { label: "New Marketer", links: "/admin/dashboard/marketer/new_marketer" },
       { label: "All Marketers", links: "/admin/dashboard/marketer/all_marketer" },
@@ -78,7 +81,7 @@ const structure = [
     ],
   },
   {
-    id: 6, label: "Transaction", links: "#", icon: <AccountTreeIcon />,
+    id: 6, label: "Transaction", links: "#", icon: <ReceiptLongOutlinedIcon />,
     children: [
       { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
       { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
@@ -88,7 +91,7 @@ const structure = [
     ],
   },
   {
-    id: 7, label: "Esusu Management", links: "#", icon: <AccountTreeIcon />,
+    id: 7, label: "Esusu Management", links: "#", icon: <PointOfSaleOutlinedIcon />,
     children: [
       { label: "Esusu Transaction", links: "/admin/dashboard/esusu/esusu_transaction" },
       { label: "Esusu Performance", links: "/admin/dashboard/esusu/esusu_perform" },
@@ -96,7 +99,7 @@ const structure = [
     ],
   },
   {
-    id: 8, label: "Loan Management", links: "#", icon: <AccountTreeIcon />,
+    id: 8, label: "Loan Management", links: "#", icon: <CreditScoreOutlinedIcon />,
     children: [
       { label: "New Loan Product", links: "/admin/dashboard/loan/new_product" },
       { label: "Add Borrower", links: "/admin/dashboard/loan/add_borrower" },
@@ -107,7 +110,7 @@ const structure = [
     ],
   },
   {
-    id: 9, label: "Expenses", links: "#", icon: <AccountTreeIcon />,
+    id: 9, label: "Expenses", links: "#", icon: <PaymentsOutlinedIcon />,
     children: [
       { label: "New Expenses", links: "/admin/dashboard/expense/new_expenses" },
       { label: "All Expenses", links: "/admin/dashboard/expense/all_expenses" },
