@@ -1,177 +1,148 @@
-import {useState} from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Divider, TextField,IconButton } from '@mui/material';
+import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal, TextField, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
+// import { makeStyles } from "@material-ui/styles";
 import useStyles from './styles';
-
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    width: 600,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
-export default function OptionModal({ del }) {
-    const classes = useStyles();
-    // const [open, setOpen] = React.useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
 
-    // modal
-    const [openn, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClosee = () => setOpen(false);
-    // second modal
+const AllModal = ({ updates }) => {
+
     const [lock, setUnlock] = useState(false);
     const handleUnlock = () => setUnlock(true);
     const handleLock = () => setUnlock(false);
+    const classes = useStyles();
 
     return (
         <div>
-        {/* <Button >Open modal</Button> */}
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={openn}
-            onClose={handleClosee}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={openn}>
-                <Box sx={style}>
-                    <Typography id="transition-modal-title" variant="h6" component="h2">
-                        Fund Josephine Istifanius Wallet
-                    </Typography>
+            <Button onClick={handleUnlock}>{updates ? 'Delete' : 'Update'}</Button>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-                        <IconButton onClick={handleClosee}>
-                            <CloseIcon fontSize="small" />
-                        </IconButton>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={lock}
+                onClose={handleLock}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={lock}>
+                    <Box sx={style}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2">
+                            {updates ? 'Confirm Delete of Leasson Teacher' : 'branch ID'}
+                        </Typography>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                            <IconButton onClick={handleLock}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Box>
+                        <Divider style={{ marginTop: 40 }} />
+                        {updates ? (
+                            <>
+                                <Typography style={{ fontWeight: 500, marginTop: 10, marginBottom: 10, marginLeft: 10, textAlign: 'center' }}>Are you sure you want to delete this branch?</Typography>
+
+                                <Divider style={{ marginTop: 40 }} />
+                                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
+                                    <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
+                                    <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                </Box>
+                            </>
+                        ) : (
+                            <>
+                                <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit branch Profile</Typography>
+
+                                <form style={{ display: 'flex', flexDirection: 'column' }}>
+
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Branch Address' required />
+
+                                    </div>
+
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Branch Address</Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Branch Address' required />
+
+                                    </div>
+
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Marketer</Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Marketer' required />
+
+                                    </div>
+
+
+                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                        Update
+                                    </Button>
+                                </form>
+                            </>
+                        )}
+                        {!updates &&
+                            (
+                                <>
+                                    <Divider style={{ marginTop: 40 }} />
+                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
+                                        <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
+                                    </Box>
+                                </>
+                            )
+                        }
+
                     </Box>
-                    <Divider style={{ marginTop: 40 }} />
-                    <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Fund Marketer</Typography>
+                </Fade>
+            </Modal>
 
-                    <form style={{ display: 'flex', flexDirection: 'column' }}>
+            {/* <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={openn}
+        onClose={handleLock}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+            timeout: 500,
+        }}
+    >
+        <Fade in={openn}>
+            <Box sx={style}>
+                <Typography id="transition-modal-title" variant="h6" component="h2">
+                    Confirm Delete of Leasson Teacher
+                </Typography>
 
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                            <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount' required />
-
-                        </div>
-                        <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                            Fund
-                        </Button>
-                    </form>
-                    <Divider style={{ marginTop: 40 }} />
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                        <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                    </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                    <IconButton onClick={handleLock}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
                 </Box>
-            </Fade>
-        </Modal>
+                <Divider style={{ marginTop: 40 }} />
 
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={lock}
-            onClose={handleLock}
-            closeAfterTransition
-            BackdropComponent={Backdrop}
-            BackdropProps={{
-                timeout: 500,
-            }}
-        >
-            <Fade in={lock}>
-                <Box sx={style}>
-                    <Typography id="transition-modal-title" variant="h6" component="h2">
-                        Marketer ID
-                    </Typography>
+                <Typography style={{ fontWeight: 500, marginTop: 10, marginBottom: 10, marginLeft: 10, textAlign: 'center' }}>Are you sure you want to delete this branch?</Typography>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-                        <IconButton onClick={handleLock}>
-                            <CloseIcon fontSize="small" />
-                        </IconButton>
-                    </Box>
-                    <Divider style={{ marginTop: 40 }} />
-
-                    <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit marketer Profile</Typography>
-
-                    <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>First Name</Typography></div>
-                            <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='First Name' required />
-
-                        </div>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Middle Name</Typography></div>
-                            <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Middle Name' required />
-
-                        </div>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Last Name</Typography></div>
-                            <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Last Name' required />
-
-                        </div>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Email</Typography></div>
-                            <TextField fullWidth variant='outlined' type="email" name="" size='small' placeholder='Email' required />
-
-                        </div>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Phone</Typography></div>
-                            <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Phone Number' required />
-
-                        </div>
-
-                        <div className={classes.formDiv}>
-                            <div className={classes.divTypo}><Typography>Marketer</Typography></div>
-                            <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Marketer' required />
-
-                        </div>
-
-                        <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                            Update
-                        </Button>
-                    </form>
-
-                    <Divider style={{ marginTop: 40 }} />
-                    {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                        <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                    </Box> */}
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                        <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                    </Box>
+                <Divider style={{ marginTop: 40 }} />
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
+                    <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
+                    <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
                 </Box>
-            </Fade>
-        </Modal>
-    </div>
-    );
+            </Box>
+        </Fade>
+    </Modal> */}
+        </div>
+    )
 }
+
+export default AllModal
