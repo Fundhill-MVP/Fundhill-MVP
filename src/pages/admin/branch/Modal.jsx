@@ -115,22 +115,8 @@ const AllModal = ({ updates,setCurrentId }) => {
     console.log(res.data)
     if (api.isSuccessful(res)) {
       setTimeout(() => {
-        toast.success("Successfully deleted branch?!");
+        toast.success("Successfully deleted branch!");
         allBranch();
-        // setIsLoading(true)
-
-        // const allBranches = async() => {
-        //   const res = await api.service().fetch("/dashboard/branches/",true);
-        //   console.log(res.data)
-        //   if(api.isSuccessful(res)){
-        //     setData(res.data.results)
-        //   }
-
-        //   setIsLoading(false);
-
-        // }
-
-        // allBranches();
 
 
       }, 0);
@@ -149,8 +135,8 @@ const AllModal = ({ updates,setCurrentId }) => {
     if (api.isSuccessful(response)) {
       setTimeout(() => {
         toast.success("branch successfully updated!!");
-        // navigate("/admin/dashboard/branch/allbranch",{replace: true})
-        allBranch();
+        navigate("/admin/dashboard/branch/allbranch",{replace: true})
+        // allBranch();
       }, 0);
     }
     setLoading(false);
@@ -209,7 +195,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                                 <Divider style={{ marginTop: 40 }} />
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                                     <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                                    <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                    <Button onClick={() => deleteBranch(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
                                 </Box>
                             </>
                         ) : (
