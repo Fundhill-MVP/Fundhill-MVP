@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -50,7 +50,16 @@ const StyledMenu = styled((props) => (
 }));
 
 export default function ActionButton() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    // const [anchorEl, setAnchorEl] = React.useState(null);
+    // const open = Boolean(anchorEl);
+    // const handleClick = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
+
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -59,41 +68,50 @@ export default function ActionButton() {
         setAnchorEl(null);
     };
 
+
+    // modal
+    const [openn, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClosee = () => setOpen(false);
+    // second modal
+    const [lock, setUnlock] = useState(false);
+    const handleUnlock = () => setUnlock(true);
+    const handleLock = () => setUnlock(false);
+
     return (
         <div>
-            <Button
-                style={{ color: 'black', fontSize: 12 }}
-                id="demo-customized-button"
-                aria-controls={open ? 'demo-customized-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                variant="text"
-                disableElevation
-                onClick={handleClick}
-                endIcon={<KeyboardArrowDownIcon />}
-            >
-                Options
-            </Button>
-            <StyledMenu
-                id="demo-customized-menu"
-                MenuListProps={{
-                    'aria-labelledby': 'demo-customized-button',
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-            >
-                <MenuItem disableRipple>
-                    <EditIcon />
-                    <OptionModal />
-                </MenuItem>
+        <Button
+            id="demo-customized-button"
+            aria-controls={open ? 'demo-customized-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            variant="contained"
+            disableElevation
+            onClick={handleClick}
+            endIcon={<KeyboardArrowDownIcon />}
+            style={{ textTransform: 'none' }}
+        >
+            Action
+        </Button>
+        <StyledMenu
+            id="demo-customized-menu"
+            MenuListProps={{
+                'aria-labelledby': 'demo-customized-button',
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+        >
+            <MenuItem  onClick={handleUnlock} disableRipple>
+                Edit Profile
+                <OptionModal />
+            </MenuItem>
+            <MenuItem onClick={handleOpen} history disableRipple>
+                Fund Wallet
+                <OptionModal />
+            </MenuItem>
+        </StyledMenu>
+    </div>
 
-
-                <MenuItem disableRipple>
-                    <DeleteIcon />
-                    <OptionModal del />
-                </MenuItem>
-            </StyledMenu>
-        </div>
     );
 }
