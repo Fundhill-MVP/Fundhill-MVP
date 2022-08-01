@@ -1,12 +1,9 @@
-import {useState} from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import OptionModal from './Modal';
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+import AllModal from './Modal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -36,7 +33,7 @@ const StyledMenu = styled((props) => (
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
-                color: 'theme.palette.text.secondary',
+                color: theme.palette.text.secondary,
                 marginRight: theme.spacing(1.5),
             },
             '&:active': {
@@ -49,17 +46,10 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton() {
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    // const open = Boolean(anchorEl);
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
 
+export default function ActionButton() {
     const [anchorEl, setAnchorEl] = useState(null);
+    // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -67,51 +57,41 @@ export default function ActionButton() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-
-    // modal
-    const [openn, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClosee = () => setOpen(false);
-    // second modal
-    const [lock, setUnlock] = useState(false);
-    const handleUnlock = () => setUnlock(true);
-    const handleLock = () => setUnlock(false);
-
     return (
         <div>
-        <Button
-            id="demo-customized-button"
-            aria-controls={open ? 'demo-customized-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            variant="contained"
-            disableElevation
-            onClick={handleClick}
-            endIcon={<KeyboardArrowDownIcon />}
-            style={{ textTransform: 'none' }}
-        >
-            Action
-        </Button>
-        <StyledMenu
-            id="demo-customized-menu"
-            MenuListProps={{
-                'aria-labelledby': 'demo-customized-button',
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-        >
-            <MenuItem  onClick={handleUnlock} disableRipple>
-                Edit Profile
-                <OptionModal />
-            </MenuItem>
-            <MenuItem onClick={handleOpen} history disableRipple>
-                Fund Wallet
-                <OptionModal />
-            </MenuItem>
-        </StyledMenu>
-    </div>
+            <Button
+                id="demo-customized-button"
+                aria-controls={open ? 'demo-customized-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                variant="contained"
+                disableElevation
+                onClick={handleClick}
+                endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
+            >
+                Action
+            </Button>
+            <StyledMenu
+                id="demo-customized-menu"
+                MenuListProps={{
+                    'aria-labelledby': 'demo-customized-button',
+                }}
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+            >
+                {/* <MenuItem onClick={handleOpen} history disableRipple>
+                    Action
+                </MenuItem> */}
+                <MenuItem disableRipple>
+                    <AllModal />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <AllModal updates />
+                </MenuItem>
+            </StyledMenu>
+        </div>
+    )
 
-    );
 }
