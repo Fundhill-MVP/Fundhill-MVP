@@ -39,6 +39,7 @@ function AllExpenses() {
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context);
     const [expenses,setExpenses] = useState([]);
+    const [currentId,setCurrentId] = useState("");
 
 
 
@@ -103,7 +104,7 @@ function AllExpenses() {
                           <TableCell>{expense?.amount}</TableCell>
                           <TableCell>{expense?.description}</TableCell>
                           <TableCell>
-                            <ActionButton />
+                          <ActionButton setCurrentId={expense?.id}  />
                           </TableCell>
                         </TableRow>
                       ))}

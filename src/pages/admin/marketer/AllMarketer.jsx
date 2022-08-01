@@ -37,6 +37,7 @@ function AllMarketer() {
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context);
     const [marketers,setMarketers] = useState([]);
+    const [currentId,setCurrentId] = useState("");
 
 
 
@@ -146,7 +147,7 @@ function AllMarketer() {
                           <TableCell>{marketer?.email}</TableCell>
                           <TableCell>{marketer?.user_role} </TableCell>
                           <TableCell>
-                            <ActionButton />
+                          <ActionButton setCurrentId={marketer?.id}  />
                           </TableCell>
                         </TableRow>
                       ))}
