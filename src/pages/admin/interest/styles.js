@@ -1,4 +1,3 @@
-import { lightBlue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
