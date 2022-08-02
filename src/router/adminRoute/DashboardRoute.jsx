@@ -3,13 +3,12 @@ import { Route } from "react-router-dom"
 import TotalDeposite from "../../pages/dashboard/TotalDeposite";
 import Layout from "../../components/Layout/Layout"
 import TotalWithdrawal from "../../pages/dashboard/TotalWithdrawal";
-// import Allmarketers from "../../pages/dashboard/Allmarketers";
-import Allcustomers from "../../pages/dashboard/Allcustomers";
 import NewProduct from "../../pages/dashboard/NewProduct";
 import FixedSavingsRep from "../../pages/dashboard/FixedSavingsRep";
 import AllBranch from "../../pages/dashboard/AllBranch/AllBranch";
 import OngoingLoans from "../../pages/dashboard/OngoingLoans/OngoingLoans";
 import Allmarketers from "../../pages/dashboard/Allmarketers/Allmarketers";
+import Allcustomers from "../../pages/dashboard/Allcustomers/Allcustomers";
 
 
 function DashboardRoute() {
