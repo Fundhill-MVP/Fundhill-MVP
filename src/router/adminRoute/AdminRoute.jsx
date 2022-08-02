@@ -50,7 +50,6 @@ import {
   // InvoiceLoan,
   OngoingLoan,
   // Dashboard,
-  Home,
   AllExpenses,
   NewExpense,
   // Profile,
