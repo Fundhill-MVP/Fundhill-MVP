@@ -13,7 +13,7 @@ const ConfirmEmail = () => {
             <Typography className={classes.confirmEmail}>Confirm your Email</Typography>
             <Typography variant='body2' gutterBottom className={classes.para}>Please check your inbox for a confirmation email. Click the link in the email to confirm your email address</Typography>
             <Typography variant='body2' gutterBottom className={classes.para}>After you confirm click Continue</Typography>
-            <Link className={classes.reSend}>Re-send confirmation email</Link>
+            <Button className={classes.reSend}>Re-send confirmation email</Button>
 
             <div>
 
