@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import OptionModal from './Modal';
+import OptionModal from '../modals/FeesModal';
 
 const StyledMenu = styled((props) => (
     <Menu
