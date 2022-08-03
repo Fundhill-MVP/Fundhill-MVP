@@ -8,10 +8,13 @@ import { useTheme } from "@material-ui/styles";
 import classNames from "classnames";
 import BookIcon from '@material-ui/icons/Book';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import PaymentOutlinedIcon from '@material-ui/icons/PaymentOutlined';
-import ReportOutlinedIcon from '@material-ui/icons/ReportOutlined';
-import AccountBalanceOutlinedIcon from '@material-ui/icons/AccountBalanceOutlined';
-import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceWalletOutlined';
+import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
+import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
+import CreditScoreOutlinedIcon from '@mui/icons-material/CreditScoreOutlined';
+import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 // styles
 import useStyles from "./styles";
 
@@ -32,69 +35,133 @@ const structure = [
   {
     id: 1,
     label: "Accounting",
-    links: "/app/accounting",
+    links: "#",
     icon: <BookIcon />,
     children: [
-      { label: "Deposit", links: "#" },
-      { label: "Withdrawal", links: "#" },
-      { label: "Regular Savings", links: "#" },
-      { label: "Targeted Savings", links: "#" },
-      { label: "Fixed Savings", links: "#" },
-      { label: "Customers", links: "#" },
+      { label: "Deposit", links: "/admin/dashboard/account/all_deposit" },
+      { label: "Withdrawal", links: "/admin/dashboard/account/all_withdrawsavings" },
+      { label: "Regular Savings", links: "/admin/dashboard/account/all_regsavings" },
+      { label: "Targeted Savings", links: "/admin/dashboard/account/all_targsavings" },
+      { label: "Fixed Savings", links: "/admin/dashboard/account/all_deposit" },
     ],
   },
   {
-    id: 2, label: "Branch", links: "/app/branch", icon: <AccountTreeIcon />,
+    id: 2, label: "Branch", links: "#", icon: <AccountTreeIcon />,
     children: [
-      { label: "All Branch", links: "dashboard/allbranch" },
-      { label: "New Branch", links: "dashboard/newbranch" },
+      { label: "All Branch", links: "/admin/dashboard/branch/allbranch" },
+      { label: "New Branch", links: "/admin/dashboard/branch/newbranch" },
+    ],
+  },
+
+  {
+    id: 3, label: "Customer", links: "#", icon: <PeopleOutlinedIcon />,
+    children: [
+      { label: "New Customer", links: "/admin/dashboard/customer/newcustomer" },
+      { label: "Pending Customer", links: "/admin/dashboard/customer/pendingcustomer" },
+      { label: "Active Customer", links: "/admin/dashboard/customer/allcustomer" },
+      { label: "Deactivated Customers", links: "/admin/dashboard/customer/deletedcustomer" },
+
     ],
   },
   {
-    id: 3,
-    label: "Traction",
-    links: "/app/notifications",
-    icon: <PaymentOutlinedIcon />,
+    id: 4, label: "Interest Rate", links: "#", icon: <SavingsOutlinedIcon />,
     children: [
-      {
-        label: "Deposite/Withdrawal", links: "#"
-      },
-      { label: "Fixed Deposite", links: "#" },
-      { label: "Targeted Savings", links: "#" },
-      { label: "Regular Savings", links: "#" },
-      { label: "Statement of Account", links: "#" },
-      { label: "My Transaction History", links: "#" },
+      { label: "Interest Rate", links: "/admin/dashboard/customer/interest_rate" },
+      { label: "Savings Plan", links: "/admin/dashboard/customer/savings_plan" },
+      { label: "Fees", links: "/admin/dashboard/customer/fees" },
+
     ],
   },
   {
-    id: 4,
-    label: "Report",
-    links: "/app/ui",
-    icon: <ReportOutlinedIcon />,
+    id: 5, label: "Marketer", links: "#", icon: <PersonOutlineOutlinedIcon />,
     children: [
-      { label: "General Report", links: "#" },
+      { label: "New Marketer", links: "/admin/dashboard/marketer/new_marketer" },
+      { label: "All Marketers", links: "/admin/dashboard/marketer/all_marketer" },
+      { label: "Marketer Account", links: "/admin/dashboard/marketer/marketer-account" },
     ],
   },
   {
-    id: 5,
-    label: "Esusu Management",
-    links: "/app/ui",
-    icon: <AccountBalanceOutlinedIcon />,
+    id: 6, label: "Transaction", links: "#", icon: <ReceiptLongOutlinedIcon />,
     children: [
-      { label: "Esusu Transaction", links: "#" },
-      { label: "Esusu Management", links: "#" },
+      { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
+      { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
+      { label: "Statement of Account", links: "/admin/dashboard/transaction/statement_of_account" },
+      { label: "Account History", links: "/admin/dashboard/transaction/acount_history" },
+
     ],
   },
   {
-    id: 6,
-    label: "Expences",
-    links: "/app/ui",
-    icon: <AccountBalanceWalletOutlinedIcon />,
+    id: 7, label: "Esusu Management", links: "#", icon: <PointOfSaleOutlinedIcon />,
     children: [
-      { label: "New Expences", links: "#" },
-      { label: "All Expences", links: "#" },
+      { label: "Esusu Transaction", links: "/admin/dashboard/esusu/esusu_transaction" },
+      { label: "Esusu Performance", links: "/admin/dashboard/esusu/esusu_perform" },
+
     ],
   },
+  {
+    id: 8, label: "Loan Management", links: "#", icon: <CreditScoreOutlinedIcon />,
+    children: [
+      { label: "New Loan Product", links: "/admin/dashboard/loan/new_product" },
+      { label: "Add Borrower", links: "/admin/dashboard/loan/add_borrower" },
+      { label: "Pending Loan", links: "/admin/dashboard/loan/pending_loan" },
+      { label: "Disbursed Loan", links: "/admin/dashboard/loan/disburse_loan" },
+      { label: "Ongoing Loan", links: "/admin/dashboard/loan/ongoing_loan" },
+      { label: "Invoice", links: "/admin/dashboard/loan/invoice" },
+    ],
+  },
+  {
+    id: 9, label: "Expenses", links: "#", icon: <PaymentsOutlinedIcon />,
+    children: [
+      { label: "New Expenses", links: "/admin/dashboard/expense/new_expenses" },
+      { label: "All Expenses", links: "/admin/dashboard/expense/all_expenses" },
+
+    ],
+  },
+  // {
+  //   id: 3,
+  //   label: "Traction",
+  //   links: "#",
+  //   icon: <PaymentOutlinedIcon />,
+  //   children: [
+  //     {
+  //       label: "Deposite/Withdrawal", links: "#"
+  //     },
+  //     { label: "Fixed Deposite", links: "#" },
+  //     { label: "Targeted Savings", links: "#" },
+  //     { label: "Regular Savings", links: "#" },
+  //     { label: "Statement of Account", links: "#" },
+  //     { label: "My Transaction History", links: "#" },
+  //   ],
+  // },
+  // {
+  //   id: 4,
+  //   label: "Report",
+  //   links: "#",
+  //   icon: <ReportOutlinedIcon />,
+  //   children: [
+  //     { label: "General Report", links: "#" },
+  //   ],
+  // },
+  // {
+  //   id: 5,
+  //   label: "Esusu Management",
+  //   links: "#",
+  //   icon: <AccountBalanceOutlinedIcon />,
+  //   children: [
+  //     { label: "Esusu Transaction", links: "#" },
+  //     { label: "Esusu Management", links: "#" },
+  //   ],
+  // },
+  // {
+  //   id: 6,
+  //   label: "Expences",
+  //   links: "#",
+  //   icon: <AccountBalanceWalletOutlinedIcon />,
+  //   children: [
+  //     { label: "New Expences", links: "#" },
+  //     { label: "All Expences", links: "#" },
+  //   ],
+  // },
 ];
 
 function Sidebar({ location }) {

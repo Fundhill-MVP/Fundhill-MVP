@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Inbox as InboxIcon } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import classnames from "classnames";
 
 // styles
@@ -19,7 +19,7 @@ import useStyles from "./styles";
 import Dot from "../Dot";
 
 export default function SidebarLink({
-  link,
+  links,
   icon,
   label,
   children,
@@ -33,8 +33,8 @@ export default function SidebarLink({
   // local
   var [isOpen, setIsOpen] = useState(false);
   var isLinkActive =
-    link &&
-    (location.pathname === link || location.pathname.indexOf(link) !== -1);
+    links &&
+    (location.pathname === links || location.pathname.indexOf(links) !== -1);
 
   if (type === "title")
     return (
@@ -48,7 +48,7 @@ export default function SidebarLink({
     );
 
   if (type === "divider") return <Divider className={classes.divider} />;
-  if (link && link.includes('http')) {
+  if (links && links.includes('http')) {
     return (
       <ListItem
         button
@@ -61,7 +61,7 @@ export default function SidebarLink({
         }}
         disableRipple
       >
-        <a className={classes.externalLink} href={link}>
+        <Link className={classes.externalLink} to={links}>
           <ListItemIcon
             className={classnames(classes.linkIcon, {
               [classes.linkIconActive]: isLinkActive,
@@ -78,7 +78,7 @@ export default function SidebarLink({
             }}
             primary={label}
           />
-        </a>
+        </Link>
       </ListItem>
     )
   }
@@ -86,8 +86,8 @@ export default function SidebarLink({
     return (
       <ListItem
         button
-        component={link && Link}
-        to={link}
+        component={links && Link}
+        to={links}
         className={classes.link}
         classes={{
           root: classnames(classes.linkRoot, {
@@ -120,10 +120,10 @@ export default function SidebarLink({
     <>
       <ListItem
         button
-        component={link && Link}
+        component={links && Link}
         onClick={toggleCollapse}
         className={classes.link}
-        to={link}
+        to={links}
         disableRipple
       >
         <ListItemIcon
@@ -153,7 +153,7 @@ export default function SidebarLink({
           <List component="div" disablePadding >
             {children.map(childrenLink => (
               <SidebarLink
-                key={childrenLink && childrenLink.link}
+                key={childrenLink && childrenLink.links}
                 location={location}
                 isSidebarOpened={isSidebarOpened}
                 classes={classes}

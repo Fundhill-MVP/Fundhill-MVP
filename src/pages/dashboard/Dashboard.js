@@ -1,67 +1,34 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Grid,
-  LinearProgress,
-  Select,
-  OutlinedInput,
-  MenuItem,
   Button
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  AreaChart,
-  LineChart,
-  Line,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-  YAxis,
-  XAxis,
-} from "recharts";
 
 // styles
 import useStyles from "./styles";
 
 // components
-import mock from "./mock";
 import Widget from "../../components/Widget";
 import PageTitle from "../../components/PageTitle";
 import { Typography } from "../../components/Wrappers";
-import Dot from "../../components/Sidebar/components/Dot";
-import Table from "./components/Table/Table";
-import BigStat from "./components/BigStat/BigStat";
 
-const mainChartData = getMainChartData();
-const PieChartData = [
-  { name: "Group A", value: 400, color: "primary" },
-  { name: "Group B", value: 300, color: "secondary" },
-  { name: "Group C", value: 300, color: "warning" },
-  { name: "Group D", value: 200, color: "success" },
-];
 
 export default function Dashboard(props) {
+  const navigate = useNavigate();
   var classes = useStyles();
   var theme = useTheme();
 
   // local
-  var [mainChartState, setMainChartState] = useState("monthly");
 
   return (
     <>
-      <PageTitle title="Dashboard" button={<Button
-      variant="contained"
-      size="medium"
-      color="secondary"
-    >
-        Latest Reports
-    </Button>} />
+      <PageTitle title="Dashboard" />
       <Grid container spacing={4}>
         <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget
-            title="Visits Today"
+            title="Total Deposite"
             upperTitle
             bodyClass={classes.fullHeightBody}
             className={classes.card}
@@ -69,30 +36,9 @@ export default function Dashboard(props) {
             <div className={classes.visitsNumberContainer}>
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
-              <Typography size="xl" weight="medium" noWrap>
-                12, 678
-              </Typography>
-                </Grid>
-                <Grid item xs={6}>
-              <LineChart
-                width={100}
-                height={30}
-                data={[
-                  { value: 10 },
-                  { value: 15 },
-                  { value: 10 },
-                  { value: 17 },
-                  { value: 18 },
-                ]}
-              >
-                <Line
-                  type="natural"
-                  dataKey="value"
-                  stroke={theme.palette.success.main}
-                  strokeWidth={2}
-                  dot={false}
-                />
-              </LineChart>
+                  <Typography className={classes.amount} size="xl" weight="bold" >
+                    <span>&#8358;</span>0
+                  </Typography>
                 </Grid>
               </Grid>
             </div>
@@ -102,28 +48,354 @@ export default function Dashboard(props) {
               justify="space-between"
               alignItems="center"
             >
-              <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
-                  Registrations
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +11%
                 </Typography>
-                <Typography size="md">860</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
-                  Sign Out
-                </Typography>
-                <Typography size="md">32</Typography>
-              </Grid>
-              <Grid item xs={4}>
-                <Typography color="text" colorBrightness="secondary" noWrap>
-                  Rate
-                </Typography>
-                <Typography size="md">3.25%</Typography>
+                <Button className={classes.btnSeeMore} onClick={() => {
+                  navigate('total_deposite')
+                }}>See more</Button>
               </Grid>
             </Grid>
           </Widget>
         </Grid>
-        <Grid item lg={3} md={8} sm={6} xs={12}>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="Total Withdrawals"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" >
+                    <span>&#8358;</span>0
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +11%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={
+                  () => navigate('total_withdrawals')
+                }>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="Total Loans"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" noWrap>
+                    <span>&#8358;</span>0
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  0%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => {
+                  navigate('ongoin_loan')
+                }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="All Marketers"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" noWrap>
+                    7
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('all_marketers') }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="ALL CUSTOMER"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" >
+                    5
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +11%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('all_customers') }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="TOTAL EXPENDITURE"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" >
+                    1001001000
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                {/* <Button className={classes.btnSeeMore}>See more</Button> */}
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="UNPAID LOAN"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" noWrap>
+                    0
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} disabled>Last year</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="LOAN PRODUCT"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" noWrap>
+                    0
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('new_product') }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="TOTAL FIXED SAVINGS"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" noWrap>
+                    3577
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('fixed_savings_rep') }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="ALL BRANCHES"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" >
+                    2
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('allbranchs') }}>See more</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        <Grid item lg={3} md={4} sm={6} xs={12}>
+          <Widget
+            title="LOAN INTEREST"
+            upperTitle
+            bodyClass={classes.fullHeightBody}
+            className={classes.card}
+          >
+            <div className={classes.visitsNumberContainer}>
+              <Grid container item alignItems={"center"}>
+                <Grid item xs={6}>
+                  <Typography size="xl" weight="bold" >
+                    0
+                  </Typography>
+                </Grid>
+              </Grid>
+            </div>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+
+              <Grid item xs={12} className={classes.rateGrid}>
+                <Typography className={classes.percent} color="text" colorBrightness="secondary">
+                  +89%
+                </Typography>
+                <Button className={classes.btnSeeMore} disabled>Last year</Button>
+              </Grid>
+            </Grid>
+          </Widget>
+        </Grid>
+
+        {/* <Grid item lg={3} md={8} sm={6} xs={12}>
           <Widget
             title="App Performance"
             upperTitle
@@ -306,8 +578,8 @@ export default function Dashboard(props) {
               </Grid>
             </Grid>
           </Widget>
-        </Grid>
-        <Grid item xs={12}>
+        </Grid> */}
+        {/* <Grid item xs={12}>
           <Widget
             bodyClass={classes.mainChartBody}
             header={
@@ -406,13 +678,13 @@ export default function Dashboard(props) {
               </ComposedChart>
             </ResponsiveContainer>
           </Widget>
-        </Grid>
-        {mock.bigStat.map(stat => (
+        </Grid> */}
+        {/* {mock.bigStat.map(stat => (
           <Grid item md={4} sm={6} xs={12} key={stat.product}>
             <BigStat {...stat} />
           </Grid>
-        ))}
-        <Grid item xs={12}>
+        ))} */}
+        {/* <Grid item xs={12}>
           <Widget
             title="Support Requests"
             upperTitle
@@ -421,7 +693,7 @@ export default function Dashboard(props) {
           >
             <Table data={mock.table} />
           </Widget>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

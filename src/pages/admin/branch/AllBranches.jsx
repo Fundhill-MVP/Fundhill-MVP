@@ -1,5 +1,4 @@
 import { Fragment, useState, useEffect, useContext } from 'react'
-import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
@@ -15,7 +14,7 @@ import {
   TableHead,
   TableBody,
   TableCell,
-  Chip
+  Grid,
 } from "@material-ui/core";
 //   import useStyles from "./styles";
 import PageTitle from "../../../components/PageTitle"
@@ -52,6 +51,7 @@ function AllBranches() {
   const { user } = useContext(Context);
   const [marketers, setMarketers] = useState([]);
   const navigate = useNavigate();
+  const [currentId,setCurrentId] = useState("");
 
   //  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
   //  keys.shift(); // delete "id" key
@@ -128,8 +128,7 @@ function AllBranches() {
     if (api.isSuccessful(response)) {
       setTimeout(() => {
         toast.success("branch? successfully updated!!");
-        // navigate("/admin/dashboard/allbranch",{replace: true})
-        // history("/admin/dashboard/allbranch")
+        // navigate("/admin/dashboard/branch/allbranch",{replace: true})
         allBranch();
       }, 0);
     }
@@ -192,7 +191,7 @@ function AllBranches() {
                           <TableCell>{branch?.branch_address}</TableCell>
                           <TableCell>{branch?.branch_head.first_name} {branch?.branch_head.last_name}</TableCell>
                           <TableCell>
-                            <ActionButton />
+                            <ActionButton setCurrentId={branch?.id}  />
                           </TableCell>
                         </TableRow>
                       ))}
