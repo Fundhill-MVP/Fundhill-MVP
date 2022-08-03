@@ -12,7 +12,7 @@ import { useUserDispatch, loginUser } from "../../../../context/UserContext"
 
 import assets from "../../../../components/assets/";
 
-import { TextField, Button } from "../../../../components/FormsUI"
+import { TextField, Button,Select } from "../../../../components/FormsUI"
 
 import React, { useState, useContext } from "react";
 import {
@@ -23,7 +23,6 @@ import {
   Tab,
   Fade,
   FormControl,
-  Select,
 } from "@material-ui/core";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -198,7 +197,7 @@ function Login(props) {
                     id="email"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -214,7 +213,7 @@ function Login(props) {
                     id="password"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -222,6 +221,7 @@ function Login(props) {
                     placeholder="Password"
                     type="password"
                     fullWidth
+                    autocomplete="off"
                   />
                   <div className={classes.formButtons}>
                     {isLoading ? (
@@ -269,7 +269,7 @@ function Login(props) {
                     id="first_name"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -285,7 +285,7 @@ function Login(props) {
                     id="last_name"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -301,7 +301,7 @@ function Login(props) {
                     id="org_name"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -317,7 +317,7 @@ function Login(props) {
                     id="email"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -333,7 +333,7 @@ function Login(props) {
                     id="number"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -346,7 +346,6 @@ function Login(props) {
                   <FormControl style={{ marginTop: 2, width: '100%' }} >
                     {/* <InputLabel id="demo-select-small">Company Type</InputLabel> */}
                     <Select
-                      variant="outlined"
                       labelid="demo-select-small"
                       id="demo-select-small"
                       name="org_type"
@@ -361,7 +360,7 @@ function Login(props) {
                     id="address"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -377,7 +376,7 @@ function Login(props) {
                     id="password"
                     InputProps={{
                       classes: {
-                        underline: classes.textFieldUnderline,
+                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -385,6 +384,7 @@ function Login(props) {
                     placeholder="Password"
                     type="password"
                     fullWidth
+                    autocomplete="off"
                   />
 
                   <div className={classes.creatingButtonContainer}>
