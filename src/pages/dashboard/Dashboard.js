@@ -191,7 +191,7 @@ export default function Dashboard(props) {
                 <Typography className={classes.percent} color="text" colorBrightness="secondary">
                   +11%
                 </Typography>
-                <Button onClick={() => navigate("all_customers")} className={classes.btnSeeMore}>See more</Button>
+                <Button className={classes.btnSeeMore}>See more</Button>
               </Grid>
             </Grid>
           </Widget>
