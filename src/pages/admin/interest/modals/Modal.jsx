@@ -6,7 +6,7 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Divider, TextField } from '@mui/material';
-import useStyles from './styles';
+import useStyles from '../styles';
 
 const style = {
     position: 'absolute',
