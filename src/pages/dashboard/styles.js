@@ -84,6 +84,14 @@ export default makeStyles(theme => ({
     width: '20%',
     marginRight: 5
   },
+
+  profileImage: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '80%',
+    height: '90%',
+    alignSelf: 'center'
+  },
   // Itodo's styling ends here
 
   card: {

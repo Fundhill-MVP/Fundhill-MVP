@@ -38,14 +38,14 @@ import AddBorrower from "./loan/AddBorrower";
 import DisbursedLoan from "./loan/DisbursedLoan";
 import PendingLoan from "./loan/PendingLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
-import OngoingLoan from "./loan/OngoingLoan"; 
+import OngoingLoan from "./loan/OngoingLoan";
 // import Dashboard from "./dashboard/Dashboard"
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
 // import Profile from "./profile/Profile";
 import PendingCustomer from "./customer/PendingCustomer";
 import DeletedCustomer from "./customer/DeletedCustomer";
-// import SavingsPlan from "./customer/SavingsPlan";
+import SavingsPlan from "./interest/SavingsPlan";
 import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 
@@ -99,7 +99,7 @@ export {
     // Profile,
     PendingCustomer,
     DeletedCustomer,
-    // SavingsPlan,
+    SavingsPlan,
     InterestRate,
     Fees,
 }

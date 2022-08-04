@@ -2,7 +2,7 @@ import { Button, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled, alpha } from '@mui/material/styles';
-import AllCustomersModal from './Modal';
+import SavingsModal from '../modals/SavingsModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -84,10 +84,13 @@ const ActionButton = () => {
             Action
         </MenuItem> */}
                 <MenuItem disableRipple>
-                    <AllCustomersModal edit />
+                    <SavingsModal />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <AllCustomersModal />
+                    <SavingsModal fund />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <SavingsModal widthdraw />
                 </MenuItem>
             </StyledMenu>
         </div>
