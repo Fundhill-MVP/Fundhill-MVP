@@ -117,8 +117,8 @@ function InterestRateModal({del,setInterestRateId}) {
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
-                toast.success("interestRates created successfully!");
-                navigate("/admin/dashboard/customer/interestRates/",{replace: true});
+                toast.success("interestRates edited successfully!");
+                navigate("/admin/dashboard/customer/interest_rate/",{replace: true});
               },0);
             }
             setBtnLoading(false);
@@ -136,7 +136,6 @@ function InterestRateModal({del,setInterestRateId}) {
         if (api.isSuccessful(res)) {
           setTimeout(() => {
             toast.success("Successfully deleted interestRate!");
-    
             setDelBtn(false)
           }, 0);
         }
@@ -187,7 +186,7 @@ function InterestRateModal({del,setInterestRateId}) {
                                         )
                                         :
                                         (
-                                            <Button onClick={() => deleteInterestRate(item.id)} style={{ background: 'red', color: 'white', marginLeft: 5 }}>yes</Button>
+                                            <Button onClick={() =>  deleteInterestRate(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Yes</Button>
                                             
                                         )
                                         }
