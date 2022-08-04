@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
+import {Link} from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -36,7 +37,7 @@ import {
   toggleSidebar,
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
-
+import {Context} from "../../context/Context";
 const messages = [
   {
     id: 0,
@@ -104,6 +105,14 @@ export default function Header(props) {
   var [notificationsMenu, setNotificationsMenu] = useState(null);
   var [isNotificationsUnread, setIsNotificationsUnread] = useState(true);
   var [profileMenu, setProfileMenu] = useState(null);
+
+  const { user, dispatch } = useContext(Context);
+  const PF = "https://fundhill-api.herokuapp.com/media/"
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+  };
+
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -293,9 +302,9 @@ export default function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              onClick={() => signOut(userDispatch, props.history)}
+              // onClick={() => signOut(userDispatch, props.history)}
             >
-              Sign Out
+              <Link className={classes.profileMenuLink} color="primary" onClick={handleLogout} to="/auth/login">Sign Out</Link>
             </Typography>
           </div>
         </Menu>

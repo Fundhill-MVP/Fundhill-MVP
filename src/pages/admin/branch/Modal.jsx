@@ -119,6 +119,7 @@ const AllModal = ({ updates,setCurrentId }) => {
               setTimeout(() => {
                 toast.success("Successfully deleted branch!");
                 allBranch();
+                handleLock()
                 setDelBtn(false)
         
               }, 0);
