@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import useStyles from '../styles'
+import useStyles from './styles'
 import Button from '@mui/material/Button';
 import { BounceLoader } from "react-spinners";
 import {
@@ -14,36 +14,9 @@ import {
 import { Fragment } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
-import ActionButton from "./ActionButton";
+import ActionButton from "./ActionButtons/SavingsActionButton";
 
-// const useStyles = makeStyles(theme => ({
-//     tableOverflow: {
-//         overflow: 'auto'
-//     }
-// }))
-// const override = css`
-// display: block;
-// margin: 0 auto;
-// border-color: green;
-// align-items: center;
-// `;
-
-
-// table
-// function createData(name, calories, fat, carbs, protein) {
-//     return { name, calories, fat, carbs, protein };
-// }
-
-// const rows = [
-//     createData(1, '2022-05-2', 15000, 'Cash', 'For Loan'),
-//     // createData('Ice cream sandwich', 237, 9.0, 37,),
-
-// ];
-
-
-
-
-const Allcustomers = () => {
+const SavingsPlan = () => {
     const classes = useStyles();
 
     return (
@@ -92,4 +65,4 @@ const Allcustomers = () => {
     )
 }
 
-export default Allcustomers
+export default SavingsPlan

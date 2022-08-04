@@ -1,12 +1,8 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Menu, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import OptionModal from '../modals/InterestRateModal';
+import { styled, alpha } from '@mui/material/styles';
+import SavingsModal from '../modals/SavingsModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -36,7 +32,7 @@ const StyledMenu = styled((props) => (
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
-                color: 'theme.palette.text.secondary',
+                color: theme.palette.text.secondary,
                 marginRight: theme.spacing(1.5),
             },
             '&:active': {
@@ -49,8 +45,9 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton({setInterestRateId}) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+
+const ActionButton = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -62,17 +59,17 @@ export default function ActionButton({setInterestRateId}) {
     return (
         <div>
             <Button
-                style={{ color: 'black', fontSize: 12 }}
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="text"
+                variant="contained"
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
             >
-                Options
+                Action
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -83,17 +80,21 @@ export default function ActionButton({setInterestRateId}) {
                 open={open}
                 onClose={handleClose}
             >
+                {/* <MenuItem onClick={handleOpen} history disableRipple>
+            Action
+        </MenuItem> */}
                 <MenuItem disableRipple>
-                    <EditIcon />
-                    <OptionModal setInterestRateId={setInterestRateId} />
+                    <SavingsModal />
                 </MenuItem>
-
-
                 <MenuItem disableRipple>
-                    <DeleteIcon />
-                    <OptionModal setInterestRateId={setInterestRateId} del />
+                    <SavingsModal fund />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <SavingsModal widthdraw />
                 </MenuItem>
             </StyledMenu>
         </div>
-    );
+    )
 }
+
+export default ActionButton

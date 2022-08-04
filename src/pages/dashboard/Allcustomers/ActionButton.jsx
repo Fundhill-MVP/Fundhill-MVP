@@ -89,9 +89,6 @@ const ActionButton = () => {
                 <MenuItem disableRipple>
                     <AllCustomersModal />
                 </MenuItem>
-                <MenuItem disableRipple>
-                    <AllCustomersModal fund />
-                </MenuItem>
             </StyledMenu>
         </div>
     )

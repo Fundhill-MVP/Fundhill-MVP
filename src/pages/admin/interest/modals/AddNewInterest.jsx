@@ -1,15 +1,17 @@
-import React,{useState,useContext} from 'react'
+import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal,  Typography } from '@mui/material'
+import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import {useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import {Formik,Form} from "formik";
 import {object as yupObject, string as yupString,number as yupNumber} from "yup";
-import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal,  Typography } from '@mui/material'
-import useStyles from '../styles';
-import CloseIcon from '@mui/icons-material/Close';
-import { api  } from "../../../../services";
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import {TextField} from "../../../../components/FormsUI"
+import useStyles from '../styles';
+import {TextField} from "../../../../components/FormsUI";
+import { api  } from "../../../../services";
+
 
 
 const override = css`
@@ -31,23 +33,28 @@ const style = {
     p: 4,
 };
 
-const AddFees = () => {
+const AddNewInterest = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const [btnLoading,setBtnLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [btnLoading, setBtnLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const [data, setData] = useState([]);
     const  navigate = useNavigate();
 
 
+
+
+
+
     const initialFormState = () => ({
         name: "",
         percentage: 0,
+        minimum_time_in_months: 0,
       });
 
       const validationSchema = yupObject().shape({
@@ -55,24 +62,24 @@ const AddFees = () => {
         .required("What type of interest rate is this"),
         percentage: yupNumber()
         .required("Enter a percentage"),
+        minimum_time_in_months: yupNumber()
+        .required("minimum time in months"),
       });
 
-
-    const add_fee = async(values) => {
+      const add_interest = async(values) => {
         setBtnLoading(true);
-
         try {
             console.log(values)
 
             const response = await api
                   .service()
-                  .push("/dashboard/fees/add/",values,true)
+                  .push("/dashboard/interest-rates/add/",values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
-                handleClose()
-                toast.success("Fees created successfully!");
-                navigate("/admin/dashboard/customer/fees/",{replace: true});
+                    handleClose()
+                toast.success("Interest rate successfully created!");
+                navigate("/dashboard/customer/interest-rates/",{replace: true});
               },0);
             }
             setBtnLoading(false);
@@ -83,14 +90,13 @@ const AddFees = () => {
    
   }
 
-
     return (
         <div>
             <Button variant='contained'
                 disableElevation
                 style={{ marginLeft: 20, textTransform: 'none' }}
                 onClick={handleOpen}>
-                Add Fees
+                Add Interest
             </Button>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -106,7 +112,7 @@ const AddFees = () => {
                 <Fade in={open}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Add Fees
+                            Add New Interest
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -116,29 +122,35 @@ const AddFees = () => {
                         </Box>
                         <Divider style={{ marginTop: 10 }} />
 
-                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Charge Fee</Typography>
+                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Interest Rate</Typography>
 
-                        <Formik
+                        <Formik 
                             initialValues={initialFormState()}
                             validationSchema={validationSchema}
                             onSubmit={async (values,actions) => {
-                                    await add_fee(values)
-                                    }}
+                                await add_interest(values)
+                            }}    
                         >
-                            <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Fee Name</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="text" name="name" size='small' placeholder='Fee Name' required />
+                            <Form style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className={classes.formDiv}>
+                                <div className={classes.divTypo}><Typography>Interest Name</Typography></div>
+                                <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                                </div>
+                            </div>
 
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Percentage (%)</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="percentage" size='small' placeholder='Percentage (%)' required />
+                            <div className={classes.formDiv}>
+                                <div className={classes.divTypo}><Typography>Percentage (%)</Typography></div>
+                                <TextField fullWidth variant='outlined' type="number" name="percentage" size='small' />
 
-                                </div>
+                            </div>
 
-                                        {
+                            <div className={classes.formDiv}>
+                                <div className={classes.divTypo}><Typography>Minimum Time in Month </Typography></div>
+                                <TextField fullWidth variant='outlined' type="number" name="minimum_time_in_months" size='small' />
+
+                            </div>
+
+                            {
                                             btnLoading ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
@@ -149,30 +161,9 @@ const AddFees = () => {
                                                 </Button>
                                              )
                                         }
-
-
+                       
                             </Form>
                         </Formik>
-
-                        {/* <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                            <div className={classes.formDiv}>
-                                <div className={classes.divTypo}><Typography>Fee Name</Typography></div>
-                                <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Fee Name' required />
-
-                            </div>
-
-                            <div className={classes.formDiv}>
-                                <div className={classes.divTypo}><Typography>Percentage (%)</Typography></div>
-                                <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Percentage (%)' required />
-
-                            </div>
-
-                            <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                ADD
-                            </Button>
-                        </form> */}
-
                         <Divider style={{ marginTop: 40 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                             <Button onClick={handleClose} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
@@ -184,4 +175,4 @@ const AddFees = () => {
     )
 }
 
-export default AddFees
+export default  AddNewInterest

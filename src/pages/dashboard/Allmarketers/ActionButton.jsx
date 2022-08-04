@@ -89,7 +89,7 @@ const ActionButton = () => {
                     <AllmarketerModal />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <AllmarketerModal fund />
+                    <AllmarketerModal profile />
                 </MenuItem>
             </StyledMenu>
         </div>
