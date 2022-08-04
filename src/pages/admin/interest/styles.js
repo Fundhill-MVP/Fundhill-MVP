@@ -187,5 +187,11 @@ export default makeStyles(theme => ({
   secondary: {
     backgroundColor: theme.palette.secondary.main,
     color: '#fff',
+  },
+  sweet_loading: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 }));

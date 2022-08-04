@@ -24,7 +24,7 @@ const SavingsPlan = () => {
             <PageTitle title="All Customers" />
             <Grid container spacing={4}>
 
-                {/* <div className="sweet-loading">
+                {/* <div className={classes.sweet_loading}>
                     <BounceLoader color={color} l css={override} size={150} />
                 </div> */}
                 <Grid item xs={12}>
