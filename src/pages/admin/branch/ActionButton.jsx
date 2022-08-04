@@ -2,11 +2,9 @@ import { Button, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled, alpha } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
-import React, { useState,useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import AllModal from './Modal';
-import { api } from '../../../services';
-import {toast} from "react-toastify"
+
 const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
@@ -49,7 +47,7 @@ const StyledMenu = styled((props) => (
 }));
 
 
-export default function ActionButton({setFeeId}) {
+export default function ActionButton({setCurrentId}) {
     const [anchorEl, setAnchorEl] = useState(null);
     // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
@@ -59,39 +57,6 @@ export default function ActionButton({setFeeId}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-
-
-  const [isLoading, setIsLoading] = useState(false);
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ADD8E6");
-  const [data, setData] = useState([]);
-  const [marketers, setMarketers] = useState([]);
-  const navigate = useNavigate();
-
-  
-    //  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
-    //  keys.shift(); // delete "id" key
-  
-  
-    useEffect(() => {
-      setIsLoading(true)
-  
-      const allBranch = async () => {
-        const res = await api.service().fetch("/dashboard/branches/", true);
-        // console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-  
-        setIsLoading(false);
-  
-      }
-  
-      allBranch();
-    }, []);
-
-    // const marketer = marketers.map((item) => {return item})
 
 
     return (
@@ -118,14 +83,11 @@ export default function ActionButton({setFeeId}) {
                 open={open}
                 onClose={handleClose}
             >
-                {/* <MenuItem onClick={handleOpen} history disableRipple>
-                    Action
-                </MenuItem> */}
                 <MenuItem disableRipple>
-                    <AllModal setFeeId={setFeeId} />
+                    <AllModal setCurrentId={setCurrentId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <AllModal setFeeId={setFeeId} updates />
+                    <AllModal setCurrentId={setCurrentId} updates />
                 </MenuItem>
             </StyledMenu>
         </div>

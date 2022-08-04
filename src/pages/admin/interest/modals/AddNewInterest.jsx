@@ -66,6 +66,8 @@ const AddNewInterest = () => {
         .required("minimum time in months"),
       });
 
+      
+
       const add_interest = async(values) => {
         setBtnLoading(true);
         try {
@@ -79,7 +81,7 @@ const AddNewInterest = () => {
               setTimeout( () => {
                     handleClose()
                 toast.success("Interest rate successfully created!");
-                navigate("/dashboard/customer/interest-rates/",{replace: true});
+                navigate("/admin/dashboard/customer/interest_rate/");
               },0);
             }
             setBtnLoading(false);

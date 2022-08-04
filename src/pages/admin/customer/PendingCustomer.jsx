@@ -38,7 +38,7 @@ function PendingCustomer() {
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context)
     const [data,setData] = useState([]);
-
+    const [customerId,setCustomerId] = useState("");
     useEffect(() => {
         setIsLoading(true)
 
@@ -171,7 +171,7 @@ function PendingCustomer() {
                         <TableCell>{customer?.email}</TableCell>
                         <TableCell>{customer?.agent.first_name} </TableCell>
                         <TableCell>
-                          <ActionButton />
+                          <ActionButton customerId={customer?.id} />
                         </TableCell>
                       </TableRow>
                     ))
