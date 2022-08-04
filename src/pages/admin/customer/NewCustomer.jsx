@@ -26,7 +26,7 @@ import {
   Button
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
-import {DateTimePicker} from "../../../components/FormsUI"
+// import {DateTimePicker,Select} from "../../../components/FormsUI"
 
 
 // CONTEXT
@@ -70,7 +70,15 @@ function NewCustomer() {
  
   const [bvn, setBvn] = useState("");
 
+    const gender = {
+        male: "M",
+        femalie: "F"
+    }
 
+    const currency = {
+        dollar: "USD",
+        naira: "NGN"
+    }
   useEffect(() => {
     setIsLoading(true)
 
@@ -137,7 +145,7 @@ function NewCustomer() {
       setTimeout(() => {
         
         toast.success("Customer registration was successfully");
-        navigate("/admin/dashboard/newcustomer",{replace: true})
+        navigate("/admin/dashboard/customer/newcustomer",{replace: true})
         setIsLoading(false)
 
       },0);
@@ -163,7 +171,6 @@ function NewCustomer() {
                     size='small'
                     name='title'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -176,7 +183,6 @@ function NewCustomer() {
                     size='small'
                     name='first_name'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -189,7 +195,6 @@ function NewCustomer() {
                     size='small'
                     name='middle_name'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -210,16 +215,17 @@ function NewCustomer() {
                     <Typography >Gender</Typography>
                 </div>
                 <Select
+                    select={true}
                     className={classes.input}
                     variant="outlined"
                     size='small'
                     name='gender'
                     type='text'
-                    required
+                    options={gender}
                 >   
-                    <MenuItem>Select One</MenuItem>
+                 <MenuItem>Select One</MenuItem>
                     <MenuItem value={"M"} >Male</MenuItem>
-                    <MenuItem value={"F"}>Female</MenuItem>
+                 <MenuItem value={"F"}>Female</MenuItem>
                 </Select>
             </div>
             <div className={classes.inputDiv}>
@@ -232,7 +238,6 @@ function NewCustomer() {
                     size='small'
                     name='dob'
                     type="date"
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -244,7 +249,6 @@ function NewCustomer() {
                     variant="outlined"
                     size='small'
                     type='file'
-                    required
                     onChange={(e)  => handleAvatarOnChange(e.target.files)}
                 />
             </div>
@@ -257,7 +261,6 @@ function NewCustomer() {
                     variant="outlined"
                     size='small'
                     type='file'
-                    required
                     onChange={(e)  => handleDocOnChange(e.target.files)}                />
             </div>
             <div className={classes.inputDiv}>
@@ -269,7 +272,6 @@ function NewCustomer() {
                     variant="outlined"
                     size='small'
                     type='file'
-                    required
                     onChange={(e)  => handleUtilityOnChange(e.target.files)}
                      />
             </div> 
@@ -277,7 +279,7 @@ function NewCustomer() {
                 <div className={classes.label}>
                     <Typography >BVN</Typography>
                 </div>
-                <TextField
+                <TextField                                                                                                                                                                                                               
                     className={classes.input}
                     variant="outlined"
                     size='small'
@@ -290,12 +292,13 @@ function NewCustomer() {
                     <Typography >Currency</Typography>
                 </div>
                 <Select
+                    select={true}
                     className={classes.input}
                     variant="outlined"
                     size='small'
                     name='currency'
                     type='text'
-                    required
+                    options={currency}
                 >   
                     <MenuItem>Select One</MenuItem>
                     <MenuItem value={"NGN"} >NGN</MenuItem>
@@ -324,7 +327,6 @@ function NewCustomer() {
                     size='small'
                     name='residential_address'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -337,7 +339,6 @@ function NewCustomer() {
                     size='small'
                     name='business_address'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -350,7 +351,6 @@ function NewCustomer() {
                     size='small'
                     name='phone'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -363,7 +363,6 @@ function NewCustomer() {
                     size='small'
                     name='state'
                     type='text'
-                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -383,7 +382,7 @@ function NewCustomer() {
                         <div className={classes.label}>
                             <Typography >Marketer</Typography>
                         </div>
-                    <TextField
+                    <Select
                         select={true} 
                         className={classes.input}
                         name="agent_id"  
@@ -397,7 +396,7 @@ function NewCustomer() {
                             </MenuItem>
                             )
                         })}
-                        </TextField>
+                        </Select>
                 </div>
                 {
                             isLoading ? 

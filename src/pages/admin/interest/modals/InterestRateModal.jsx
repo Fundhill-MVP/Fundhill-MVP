@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import {Formik,Form} from "formik";
-import {object as yupObject, string as yupString,number as yupNumber} from "yup";
 import {CircularProgress} from "@material-ui/core";
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -15,8 +14,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
+import { api  } from "../../../../services";
+
 
 
 
@@ -41,7 +41,7 @@ const style = {
     p: 4,
 };
 
-export default function OptionModal({ del,setFeeId }) {
+function InterestRateModal({del,setInterestRateId}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -62,15 +62,15 @@ export default function OptionModal({ del,setFeeId }) {
     useEffect(  () => {
         setIsLoading(true)
 
-            const allFees = async() => {
+            const allinterestRates = async() => {
              try {
-                    const fees = await api
+                    const interestRates = await api
                     .service()
-                    .fetch("/dashboard/fees/",true);
-                    console.log(fees.data.results)
+                    .fetch("/dashboard/interest-rates/",true);
+                    console.log(interestRates.data.results)
                     
-                if((api.isSuccessful(fees))){
-                    setData(fees.data.results);
+                if((api.isSuccessful(interestRates))){
+                    setData(interestRates.data.results);
                     setIsLoading(false)
                 }else{
                     setIsLoading(true)
@@ -81,40 +81,31 @@ export default function OptionModal({ del,setFeeId }) {
     
             }
 
-            allFees();
+            allinterestRates();
     }, [])
 
 
-    const getFees = (id) => {
-        const fee = data.filter((item) => item.id === id);
-        // console.log(fee);
-        setItem(fee[0]);
+    const getInterestRate = (id) => {
+        const interestRate = data.filter((item) => item.id === id);
+        // console.log(interestRate);
+        setItem(interestRate[0]);
         console.log(item);
       }
     
       const handleProps = () => {
-        // console.log(setFeeId);
-        getFees(setFeeId);
-        // setItem(getFees(setFeeId));
+        // console.log(setInterestRateId);
+        getInterestRate(setInterestRateId);
+        // setItem(getInterestRate(setInterestRateId));
         return setOpen(true);
       }
     
 
 
-      const initialFormState = () => ({
-        name: "",
-        percentage: 0,
-      });
 
-      const validationSchema = yupObject().shape({
-        name: yupString()
-        .required("What type of interest rate is this"),
-        percentage: yupNumber()
-        .required("Enter a percentage"),
-      });
+  
 
 
-    const editFee = async(values) => {
+    const editInterestRate = async(values) => {
         setBtnLoading(true);
 
         try {
@@ -122,12 +113,12 @@ export default function OptionModal({ del,setFeeId }) {
 
             const response = await api
                   .service()
-                  .update("/dashboard/fees/update/",values,true)
+                  .update("/dashboard/interestRates/update/",values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
-                toast.success("Fees created successfully!");
-                navigate("/admin/dashboard/customer/fees/",{replace: true});
+                toast.success("interestRates created successfully!");
+                navigate("/admin/dashboard/customer/interestRates/",{replace: true});
               },0);
             }
             setBtnLoading(false);
@@ -137,14 +128,14 @@ export default function OptionModal({ del,setFeeId }) {
    
   }
 
-  const deleteFee = async (id) => {
+  const deleteInterestRate = async (id) => {
     try {
         setDelBtn(true);
-        const res = await api.service().remove(`/dashboard/fees/${id}/`, true);
+        const res = await api.service().remove(`/dashboard/interestRates/${id}/`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
-            toast.success("Successfully deleted fee!");
+            toast.success("Successfully deleted interestRate!");
     
             setDelBtn(false)
           }, 0);
@@ -157,7 +148,7 @@ export default function OptionModal({ del,setFeeId }) {
 
     return (
         <div>
-            <Button style={{ color: 'black', textTransform: 'none' }} onClick={handleOpen && handleProps} >{del ? `Delete` : `Update`}</Button>
+            <Button style={{ color: 'black', textTransform: 'none' }} onClick={handleOpen && handleProps } >{del ? `Delete` : `Update`}</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -174,7 +165,7 @@ export default function OptionModal({ del,setFeeId }) {
                         {del ? (
                             <>
                                 <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                                    Confirm delete of Fee
+                                    Confirm delete of Interest Rate
                                 </Typography>
 
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -185,7 +176,7 @@ export default function OptionModal({ del,setFeeId }) {
                                 <Divider />
 
                                 <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2 }} gutterBottom>
-                                    Are you sure you want to delete this Fee?
+                                    Are you sure you want to delete this interestRate?
                                 </Typography>
 
                                 <Divider />
@@ -196,7 +187,8 @@ export default function OptionModal({ del,setFeeId }) {
                                         )
                                         :
                                         (
-                                            <Button onClick={() => deleteFee(item.id)} style={{ background: 'red', color: 'white', marginLeft: 5 }}>yes</Button>
+                                            <Button onClick={() => deleteInterestRate(item.id)} style={{ background: 'red', color: 'white', marginLeft: 5 }}>yes</Button>
+                                            
                                         )
                                         }
 
@@ -208,7 +200,7 @@ export default function OptionModal({ del,setFeeId }) {
                                 <>
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                                        Fees
+                                        Interest Rates
                                     </Typography>
 
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -219,15 +211,16 @@ export default function OptionModal({ del,setFeeId }) {
                                     <Divider />
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }}>
-                                        Edit Fees
+                                        Edit Interest Rates
                                     </Typography>
                                     <Formik
                                         initialValues={{
-                                            name: item?.name,
-                                            percentage: item?.percentage
+                                            name: `${item?.name}`,
+                                            percentage: item?.percentage,
+                                            minimum_time_in_months: item?.minimum_time_in_months,
                                         }}
                                         onSubmit={async(values) => {
-                                        await editFee(values,item.id)
+                                        await editInterestRate(values,item.id)
                                     }}
                                     >          
                                         <Form style={{ display: 'flex', flexDirection: 'column' }}>
@@ -242,6 +235,12 @@ export default function OptionModal({ del,setFeeId }) {
                                             <TextField fullWidth variant='outlined' type="number" name="percentage" size='small' />
 
                                         </div>
+
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Minimum Time in Month</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="minimum_time_in_months" size='small' />
+                                        </div>
+
 
                                         {
                                         btnLoading ? 
@@ -267,3 +266,5 @@ export default function OptionModal({ del,setFeeId }) {
         </div>
     );
 }
+
+export default InterestRateModal

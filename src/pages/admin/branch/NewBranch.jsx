@@ -117,7 +117,6 @@ const NewBranch = () => {
                             variant="outlined"
                             size='small'
                             type='text'
-                            required
                         />
                     </div>
                     <div className={classes.inputDiv}>

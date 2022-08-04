@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton() {
+export default function ActionButton({setFeeId}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -85,13 +85,13 @@ export default function ActionButton() {
             >
                 <MenuItem disableRipple>
                     <EditIcon />
-                    <OptionModal />
+                    <OptionModal setFeeId={setFeeId} />
                 </MenuItem>
 
 
                 <MenuItem disableRipple>
                     <DeleteIcon />
-                    <OptionModal del />
+                    <OptionModal setFeeId={setFeeId} del />
                 </MenuItem>
             </StyledMenu>
         </div>

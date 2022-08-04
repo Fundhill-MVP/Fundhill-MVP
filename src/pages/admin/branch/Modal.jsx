@@ -1,15 +1,14 @@
 import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal,  Typography, MenuItem } from '@mui/material'
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, Form, useField,useFormikContext } from "formik";
-import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import {CircularProgress} from "@material-ui/core";
+import { Formik, Form,  } from "formik";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api } from '../../../services';
 import {toast} from "react-toastify"
 import {TextField} from "../../../components/FormsUI"
 import CloseIcon from '@mui/icons-material/Close';
-// import { makeStyles } from "@material-ui/styles";
 import useStyles from './styles';
 
 
@@ -42,7 +41,8 @@ const AllModal = ({ updates,setCurrentId }) => {
 
  
 
-
+  const [btnLoading,setBtnLoading] = useState(false);
+  const [delBtn,setDelBtn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
@@ -111,35 +111,45 @@ const AllModal = ({ updates,setCurrentId }) => {
 
 
   const deleteBranch = async (id) => {
-    const res = await api.service().remove(`/dashboard/branches/${id}/`, true);
-    console.log(res.data)
-    if (api.isSuccessful(res)) {
-      setTimeout(() => {
-        toast.success("Successfully deleted branch!");
-        allBranch();
-
-
-      }, 0);
-    }
+        try {
+            setDelBtn(true)
+            const res = await api.service().remove(`/dashboard/branches/${id}/`, true);
+            console.log(res.data)
+            if (api.isSuccessful(res)) {
+              setTimeout(() => {
+                toast.success("Successfully deleted branch!");
+                allBranch();
+                setDelBtn(false)
+        
+              }, 0);
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
   }
 
   const edit_branch = async (values, id) => {
-    setLoading(true);
-    console.log(values)
-
-    const response = await api
-      .service()
-      .update(`/dashboard/branches/${id}/`, values, true)
-
-    if (api.isSuccessful(response)) {
-      setTimeout(() => {
-        toast.success("branch successfully updated!!");
-        navigate("/admin/dashboard/branch/allbranch",{replace: true})
-        // allBranch();
-      }, 0);
+    try {
+        setBtnLoading(true);
+        console.log(values)
+    
+        const response = await api
+          .service()
+          .update(`/dashboard/branches/${id}/`, values, true)
+    
+        if (api.isSuccessful(response)) {
+          setTimeout(() => {
+            toast.success("branch successfully updated!!");
+            navigate("/admin/dashboard/branch/allbranch",{replace: true})
+            handleLock()
+            // allBranch();
+          }, 0);
+        }
+        setBtnLoading(false);
+    } catch (error) {
+        console.log(error);
     }
-    setLoading(false);
   }
 
 
@@ -147,15 +157,18 @@ const AllModal = ({ updates,setCurrentId }) => {
     setIsLoading(true)
 
     const allMarketer = async () => {
-      const res = await api.service().fetch("/accounts/manage/?is_staff=True", true);
-      // console.log(res.data)
-      if (api.isSuccessful(res)) {
-        //   console.log(res)
-        setMarketers(res.data.results)
-      }
-
-      setIsLoading(false);
-
+        try {
+            const res = await api.service().fetch("/accounts/manage/?is_staff=True", true);
+            // console.log(res.data)
+            if (api.isSuccessful(res)) {
+              //   console.log(res)
+              setMarketers(res.data.results)
+            }
+      
+            setIsLoading(false);      
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     allMarketer();
@@ -195,7 +208,15 @@ const AllModal = ({ updates,setCurrentId }) => {
                                 <Divider style={{ marginTop: 40 }} />
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                                     <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                                    <Button onClick={() => deleteBranch(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                                                        {delBtn ? (
+                                        <CircularProgress size={26} />
+                                        )
+                                        :
+                                        (
+                                            <Button onClick={() => deleteBranch(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                        )
+                                        }
+
                                 </Box>
                             </>
                         ) : (
@@ -242,7 +263,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                                         })}
                                         </TextField>
                                     </div>                                                    {
-                                            isLoading ? 
+                                            btnLoading ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
                                                 </div>)
@@ -255,31 +276,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                                             
                                     </Form>
                                 </Formik>
-                                {/* <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Branch Address </Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="" value={item.name} size='small'  required />
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Branch Address</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Branch Address' required />
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Marketer</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Marketer' required />
-
-                                    </div>
-
-
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Update
-                                    </Button>
-                                </form> */}
+                              
                             
                                 </>
                                 
@@ -300,40 +297,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                 </Fade>
             </Modal>
 
-            {/* <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={openn}
-        onClose={handleLock}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-            timeout: 500,
-        }}
-    >
-        <Fade in={openn}>
-            <Box sx={style}>
-                <Typography id="transition-modal-title" variant="h6" component="h2">
-                    Confirm Delete of Leasson Teacher
-                </Typography>
-
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-                    <IconButton onClick={handleLock}>
-                        <CloseIcon fontSize="small" />
-                    </IconButton>
-                </Box>
-                <Divider style={{ marginTop: 40 }} />
-
-                <Typography style={{ fontWeight: 500, marginTop: 10, marginBottom: 10, marginLeft: 10, textAlign: 'center' }}>Are you sure you want to delete this branch?</Typography>
-
-                <Divider style={{ marginTop: 40 }} />
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                    <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                    <Button onClick={handleClosee} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
-                </Box>
-            </Box>
-        </Fade>
-    </Modal> */}
+         
         </div>
     )
 }

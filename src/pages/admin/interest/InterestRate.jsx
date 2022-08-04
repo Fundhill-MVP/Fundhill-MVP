@@ -20,7 +20,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import ActionButton from './ActionButtons/ActionButton';
-import AddNewIntrest from './modals/AddNewIntrest';
+import AddNewInterest from './modals/AddNewInterest';
 
 
 // CONTEXT
@@ -127,7 +127,7 @@ function InterestRate() {
             (
               <Grid item xs={12}>
                 <Widget title="All Interest Rates" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                  <AddNewIntrest />
+                  <AddNewInterest />
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
@@ -135,7 +135,6 @@ function InterestRate() {
                         <TableCell >Name</TableCell>
                         <TableCell > Percentage (%) </TableCell>
                         <TableCell> Minimum Time in Month </TableCell>
-                        <TableCell> Maximum Time in Month</TableCell>
                         <TableCell>Action</TableCell>
                       </TableRow>
                     </TableHead>
@@ -146,9 +145,8 @@ function InterestRate() {
                           <TableCell>{interest?.name} </TableCell>
                           <TableCell>{interest?.percentage}</TableCell>
                           <TableCell>{interest?.minimum_time_in_months}</TableCell>
-                          <TableCell>{interest?.maximum_time_in_months}</TableCell>
                           <TableCell>
-                            <ActionButton />
+                            <ActionButton setInterest={interest?.id} />
                           </TableCell>
                         </TableRow>
                       ))}
