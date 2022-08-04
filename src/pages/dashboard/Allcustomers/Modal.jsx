@@ -53,7 +53,7 @@ function getStyles(name, personName, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-const AllCustomersModal = ({ fund, edit }) => {
+const AllCustomersModal = ({ edit }) => {
     const classes = useStyles();
 
     // modal
@@ -78,19 +78,7 @@ const AllCustomersModal = ({ fund, edit }) => {
     };
     return (
         <div>
-
-            {fund && (
-                <Button onClick={handleUnlocks}>Fund Wallet</Button>
-            )}
-
-            {edit && (
-                <Button onClick={handleUnlocks}>Edit Profile</Button>
-            )}
-
-            {!fund && !edit ? (
-                <Button onClick={handleUnlocks}>Add Plan</Button>
-
-            ) : ''}
+            <Button onClick={handleUnlocks}>{edit ? 'Edit Profile' : 'View Profile'}</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -105,7 +93,7 @@ const AllCustomersModal = ({ fund, edit }) => {
                 <Fade in={locks}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {fund ? 'Fund Vic Gyang Wallet' : ' Customer ID'}
+                            Customer ID
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -114,95 +102,12 @@ const AllCustomersModal = ({ fund, edit }) => {
                             </IconButton>
                         </Box>
                         <Divider style={{ marginTop: 40 }} />
-                        {fund && (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Are you sure you want to fund this account</Typography>
-                        )}
 
                         {edit && (
                             <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit Customer Profile</Typography>
                         )}
 
-                        {!fund && !edit ? (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Deposite</Typography>
-                        ) : ''}
-
-                        {!fund && !edit ? (
-                            <>
-
-                                <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                        <Select
-                                            size="small"
-                                            fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            // input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount' required />
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount Cycle</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount Cycle' required />
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Duration</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='1-12' required />
-
-                                    </div>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <Select
-                                            fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Select saving type" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-
-                                    </div>
-
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Submit
-                                    </Button>
-                                </form>
-                            </>
-                        ) : ''}
-
-
-                        {edit && (
+                        {edit ? (
                             <>
                                 <form style={{ display: 'flex', flexDirection: 'column' }}>
 
@@ -276,38 +181,18 @@ const AllCustomersModal = ({ fund, edit }) => {
                                 </form>
 
                             </>
-                        )}
-
-                        {fund && (
+                        ) : (
                             <>
-                                <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <Select
-                                            size="small"
-                                            fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            // input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-
-                                    </div>
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Fund
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <img
+                                        className={classes.profileImage}
+                                        src="https://i.ytimg.com/vi/K0u_kAWLJOA/maxresdefault.jpg"
+                                        alt="profile"
+                                    />
+                                    <Button variant='contained' style={{ background: 'red', marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                        Delete
                                     </Button>
-                                </form>
+                                </div>
                             </>
                         )}
 
