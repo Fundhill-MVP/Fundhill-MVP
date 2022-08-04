@@ -93,6 +93,7 @@ const AllmarketerModal = ({ fund,setCurrentId }) => {
   
           if(api.isSuccessful(response)){
           setTimeout( () => {
+                handleLock()
               toast.success("Marketer profile successfully updated!!");
               // navigate("/admin/allbranch",{replace: true})
           },0);

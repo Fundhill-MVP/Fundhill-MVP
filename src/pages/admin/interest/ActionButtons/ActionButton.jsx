@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import OptionModal from '../modals/Modal';
+import OptionModal from '../modals/InterestRateModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton() {
+export default function ActionButton({setInterestRateId}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -85,13 +85,13 @@ export default function ActionButton() {
             >
                 <MenuItem disableRipple>
                     <EditIcon />
-                    <OptionModal />
+                    <OptionModal setInterestRateId={setInterestRateId} />
                 </MenuItem>
 
 
                 <MenuItem disableRipple>
                     <DeleteIcon />
-                    <OptionModal del />
+                    <OptionModal setInterestRateId={setInterestRateId} del />
                 </MenuItem>
             </StyledMenu>
         </div>

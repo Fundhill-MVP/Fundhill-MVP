@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
 }));
 
 
-export default function ActionButton({setCurrentId}) {
+export default function ActionButton({setFeeId}) {
     const [anchorEl, setAnchorEl] = useState(null);
     // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
@@ -122,10 +122,10 @@ export default function ActionButton({setCurrentId}) {
                     Action
                 </MenuItem> */}
                 <MenuItem disableRipple>
-                    <AllModal setCurrentId={setCurrentId} />
+                    <AllModal setFeeId={setFeeId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <AllModal setCurrentId={setCurrentId} updates />
+                    <AllModal setFeeId={setFeeId} updates />
                 </MenuItem>
             </StyledMenu>
         </div>
