@@ -1,12 +1,28 @@
-import { Box, Button, Divider, IconButton, MenuItem, Modal, OutlinedInput, Select, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React,{useState,useEffect} from 'react'
+import { useNavigate } from "react-router-dom";
+import {Formik,Form} from "formik";
+import {object as yupObject, string as yupString,number as yupNumber} from "yup";
+import {CircularProgress} from "@material-ui/core";
+import { Box, Button, Divider, IconButton, MenuItem, Modal, OutlinedInput, Typography } from '@mui/material';
 import useStyles from '../styles';
 import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@material-ui/styles';
 
+import { toast } from "react-toastify";
+import { css } from "@emotion/react";
+import {DotLoader} from "react-spinners";
+import { api  } from "../../../../services";
+import {TextField,Select} from "../../../../components/FormsUI";
 
+
+const override = css`
+display: block;
+margin: 0 auto;
+border-color: green;
+align-items: center;
+`;
 
 const style = {
     position: 'absolute',
@@ -47,6 +63,23 @@ const names = [
     'Kelly Snyder',
 ];
 
+const frequency = {
+    "DAILY": "DAILY",
+    "WEEKLY": "WEEKLY",
+    "MONTHLY": "MONTHLY",
+    "YEARLY": "YEARLY"
+};
+
+const savingsPlan = {
+    "FIXED DEPOSIT SAVINGS": "Fixed Savings",
+    "TARGETED SAVINGS": "Targeted Savings",
+};
+
+const fixedAmount = {
+    "true": "True",
+    "false": "False"
+};
+
 function getStyles(name, personName, theme) {
     return {
         fontWeight:
@@ -55,7 +88,7 @@ function getStyles(name, personName, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-const SavingsModal = ({ fund, widthdraw }) => {
+const SavingsModal = ({ fund, widthdraw,customerId }) => {
     const classes = useStyles();
 
     // modal
@@ -78,19 +111,306 @@ const SavingsModal = ({ fund, widthdraw }) => {
             typeof value === 'string' ? value.split(',') : value,
         );
     };
+
+    const [planBtn,setPlanBtn] = useState(false);
+    const [withdrawBtn,setWithdrawBtn] = useState(false);
+    const [fundBtn,setFundBtn] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [Loading, setLoading] = useState(false)
+    let [loading, setloading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const [data,setData] = useState([]);
+    const [interests,setInterest] = useState([]);
+    const [fees,setfees] = useState([]);
+    const [customers,setCustomers] = useState([]);
+    const [user,setUser] = useState("");
+    const [item,setItem] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsLoading(true)
+
+        const allCustomer = async() => {
+        try {
+            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
+            console.log(res.data.results)
+            if(api.isSuccessful(res)){
+              setData(res.data.results)
+            }
+          setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    
+        }
+
+        allCustomer();
+      },[])
+
+      const savingsFormState = (id) => ({
+        user: id,
+        frequency: "",
+        amount_per_cycle: 0,
+        duration_in_months: 0,
+        amount: 0,
+        plan_type: "",
+        interest_rate: 0,
+        fee: 1,
+        fixed_amount: true
+      });
+    
+    
+      const savingsValidationSchema = yupObject().shape({
+        user: yupNumber()
+        .required("User is required"),
+        frequency: yupString()
+        .required("frequency is required"),
+        amount_per_cycle: yupNumber()
+        .required("Amount cycle is required"),
+        duration_in_months: yupNumber()
+        .required("Duration is required"),
+        amount: yupNumber()
+        .required("Amount is required"),
+        plan_type: yupString()
+        .required("Select a savings plan."),
+        interest_rate: yupNumber()
+        .required("Select an interest rate"),
+        fee: yupNumber()
+        .required("Select fee"),
+        fixed_amount: yupString()
+        .required("Select an option")
+      });
+
+
+      const savings = async(values) => {
+        setPlanBtn(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .push("/dashboard/savings-plan/add/",values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            handleUnlocks()
+            toast.success("Savings Plan successfully added!");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setPlanBtn(false);
+    }
+
+    useEffect(() => {
+        setIsLoading(true)
+    
+        const allSavingsPlan = async() => {
+                    try {
+                        const res = await api.service().fetch("/dashboard/savings-plan/",true);
+                        console.log(res.data.results)
+                        console.log("i got no result");
+                        if(api.isSuccessful(res)){
+                          //   console.log(res)
+                          setCustomers(res.data.results)
+                        }
+                  
+                        setIsLoading(false);
+                    } catch (error) {
+                        console.log(error);
+                    }  
+        }
+    
+        allSavingsPlan();
+      },[]);
+
+
+      const customerFundFormState = () => ({
+        amount: 0,
+        depositor: "",
+        plan_id: 0
+      });
+
+      const  customerSavingsPlan = async(id) => {
+        try {
+            const res = await api.service().fetch(`/dashboard/savings-plan/?user=${id}`,true);
+            console.log(res.data.results)
+            if(api.isSuccessful(res)){
+              //   console.log(res)
+              setCustomers(res.data.results)
+            }
+      
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }  
+}
+// customerSavingsPlan();
+
+
+// const fundCustomer = async(values) => {
+//     // setIsLoading(true);
+//     try {
+//         console.log(values)
+
+//         const response = await api
+//               .service()
+//               .push("/dashboard/savings-plan/collect/",values,true)
+    
+//         if(api.isSuccessful(response)){
+//           setTimeout( () => {
+//             toast.success("Transaction successful!");
+//             // navigate("/dashboard/loan-product",{replace: true});
+//           },0);
+//         }
+//         // setIsLoading(false);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+const fundCustomer = async(values) => {
+    try {
+        setFundBtn(true);
+        console.log(values)
+
+        const response = await api
+        .service()
+        .push("/dashboard/savings-plan/collect/",values,true)
+
+        if(api.isSuccessful(response)){
+            setTimeout( () => {
+            handleUnlocks()
+            toast.success("Transaction successful!");
+            // navigate("/dashboard/loan-product",{replace: true});
+            },0);
+        }
+        setFundBtn(false);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+const withdrawCustomer = async(values) => {
+    try {
+        setWithdrawBtn(true);
+        console.log(values)
+
+        const response = await api
+        .service()
+        .push("/dashboard/savings-plan/withdraw/",values,true)
+
+  if(api.isSuccessful(response)){
+    setTimeout( () => {
+        handleUnlocks()
+      toast.success("Transaction successful!");
+      // navigate("/dashboard/loan-product",{replace: true});
+    },0);
+  }
+        setWithdrawBtn(false);
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+const withdrawCustomerFormState = () => ({
+    amount: 0,
+    reason: "",
+    plan_id: 0
+  });
+
+
+    useEffect(() => {
+        setIsLoading(true)
+    
+        const allinterest = async() => {
+            try {
+                const res = await api
+                .service()
+                .fetch("/dashboard/interest-rates/",true);
+                console.log(res.data.results)
+                
+            if((api.isSuccessful(res))){
+                setInterest(res.data.results);
+                setIsLoading(false)
+            }else{
+                setIsLoading(true)
+            }
+         } catch (error) {
+            console.log(error.message)
+         }
+        }
+    
+        allinterest();
+
+        const customerPlan = async() => {
+            try {
+                const res = await api
+                .service()
+                .fetch("/dashboard/savings-plan/",true);
+                console.log(res.data.results)
+                
+            if((api.isSuccessful(res))){
+                setCustomers(res.data.results);
+                setIsLoading(false)
+            }else{
+                setIsLoading(true)
+            }
+         } catch (error) {
+            console.log(error.message)
+         }
+        }
+      },[]);
+
+      console.log(customers);
+      const plan = (id)=> {
+            return customers.filter(customer => customer.user.id === id)
+      }
+
+    useEffect(() => {
+        setIsLoading(true)
+    
+        const allfee = async() => {
+                    try {
+                        const res = await api.service().fetch("/dashboard/fees/",true);
+                        console.log(res.data.results)
+                        if(api.isSuccessful(res)){
+                          //   console.log(res)
+                          setfees(res.data.results)
+                        }
+                  
+                        setIsLoading(false);
+                    } catch (error) {
+                        console.log(error);
+                    }  
+        }
+    
+        allfee();
+      },[]);
+
+
+
+      const getCustomer = (id)  => {
+            let item = data.filter((customer) => customer.id === id);
+            if(item.length !== 0){
+                setUser(item[0]);
+            }
+
+      }
+   
     return (
         <div>
 
             {fund && (
-                <Button onClick={handleUnlocks}>Fund Wallet</Button>
+                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Fund Wallet</Button>
             )}
 
             {widthdraw && (
-                <Button onClick={handleUnlocks}>Widthdraw</Button>
+                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Widthdraw</Button>
             )}
 
             {!fund && !widthdraw ? (
-                <Button onClick={handleUnlocks}>Add Plan</Button>
+                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Add Plan</Button>
 
             ) : ''}
             <Modal
@@ -131,46 +451,41 @@ const SavingsModal = ({ fund, widthdraw }) => {
                         {!fund && !widthdraw ? (
                             <>
 
-                                <form style={{ display: 'flex', flexDirection: 'column' }}>
-
-                                    <div className={classes.formDiv}>
+                            <Formik
+                                initialValues={savingsFormState(customerId)}
+                                validationSchema= {savingsValidationSchema}
+                                onSubmit = { async (values,actions) => {
+                                await savings(values)
+                                }}
+                            >
+                                <Form style={{ display: 'flex', flexDirection: 'column' }} >
+                                <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Frequency</Typography></div>
                                         <Select
                                             size="small"
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            // input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                            label="Select One"
+                                            name="frequency"
+                                            options={frequency}
+                                        />
 
                                     </div>
 
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount' required />
+                                        <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
 
                                     </div>
 
                                     <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount Cycle</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount Cycle' required />
+                                        <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
+                                        <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
 
                                     </div>
 
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Duration</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='1-12' required />
+                                        <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
 
                                     </div>
 
@@ -179,65 +494,48 @@ const SavingsModal = ({ fund, widthdraw }) => {
                                         <Select
                                             size='small'
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Select saving type" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                            label="Select One"
+                                            name="plan_type"
+                                            options={savingsPlan}
+                                        />
 
                                     </div>
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                        <Select
-                                            size='small'
+                                        <TextField
+                                            select={true}
+                                            label="Select One"
+                                            // size='small'
+                                            name="interest_rate"
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Interest Rate" />}
-                                            MenuProps={MenuProps}
                                         >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                        <MenuItem>Select One</MenuItem>
+                                        {
+                                         interests.map((interest) => {
+                                            return(
+                                            <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                            )
+                                         })
+                                         }
+                                        </TextField>
 
                                     </div>
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                        <Select
-                                            size='small'
+                                        <TextField
+                                            select={true}
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Charges Fee" />}
-                                            MenuProps={MenuProps}
+                                            name="fee"
                                         >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                            <MenuItem>Select One</MenuItem>
+                                            {
+                                            fees.map((fee) => {
+                                                return(
+                                                <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                            )
+                                            })
+                                            }
+                                        </TextField>
 
                                     </div>
                                     <div className={classes.formDiv}>
@@ -245,120 +543,149 @@ const SavingsModal = ({ fund, widthdraw }) => {
                                         <Select
                                             size='small'
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Fixed Amount" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-
+                                            name="fixed_amount"
+                                            options={fixedAmount}
+                                            label="Choose One"
+                                        />
                                     </div>
 
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Submit
-                                    </Button>
-                                </form>
+                                    {
+                                            planBtn ? 
+                                            ( <div className="sweet-loading">
+                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                                </div>)
+                                            : (
+                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                    Submit
+                                                </Button>  
+                                              )
+                                        }
+             
+                                </Form>
+                            </Formik>
                             </>
                         ) : ''}
 
 
                         {widthdraw && (
                             <>
-                                <form style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount' required />
+                                <Formik
+                                    initialValues={withdrawCustomerFormState()}
+                                     // validationSchema= {validationSchema}
+                                     onSubmit = { async (values,actions) => {
+                                        await withdrawCustomer(values)
+                                    }}
+                                >
+                                    <Form style={{ display: 'flex', flexDirection: 'column' }} >
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
 
-                                    </div>
+                                        </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <Select
-                                            size="small"
-                                            fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            // input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                            <TextField 
+                                                select={true}
+                                                fullWidth
+                                                name="plan_id"
+                                                variant='outlined'
 
-                                    </div>
+                                            >
+                                            {
+                                            plan(customerId).map((customer) => {
+                                                return (
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                            )
+                                            })
+                                            }
+                                            </TextField>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Reason</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Reason' required />
+                                        </div>
 
-                                    </div>
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Widthdraw
-                                    </Button>
-                                </form>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Reason</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="text" name="reason" size='small' />
+                                        </div>
+
+                                        {
+                                            withdrawBtn ? 
+                                            ( <div className="sweet-loading">
+                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                                </div>)
+                                            : (
+                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                    Widthdraw
+                                                </Button> 
+                                              )
+                                        }
+
+                                    </Form>
+                                </Formik>
 
                             </>
                         )}
 
                         {fund && (
                             <>
-                                <form style={{ display: 'flex', flexDirection: 'column' }}>
-
+                                <Formik
+                                    initialValues={customerFundFormState()}
+                                    // validationSchema= {savingsValidationSchema}
+                                    onSubmit = { async (values,actions) => {
+                                        await fundCustomer(values)
+                                    }}
+                                >
+                                    <Form style={{ display: 'flex', flexDirection: 'column' }}>
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Depositor</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Depositor' required />
+                                        <TextField fullWidth variant='outlined' type="text" name="depositor" size='small'  />
 
                                     </div>
 
 
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="" size='small' placeholder='Amount' required />
+                                        <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
 
                                     </div>
 
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <Select
-                                            size="small"
+                                        <TextField
+                                            select={true}
                                             fullWidth
-                                            value={personName}
-                                            onChange={handleChange}
-                                            // input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
+                                            name="plan_id"
+                                            variant='outlined'
+
                                         >
-                                            {names.map((name) => (
-                                                <MenuItem
-                                                    key={name}
-                                                    value={name}
-                                                    style={getStyles(name, personName, theme)}
-                                                >
-                                                    {name}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
+                                             <MenuItem>Select One</MenuItem>
+                                             {
+                                             plan(customerId).map((customer) => {
+                                                return (
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                            )
+                                             })
+                                             }
+                                        </TextField>
 
                                     </div>
-                                    <Button variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                        Fund
-                                    </Button>
-                                </form>
+                                    
+
+                                    {
+                                            fundBtn ? 
+                                            ( <div className="sweet-loading">
+                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                                </div>)
+                                            : (
+                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                    Fund
+                                                </Button>
+                                              )
+                                        }
+
+                                    </Form>
+                                </Formik>
+
                             </>
                         )}
 

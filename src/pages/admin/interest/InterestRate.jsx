@@ -146,7 +146,7 @@ function InterestRate() {
                           <TableCell>{interest?.percentage}</TableCell>
                           <TableCell>{interest?.minimum_time_in_months}</TableCell>
                           <TableCell>
-                            <ActionButton setInterest={interest?.id} />
+                            <ActionButton setInterestRateId={interest?.id} />
                           </TableCell>
                         </TableRow>
                       ))}
