@@ -34,6 +34,9 @@ const SavingsPlan = () => {
     let [color, setColor] = useState("#ADD8E6");
     const [data,setData] = useState([]);
 
+<<<<<<< HEAD
+                {/* <div className={classes.sweet_loading}>
+=======
     useEffect(() => {
         setIsLoading(true)
 
@@ -57,6 +60,7 @@ const SavingsPlan = () => {
                 {
                     isLoading ? 
                         (      <div className="sweet-loading">
+>>>>>>> 494c4d3eef5fab9a381d569073e17f3b2648c62b
                     <BounceLoader color={color} l css={override} size={150} />
                 </div>
                 ):
