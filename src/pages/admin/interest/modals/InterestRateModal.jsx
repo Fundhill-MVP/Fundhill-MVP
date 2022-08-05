@@ -105,7 +105,7 @@ function InterestRateModal({del,setInterestRateId}) {
   
 
 
-    const editInterestRate = async(values) => {
+    const editInterestRate = async(values,id) => {
         setBtnLoading(true);
 
         try {
@@ -113,7 +113,7 @@ function InterestRateModal({del,setInterestRateId}) {
 
             const response = await api
                   .service()
-                  .update("/dashboard/interestRates/update/",values,true)
+                  .update(`/dashboard/${id}/interest-rates/`,values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
@@ -131,7 +131,7 @@ function InterestRateModal({del,setInterestRateId}) {
   const deleteInterestRate = async (id) => {
     try {
         setDelBtn(true);
-        const res = await api.service().remove(`/dashboard/interestRates/${id}/`, true);
+        const res = await api.service().remove(`/dashboard/interest-rates/${id}/`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {

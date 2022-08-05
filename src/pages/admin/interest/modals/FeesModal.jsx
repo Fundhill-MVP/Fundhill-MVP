@@ -114,7 +114,7 @@ export default function OptionModal({ del,setFeeId }) {
       });
 
 
-    const editFee = async(values) => {
+    const editFee = async(values,id) => {
         setBtnLoading(true);
 
         try {
@@ -122,7 +122,7 @@ export default function OptionModal({ del,setFeeId }) {
 
             const response = await api
                   .service()
-                  .update("/dashboard/fees/update/",values,true)
+                  .update(`/dashboard/fees/${id}/`,values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
