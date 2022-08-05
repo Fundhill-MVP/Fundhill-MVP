@@ -166,6 +166,12 @@ export default makeStyles(theme => ({
   },
 
   // modal styles
+  img: {
+    width: '80%',
+    height: 300,
+    marginTop: 5,
+    marginBottom: 5
+  },
   formDiv: {
     display: 'flex',
     alignItems: 'center',

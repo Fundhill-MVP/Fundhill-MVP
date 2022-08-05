@@ -1,4 +1,4 @@
-import {useState,Fragment,useEffect} from "react";
+import { useState, Fragment, useEffect } from "react";
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
 import useStyles from './styles';
@@ -31,7 +31,7 @@ function Fees() {
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
   const [data, setData] = useState([]);
-  const [feeId,setFeeId] = useState("");
+  const [feeId, setFeeId] = useState("");
 
 
 
@@ -71,7 +71,7 @@ function Fees() {
             (
 
 
-              <div className="sweet-loading">
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 
