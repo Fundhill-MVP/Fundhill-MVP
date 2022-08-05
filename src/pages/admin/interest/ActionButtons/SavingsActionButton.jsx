@@ -46,7 +46,7 @@ const StyledMenu = styled((props) => (
 }));
 
 
-const ActionButton = () => {
+const ActionButton = ({customerId}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -80,17 +80,15 @@ const ActionButton = () => {
                 open={open}
                 onClose={handleClose}
             >
-                {/* <MenuItem onClick={handleOpen} history disableRipple>
-            Action
-        </MenuItem> */}
+
                 <MenuItem disableRipple>
-                    <SavingsModal />
+                    <SavingsModal customerId={customerId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <SavingsModal fund />
+                    <SavingsModal customerId={customerId} fund />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <SavingsModal widthdraw />
+                    <SavingsModal customerId={customerId} widthdraw />
                 </MenuItem>
             </StyledMenu>
         </div>
