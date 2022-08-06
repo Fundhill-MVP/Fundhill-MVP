@@ -13,7 +13,7 @@ import {
 import { Fragment,useEffect,useState } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
-import ActionButton from "./ActionButtons/SavingsActionButton";
+import ActionButton from "./ActionButton";
 import { api } from '../../../services';
 import {BounceLoader} from "react-spinners";
 import { css } from "@emotion/react";
@@ -26,7 +26,8 @@ margin: 0 auto;
 border-color: green;
 align-items: center;
 `;
-const SavingsPlan = () => {
+
+function Transaction() {
     const classes = useStyles();
 
 
@@ -67,7 +68,7 @@ const SavingsPlan = () => {
                 ):
                 (
                     <Grid item xs={12}>
-                    <Widget title="Add A Customer Plan" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                    <Widget title="Perform Transaction For Customer" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                         <Table className="mb-0">
                             <TableHead>
                                 <TableRow>
@@ -113,4 +114,4 @@ const SavingsPlan = () => {
     )
 }
 
-export default SavingsPlan
+export default Transaction

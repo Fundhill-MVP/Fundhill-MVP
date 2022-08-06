@@ -57,7 +57,8 @@ import {
   DeletedCustomer,
   SavingsPlan,
   InterestRate,
-  Fees
+  Fees,
+  Transaction,
 } from "../../pages/admin"
 
 // context
@@ -88,6 +89,7 @@ function AdminRoute() {
       <Route path="dashboard/customer/interest_rate" element={<InterestRate />} />
       <Route path="dashboard/customer/savings_plan" element={<SavingsPlan />} />
       <Route path="dashboard/customer/fees" element={<Fees />} />
+      <Route path="dashboard/customer/tranx" element={<Transaction />} />
 
 
 
