@@ -1,13 +1,13 @@
-import {Fragment,useEffect,useContext,useState} from 'react'
+import { Fragment, useEffect, useContext, useState } from 'react'
 import { Link } from "react-router-dom";
 // import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
-import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {BounceLoader} from "react-spinners";
-import {Context} from "../../../context/Context";
+import { BounceLoader } from "react-spinners";
+import { Context } from "../../../context/Context";
 import PageTitle from "../../../components/PageTitle"
 import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
@@ -31,54 +31,54 @@ const override = css`
 
 function PendingLoan() {
 
-    const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    const [loader, setLoader] = useState(false);
-    let [color, setColor] = useState("#ADD8E6");
-    const {user} = useContext(Context)
-    const [data,setData] = useState([]);
+  const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  const [loader, setLoader] = useState(false);
+  let [color, setColor] = useState("#ADD8E6");
+  const { user } = useContext(Context)
+  const [data, setData] = useState([]);
 
-    useEffect(() => {
-        try {
-            setIsLoading(true)
+  useEffect(() => {
+    try {
+      setIsLoading(true)
 
-            const allCustomer = async() => {
-              const res = await api.service().fetch("/dashboard/loan/?status=PENDING",true);
-              console.log(res.data)
-              if(api.isSuccessful(res)){
-                setData(res.data.results)
-              }
-            setIsLoading(false);
-        
-            }
-    
-            allCustomer();
-        } catch (error) {
-            console.log(error)
+      const allCustomer = async () => {
+        const res = await api.service().fetch("/dashboard/loan/?status=PENDING", true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+          setData(res.data.results)
         }
-      },[])
+        setIsLoading(false);
 
-      const approve_loan = async(values) => {
-            try {
-                setLoader(true);
-                console.log(values)
-        
-                const response = await api
-                    .service()
-                    .push("/dashboard/loan/action/",values,true)
-        
-                if(api.isSuccessful(response)){
-                setTimeout( () => {
-                    toast.success("Successfully approved loan!");
-                    // navigate("/admin/dashboard/add_borrower",{replace: true});
-                },0);
-                }
-                setLoader(false);
-            } catch (error) {
-                console.log(error)
-            }
+      }
+
+      allCustomer();
+    } catch (error) {
+      console.log(error)
     }
+  }, [])
+
+  const approve_loan = async (values) => {
+    try {
+      setLoader(true);
+      console.log(values)
+
+      const response = await api
+        .service()
+        .push("/dashboard/loan/action/", values, true)
+
+      if (api.isSuccessful(response)) {
+        setTimeout(() => {
+          toast.success("Successfully approved loan!");
+          // navigate("/admin/dashboard/add_borrower",{replace: true});
+        }, 0);
+      }
+      setLoader(false);
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   return (
@@ -90,7 +90,7 @@ function PendingLoan() {
             (
 
 
-              <div className="sweet-loading">
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 
@@ -102,11 +102,12 @@ function PendingLoan() {
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
-                        <TableCell > Names </TableCell>
+                        <TableCell > ID </TableCell>
+                        <TableCell >Full Names </TableCell>
                         <TableCell > Amount + Interest </TableCell>
                         <TableCell > Account Number </TableCell>
-                        <TableCell> Loan Product </TableCell>
                         <TableCell> Payback Date </TableCell>
+                        <TableCell> Date </TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 

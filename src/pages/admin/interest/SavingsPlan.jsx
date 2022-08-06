@@ -10,12 +10,12 @@ import {
     // Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import { Fragment,useEffect,useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
 import ActionButton from "./ActionButtons/SavingsActionButton";
 import { api } from '../../../services';
-import {BounceLoader} from "react-spinners";
+import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
 
@@ -32,79 +32,75 @@ const SavingsPlan = () => {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
-    const [data,setData] = useState([]);
+    const [data, setData] = useState([]);
 
-<<<<<<< HEAD
-                {/* <div className={classes.sweet_loading}>
-=======
+    // <div className={classes.sweet_loading}>
+
     useEffect(() => {
         setIsLoading(true)
 
-        const allCustomer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-          console.log(res.data)
-          if(api.isSuccessful(res)){
-            setData(res.data.results)
-          }
-        setIsLoading(false);
-    
+        const allCustomer = async () => {
+            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+            console.log(res.data)
+            if (api.isSuccessful(res)) {
+                setData(res.data.results)
+            }
+            setIsLoading(false);
+
         }
 
         allCustomer();
-      },[])
+    }, [])
 
-    return (   
-    <Fragment>
-    <PageTitle title="All Customers" />
-                <Grid container spacing={4}>
+    return (
+        <Fragment>
+            <PageTitle title="All Customers" />
+            <Grid container spacing={4}>
                 {
-                    isLoading ? 
-                        (      <div className="sweet-loading">
->>>>>>> 494c4d3eef5fab9a381d569073e17f3b2648c62b
-                    <BounceLoader color={color} l css={override} size={150} />
-                </div>
-                ):
-                (
-                    <Grid item xs={12}>
-                    <Widget title="Maketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                        <Table className="mb-0">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell >ID</TableCell>
-                                    <TableCell >Full Name</TableCell>
-                                    <TableCell >Account Number</TableCell>
-                                    <TableCell>Telephone</TableCell>
-                                    <TableCell>Email</TableCell>
-                                    <TableCell>Marketer</TableCell>
-                                    <TableCell>Status</TableCell>
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {/* <TableRow> */}
-                                  {data.map((customer) => (
-                                    <TableRow key={customer.id} >
-                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
-                                    <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
-                                    <TableCell> {customer.wallet.id} </TableCell>
-                                    <TableCell> {customer.phone} </TableCell>
-                                    <TableCell> {customer.email}	</TableCell>
-                                    <TableCell>	{customer.agent.first_name} </TableCell>
-                                    <TableCell>	<Button style={{ textTransform: 'none' }} variant="contained" disableElevation> {customer.status} </Button></TableCell>
-                                    <TableCell>
-                                        <ActionButton customerId={customer?.id} />
-                                    </TableCell>
-                                    </TableRow>
-                                  ))}
-                                {/* </TableRow> */}
-                            </TableBody>
-                        </Table>
-                    </Widget>
-                </Grid>
-                )
+                    isLoading ?
+                        (<div className="sweet-loading">
+                            <BounceLoader color={color} l css={override} size={150} />
+                        </div>
+                        ) :
+                        (
+                            <Grid item xs={12}>
+                                <Widget title="Maketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                                    <Table className="mb-0">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell >ID</TableCell>
+                                                <TableCell >Full Name</TableCell>
+                                                <TableCell >Account Number</TableCell>
+                                                <TableCell>Telephone</TableCell>
+                                                <TableCell>Email</TableCell>
+                                                <TableCell>Marketer</TableCell>
+                                                <TableCell>Status</TableCell>
+                                                <TableCell>Action</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {/* <TableRow> */}
+                                            {data.map((customer) => (
+                                                <TableRow key={customer.id} >
+                                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
+                                                    <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
+                                                    <TableCell> {customer.wallet.id} </TableCell>
+                                                    <TableCell> {customer.phone} </TableCell>
+                                                    <TableCell> {customer.email}	</TableCell>
+                                                    <TableCell>	{customer.agent.first_name} </TableCell>
+                                                    <TableCell>	<Button style={{ textTransform: 'none' }} variant="contained" disableElevation> {customer.status} </Button></TableCell>
+                                                    <TableCell>
+                                                        <ActionButton customerId={customer?.id} />
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                            {/* </TableRow> */}
+                                        </TableBody>
+                                    </Table>
+                                </Widget>
+                            </Grid>
+                        )
                 }
-       
-
             </Grid>
 
 

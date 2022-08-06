@@ -47,7 +47,7 @@ import {
   AddBorrower,
   DisbursedLoan,
   PendingLoan,
-  // InvoiceLoan,
+  Invoice,
   OngoingLoan,
   // Dashboard,
   AllExpenses,
@@ -139,7 +139,7 @@ function AdminRoute() {
       <Route path="dashboard/loan/add_borrower" element={<AddBorrower />} />
       <Route path="dashboard/loan/pending_loan" element={<PendingLoan />} />
       <Route path="dashboard/loan/disburse_loan" element={<DisbursedLoan />} />
-      {/* <Route path="dashboard/loan/invoice" element={<InvoiceLoan />} /> */}
+      <Route path="dashboard/loan/invoice" element={<Invoice />} />
       <Route path="dashboard/loan/ongoing_loan" element={<OngoingLoan />} />
 
       {/* Expenses Management */}
