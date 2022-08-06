@@ -5,7 +5,7 @@ import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import { Box, Button, FormControl,Select, Typography,MenuItem } from '@material-ui/core'
+import { Box, Button,  Typography,MenuItem } from '@material-ui/core'
 import PageTitle from '../../../components/PageTitle/PageTitle'
 import useStyles from './styles';
 import {api} from "../../../services"
