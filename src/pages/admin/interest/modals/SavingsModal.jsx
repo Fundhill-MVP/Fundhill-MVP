@@ -42,14 +42,15 @@ const style = {
 // select input
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
+
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 
 
 const frequency = {
@@ -69,15 +70,8 @@ const fixedAmount = {
     "false": "False"
 };
 
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-            personName.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
-const SavingsModal = ({ fund, widthdraw,customerId }) => {
+
+const SavingsModal = ({ activate, deactivate,customerId }) => {
     const classes = useStyles();
 
     // modal
@@ -102,8 +96,8 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
     };
 
     const [planBtn,setPlanBtn] = useState(false);
-    const [withdrawBtn,setWithdrawBtn] = useState(false);
-    const [fundBtn,setFundBtn] = useState(false)
+    const [deactivateBtn,setDeactivatePlan] = useState(false);
+    const [activateBtn,setActivateBtn] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
     const [Loading, setLoading] = useState(false)
     let [loading, setloading] = useState(true);
@@ -112,6 +106,7 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
     const [interests,setInterest] = useState([]);
     const [fees,setfees] = useState([]);
     const [customers,setCustomers] = useState([]);
+    const [decustomer,setDeactivateCustomer] = useState([]);
     const [user,setUser] = useState("");
     const [item,setItem] = useState("");
     const navigate = useNavigate();
@@ -181,7 +176,7 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
 
         if(api.isSuccessful(response)){
         setTimeout( () => {
-            handleUnlocks()
+            handleLocks()
             toast.success("Savings Plan successfully added!");
             // navigate("/admin/allbranch",{replace: true})
         },0);
@@ -194,9 +189,8 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
     
         const allSavingsPlan = async() => {
                     try {
-                        const res = await api.service().fetch("/dashboard/savings-plan/",true);
+                        const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`,true);
                         console.log(res.data.results)
-                        console.log("i got no result");
                         if(api.isSuccessful(res)){
                           //   console.log(res)
                           setCustomers(res.data.results)
@@ -207,112 +201,84 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
                         console.log(error);
                     }  
         }
+
+        const allDeactivedSavingsPlan = async() => {
+            try {
+                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}&status=DEACTIVATED`,true);
+                console.log(res.data.results)
+                if(api.isSuccessful(res)){
+                  //   console.log(res)
+                  setDeactivateCustomer(res.data.results)
+                }
+          
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+            }  
+}
+
     
         allSavingsPlan();
+        allDeactivedSavingsPlan();
+
       },[]);
 
 
-      const customerFundFormState = () => ({
-        amount: 0,
-        depositor: "",
-        plan_id: 0
-      });
-
-      const  customerSavingsPlan = async(id) => {
-        try {
-            const res = await api.service().fetch(`/dashboard/savings-plan/?user=${id}`,true);
-            console.log(res.data.results)
-            if(api.isSuccessful(res)){
-              //   console.log(res)
-              handleLocks();
-              setCustomers(res.data.results)
-            }
-      
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-        }  
-}
-// customerSavingsPlan();
 
 
-// const fundCustomer = async(values) => {
-//     // setIsLoading(true);
-//     try {
-//         console.log(values)
 
-//         const response = await api
-//               .service()
-//               .push("/dashboard/savings-plan/collect/",values,true)
-    
-//         if(api.isSuccessful(response)){
-//           setTimeout( () => {
-//             toast.success("Transaction successful!");
-//             // navigate("/dashboard/loan-product",{replace: true});
-//           },0);
-//         }
-//         // setIsLoading(false);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 
-const fundCustomer = async(values) => {
+
+const activatePlan = async(value) => {
     try {
-        setFundBtn(true);
-        console.log(values)
+        setActivateBtn(true);
+        console.log(value)
 
         const response = await api
         .service()
-        .push("/dashboard/savings-plan/collect/",values,true)
+        .fetch(`/dashboard/savings-plan/${value.id}/activate/`,true)
 
         if(api.isSuccessful(response)){
             setTimeout( () => {
-                console.log(response.data.transaction)
+                console.log(response.data)
                 handleLocks()
-                toast.success("Transaction successful!");
+                toast.success("Savings plan activated successfully");
             // navigate("/dashboard/loan-product",{replace: true});
             },0);
         }
-        setFundBtn(false);
+        setActivateBtn(false);
     } catch (error) {
+        setActivateBtn(false);
         console.log(error)
     }
 }
 
 
-const withdrawCustomer = async(values) => {
+const deactivatePlan = async(value) => {
     try {
-        setWithdrawBtn(true);
-        console.log(values)
+        setDeactivatePlan(true);
+        console.log(value)
 
         const response = await api
         .service()
-        .push("/dashboard/savings-plan/withdraw/",values,true)
+        .fetch(`/dashboard/savings-plan/${value.id}/deactivate/`,true)
 
   if(api.isSuccessful(response)){
     setTimeout( () => {
-        console.log(response.data.transaction)
+        console.log(response.data)
         handleLocks()
-      toast.success("Transaction successful!");
+      toast.success("Savings deactivated successfully!!!");
       // navigate("/dashboard/loan-product",{replace: true});
     },0);
   }
-        setWithdrawBtn(false);
+        setDeactivatePlan(false);
     } catch (error) {
         console.log(error)
     }
 }
 
 
-const withdrawCustomerFormState = () => ({
-    amount: 0,
-    reason: "",
-    plan_id: 0
-  });
-
-
-    useEffect(() => {
+      useEffect(() => {
         setIsLoading(true)
     
         const allinterest = async() => {
@@ -354,10 +320,6 @@ const withdrawCustomerFormState = () => ({
         }
       },[]);
 
-      console.log(customers);
-      const plan = (id)=> {
-            return customers.filter(customer => customer.user.id === id)
-      }
 
     useEffect(() => {
         setIsLoading(true)
@@ -380,6 +342,20 @@ const withdrawCustomerFormState = () => ({
         allfee();
       },[]);
 
+//       console.log(customers);
+
+//       const activatedPlan = (id)=> {
+//             return customers.filter(customer => customer.user.id === id)
+//       }
+
+
+//   const deactivatedPlan = (id)=> {
+//     return decustomer.filter(customer => customer.user.id === id)
+// }
+
+
+
+
 
 
       const getCustomer = (id)  => {
@@ -393,15 +369,15 @@ const withdrawCustomerFormState = () => ({
     return (
         <div>
 
-            {fund && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Fund Wallet</Button>
+            {activate && (
+                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Activate Plan</Button>
             )}
 
-            {widthdraw && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Widthdraw</Button>
+            {deactivate && (
+                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Deactivate Plan</Button>
             )}
 
-            {!fund && !widthdraw ? (
+            {!activate && !deactivate ? (
                 <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Add Plan</Button>
 
             ) : ''}
@@ -419,7 +395,7 @@ const withdrawCustomerFormState = () => ({
                 <Fade in={locks}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {fund ? 'Fund Vic Gyang Wallet' : ' Customer ID'}
+                            {activate ? `Activate ${user.first_name} Plan ` : `Customer Id: ${user.id} `}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -428,19 +404,19 @@ const withdrawCustomerFormState = () => ({
                             </IconButton>
                         </Box>
                         <Divider style={{ marginTop: 40 }} />
-                        {fund && (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Are you sure you want to fund this account</Typography>
+                        {activate && (
+                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Are you sure you want to activate this plan</Typography>
                         )}
 
-                        {widthdraw && (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Withdraw</Typography>
+                        {deactivate && (
+                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Deactivate</Typography>
                         )}
 
-                        {!fund && !widthdraw ? (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Deposite</Typography>
+                        {!activate && !deactivate ? (
+                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Plan</Typography>
                         ) : ''}
 
-                        {!fund && !widthdraw ? (
+                        {!activate && !deactivate ? (
                             <>
 
                             <Formik
@@ -559,56 +535,50 @@ const withdrawCustomerFormState = () => ({
                         ) : ''}
 
 
-                        {widthdraw && (
+                        {deactivate && (
                             <>
                                 <Formik
-                                    initialValues={withdrawCustomerFormState()}
+                                    initialValues={{
+                                        id: 0
+                                    }}
                                      // validationSchema= {validationSchema}
-                                     onSubmit = { async (values,actions) => {
-                                        await withdrawCustomer(values)
+                                     onSubmit = { async (value) => {
+                                        await deactivatePlan(value)
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
+  
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                        <TextField
+                                            select={true}
+                                            fullWidth
+                                            name="id"
+                                            variant='outlined'
+                                            label = "Select One"
 
-                                        </div>
-
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                            <TextField 
-                                                select={true}
-                                                fullWidth
-                                                name="plan_id"
-                                                variant='outlined'
-                                                label="Select One"
-
-                                            >
-                                            {
-                                            plan(customerId).map((customer) => {
+                                        >
+                                             <MenuItem>Select One</MenuItem>
+                                             {
+                                             customers.map((plan) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
                                             )
-                                            })
-                                            }
-                                            </TextField>
+                                             })
+                                             }
+                                        </TextField>
 
-                                        </div>
+                                    </div>
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Reason</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="text" name="reason" size='small' />
-                                        </div>
 
                                         {
-                                            withdrawBtn ? 
+                                            deactivateBtn ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
                                                 </div>)
                                             : (
                                                 <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                    Widthdraw
+                                                    deactivate
                                                 </Button> 
                                               )
                                         }
@@ -619,44 +589,34 @@ const withdrawCustomerFormState = () => ({
                             </>
                         )}
 
-                        {fund && (
+                        {activate && (
                             <>
                                 <Formik
-                                    initialValues={customerFundFormState()}
+                                    initialValues={{
+                                        id: 0
+                                    }}
                                     // validationSchema= {savingsValidationSchema}
-                                    onSubmit = { async (values,actions) => {
-                                        await fundCustomer(values)
+                                    onSubmit = { async (value,actions) => {
+                                        await activatePlan(value)
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Depositor</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="depositor" size='small'  />
-
-                                    </div>
-
-
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
-
-                                    </div>
 
                                     <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
                                         <TextField
                                             select={true}
                                             fullWidth
-                                            name="plan_id"
+                                            name="id"
                                             variant='outlined'
                                             label = "Select One"
 
                                         >
                                              <MenuItem>Select One</MenuItem>
                                              {
-                                             plan(customerId).map((customer) => {
+                                             decustomer.map((plan) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
                                             )
                                              })
                                              }
@@ -666,13 +626,13 @@ const withdrawCustomerFormState = () => ({
                                     
 
                                     {
-                                            fundBtn ? 
+                                            activateBtn ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
                                                 </div>)
                                             : (
                                                 <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                    Fund
+                                                    activate
                                                 </Button>
                                               )
                                         }
