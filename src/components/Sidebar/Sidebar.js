@@ -64,10 +64,10 @@ const structure = [
     ],
   },
   {
-    id: 4, label: "Interest Rate", links: "#", icon: <SavingsOutlinedIcon />,
+    id: 4, label: "Savings Plan", links: "#", icon: <SavingsOutlinedIcon />,
     children: [
       { label: "Interest Rate", links: "/admin/dashboard/customer/interest_rate" },
-      { label: "Savings Plan", links: "/admin/dashboard/customer/savings_plan" },
+      { label: "Add Plan", links: "/admin/dashboard/customer/savings_plan" },
       { label: "Fees", links: "/admin/dashboard/customer/fees" },
 
     ],

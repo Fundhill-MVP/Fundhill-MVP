@@ -43,7 +43,7 @@ import OngoingLoan from "./loan/OngoingLoan";
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
 // import Profile from "./profile/Profile";
-import PendingCustomer from "./customer/PendingCustomer/PendingCustomer";
+import PendingCustomer from "./customer/PendingCustomer";
 import DeletedCustomer from "./customer/DeletedCustomer";
 import SavingsPlan from "./interest/SavingsPlan";
 import InterestRate from "./interest/InterestRate";
