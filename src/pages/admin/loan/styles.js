@@ -188,5 +188,40 @@ export default makeStyles(theme => ({
   secondary: {
     backgroundColor: theme.palette.secondary.main,
     color: '#fff',
+  },
+  sweet_loading: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  check: {
+    zIndex: 1,
+    borderRadius: 100,
+    right: 0,
+    color: 'green !important'
+  },
+  checkDiv: {
+    position: 'relative',
+    background: 'red',
+    right: 5,
+    top: 5,
+    borderRadius: 100,
+    zIndex: 1,
+    opacity: 0.5
+  },
+  paper: {
+    padding: 10
+  },
+
+  // invoice Section
+  invoicePaper: {
+    padding: 20,
+
+  },
+
+  invoiceBox1: {
+    display: 'flex',
+    justifyContent: 'space-between',
   }
 }));

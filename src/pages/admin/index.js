@@ -33,12 +33,12 @@ import MarketerAccount from "./marketer/MarketerAccount";
 // import QuickCustomer from "./customer/QuickCustomer";
 // import EsusuDReciept from "./esus/EsusuDReciept"
 // import EsusuWReciept from "./esus/EsusuWReciept"
-import NewProduct from "./loan/NewProduct";
-import AddBorrower from "./loan/AddBorrower";
-import DisbursedLoan from "./loan/DisbursedLoan";
+import NewProduct from "./loan/NewProduct/NewProduct";
+import AddBorrower from "./loan/AddBorrower/AddBorrower";
+import DisbursedLoan from "./loan/DisbursedLoan/DisbursedLoan";
 import PendingLoan from "./loan/PendingLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
-import OngoingLoan from "./loan/OngoingLoan";
+import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
 // import Dashboard from "./dashboard/Dashboard"
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
@@ -48,8 +48,8 @@ import DeletedCustomer from "./customer/DeletedCustomer";
 import SavingsPlan from "./interest/SavingsPlan";
 import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
+import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
-
 
 export {
     Login,
@@ -92,7 +92,7 @@ export {
     AddBorrower,
     DisbursedLoan,
     PendingLoan,
-    // InvoiceLoan,
+    Invoice,
     OngoingLoan,
     // Dashboard,
     AllExpenses,
