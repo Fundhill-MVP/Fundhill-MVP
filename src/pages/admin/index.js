@@ -48,6 +48,7 @@ import DeletedCustomer from "./customer/DeletedCustomer";
 import SavingsPlan from "./interest/SavingsPlan";
 import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
+import Transaction from "./transaction/Transaction";
 
 
 export {
@@ -102,4 +103,5 @@ export {
     SavingsPlan,
     InterestRate,
     Fees,
+    Transaction
 }

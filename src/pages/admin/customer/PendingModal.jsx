@@ -67,9 +67,10 @@ export default function ActionButton({ del, customerId }) {
                     toast.success("Successfully activated customer!");
                 },0);
                 }
+                setActiveBtn(false);
         } catch (error) {
-            console.log(error);
             setActiveBtn(false);
+            console.log(error);
         }
   
       }
@@ -89,8 +90,8 @@ export default function ActionButton({ del, customerId }) {
                 }
       
         } catch (error) {
-            console.log(error);
             setDeactiveBtn(false)
+            console.log(error);
         }
       }
 
@@ -108,8 +109,8 @@ export default function ActionButton({ del, customerId }) {
                     }
           
             } catch (error) {
-                console.log(error)
                 setDelBtn(false)
+                console.log(error)
             }
       }
 
