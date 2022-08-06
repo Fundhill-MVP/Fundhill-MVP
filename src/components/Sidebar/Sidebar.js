@@ -106,7 +106,7 @@ const structure = [
       { label: "Add Borrower", links: "/admin/dashboard/loan/add_borrower" },
       { label: "Pending Loan", links: "/admin/dashboard/loan/pending_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/loan/disburse_loan" },
-      { label: "Ongoing Loan", links: "/admin/dashboard/loan/ongoing_loan" },
+      { label: "Ongoing Loan", links: "/admin/dashboard/ongoin_loan" },
       { label: "Invoice", links: "/admin/dashboard/loan/invoice" },
     ],
   },
