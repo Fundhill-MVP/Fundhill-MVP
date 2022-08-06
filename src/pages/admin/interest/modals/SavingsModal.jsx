@@ -50,18 +50,7 @@ const MenuProps = {
         },
     },
 };
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
+
 
 const frequency = {
     "DAILY": "DAILY",
@@ -235,6 +224,7 @@ const SavingsModal = ({ fund, widthdraw,customerId }) => {
             console.log(res.data.results)
             if(api.isSuccessful(res)){
               //   console.log(res)
+              handleLocks();
               setCustomers(res.data.results)
             }
       
@@ -278,8 +268,9 @@ const fundCustomer = async(values) => {
 
         if(api.isSuccessful(response)){
             setTimeout( () => {
-            handleUnlocks()
-            toast.success("Transaction successful!");
+                console.log(response.data.transaction)
+                handleLocks()
+                toast.success("Transaction successful!");
             // navigate("/dashboard/loan-product",{replace: true});
             },0);
         }
@@ -301,7 +292,8 @@ const withdrawCustomer = async(values) => {
 
   if(api.isSuccessful(response)){
     setTimeout( () => {
-        handleUnlocks()
+        console.log(response.data.transaction)
+        handleLocks()
       toast.success("Transaction successful!");
       // navigate("/dashboard/loan-product",{replace: true});
     },0);
@@ -505,11 +497,10 @@ const withdrawCustomerFormState = () => ({
                                         <TextField
                                             select={true}
                                             label="Select One"
-                                            // size='small'
                                             name="interest_rate"
                                             fullWidth
+                                            variant='outlined'
                                         >
-                                        <MenuItem>Select One</MenuItem>
                                         {
                                          interests.map((interest) => {
                                             return(
@@ -526,8 +517,9 @@ const withdrawCustomerFormState = () => ({
                                             select={true}
                                             fullWidth
                                             name="fee"
+                                            variant='outlined'
+                                            label="Select One"
                                         >
-                                            <MenuItem>Select One</MenuItem>
                                             {
                                             fees.map((fee) => {
                                                 return(
@@ -590,6 +582,7 @@ const withdrawCustomerFormState = () => ({
                                                 fullWidth
                                                 name="plan_id"
                                                 variant='outlined'
+                                                label="Select One"
 
                                             >
                                             {
@@ -656,6 +649,7 @@ const withdrawCustomerFormState = () => ({
                                             fullWidth
                                             name="plan_id"
                                             variant='outlined'
+                                            label = "Select One"
 
                                         >
                                              <MenuItem>Select One</MenuItem>

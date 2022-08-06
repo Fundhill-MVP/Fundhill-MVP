@@ -5,8 +5,7 @@ import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@material-ui/styles';
-import { Link } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form} from "formik";
 import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
 
@@ -106,49 +105,6 @@ const AllCustomersModal = ({ edit,customerId }) => {
         allCustomer();
       },[])
 
-      const savingsFormState = (id) => ({
-        user: id,
-        frequency: "",
-        amount_per_cycle: null,
-        duration_in_months: null,
-        amount: null,
-        plan_type: ""
-      });
-    
-    
-      const savingsValidationSchema = yupObject().shape({
-        user: yupNumber()
-        .required("User is required"),
-        frequency: yupString()
-        .required("frequency is required"),
-        amount_per_cycle: yupNumber()
-        .required("Amount cycle is required"),
-        duration_in_months: yupNumber()
-        .required("Duration is required"),
-        amount: yupNumber()
-        .required("Amount is required"),
-        plan_type: yupString()
-        .required("Select a savings plan."),
-      });
-
-
-      const savings = async(values) => {
-        setLoading(true);
-        console.log(values)
-
-        const response = await api
-            .service()
-            .push("/dashboard/savings-plan/add/",values,true)
-
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            toast.success("Savings Plan successfully added!");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
-        }
-        setLoading(false);
-    }
-
     useEffect(() => {
         setIsLoading(true)
     
@@ -167,18 +123,6 @@ const AllCustomersModal = ({ edit,customerId }) => {
         allMarketer();
       },[])
 
-
-    //   const initialFormState = (email) => ({
-    //     first_name: "",
-    //     middle_name: "",
-    //     last_name: "",
-    //     email: `${email}`,
-    //     residential_address: "",
-    //     business_address: "",
-    //     phone: "",   
-    //     agent_id: null,
-    //   });
-    
       const validationSchema = yupObject().shape({
         title: yupString()
         .required("The title is required"),
@@ -235,9 +179,6 @@ const AllCustomersModal = ({ edit,customerId }) => {
             }
   
       }
-
-
-
 
       const [user,setUser] = useState("");
       const getCustomer = (id)  => {
