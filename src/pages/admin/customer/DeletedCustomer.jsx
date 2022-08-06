@@ -1,5 +1,5 @@
 import {Fragment,useEffect,useContext,useState} from 'react'
-import { Link } from "react-router-dom";
+import { Button } from '@mui/material';
 // import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
 import {object as yupObject,string as yupString,number as yupNumber} from "yup";
@@ -19,7 +19,7 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
-import ActionButton from './ActionButton';
+import ActionButton from './PendingModal';
 
 // CONTEXT
 const override = css`
@@ -40,7 +40,7 @@ function DeletedCustomer() {
         setIsLoading(true)
 
         const allCustomer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING",true);
+          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=DISABLED",true);
           console.log(res.data)
           if(api.isSuccessful(res)){
             setData(res.data.results)
@@ -138,6 +138,7 @@ function DeletedCustomer() {
                 <Table className="mb-0">
                   <TableHead>
                     <TableRow>
+                      <TableCell>ID</TableCell>
                       <TableCell >Full Name </TableCell>
                       <TableCell >Account Number </TableCell>
                       <TableCell >Telephone </TableCell>
@@ -153,12 +154,19 @@ function DeletedCustomer() {
                       <TableRow key={customer?.id}>
                         <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
                         <TableCell>{customer?.first_name} {customer?.last_name} </TableCell>
-                        <TableCell>{customer?.account_number}</TableCell>
+                        <TableCell>{customer?.bank_account_number}</TableCell>
                         <TableCell>{customer?.phone}</TableCell>
                         <TableCell>{customer?.email}</TableCell>
                         <TableCell>{customer?.agent.first_name} </TableCell>
                         <TableCell>
-                          <ActionButton />
+                          <Button
+                            variant='contained'
+                            style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
+                            {customer?.status}
+                          </Button>
+                          </TableCell>
+                        <TableCell>
+                          <ActionButton customerId={customer?.id} />
                         </TableCell>
                       </TableRow>
                     ))

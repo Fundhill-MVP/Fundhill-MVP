@@ -1,45 +1,25 @@
-import { Divider, Grid, MenuItem } from "@material-ui/core";
-import {  useTheme } from "@material-ui/styles";
-import { css } from "@emotion/react";
+import { Grid } from "@material-ui/core";
 import useStyles from './styles'
-import { styled, alpha } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
 import {
     Table,
     TableRow,
     TableHead,
     TableBody,
     TableCell,
-    Chip
+    // Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import React,{ Fragment, useState,useEffect } from "react";
+import { Fragment,useEffect,useState } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
+import ActionButton from "./ActionButton";
 import { api } from '../../../services';
 import {BounceLoader} from "react-spinners";
-
-import ActionButton from './ActionButton';
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import { css } from "@emotion/react";
 
 
-// const useStyles = makeStyles(theme => ({
-//     tableOverflow: {
-//         overflow: 'auto'
-//     }
-// }))
+
 const override = css`
 display: block;
 margin: 0 auto;
@@ -47,98 +27,18 @@ border-color: green;
 align-items: center;
 `;
 
-const StyledMenu = styled((props) => (
-    <Menu
-        elevation={0}
-        anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-        }}
-        transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-        }}
-        {...props}
-    />
-))(({ theme }) => ({
-    '& .MuiPaper-root': {
-        borderRadius: 6,
-        marginTop: theme.spacing(1),
-        minWidth: 180,
-        color:
-            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
-        boxShadow:
-            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-        '& .MuiMenu-list': {
-            padding: '4px 0',
-        },
-        '& .MuiMenuItem-root': {
-            '& .MuiSvgIcon-root': {
-                fontSize: 18,
-                color: theme.palette.text.secondary,
-                marginRight: theme.spacing(1.5),
-            },
-            '&:active': {
-                backgroundColor: alpha(
-                    theme.palette.primary.main,
-                    theme.palette.action.selectedOpacity,
-                ),
-            },
-        },
-    },
-}));
-
-
-// table
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData(1, '2022-05-2', 15000, 'Cash', 'For Loan'),
-    // createData('Ice cream sandwich', 237, 9.0, 37,),
-
-];
-
-// select input
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight:
-            personName.indexOf(name) === -1
-                ? theme.typography.fontWeightRegular
-                : theme.typography.fontWeightMedium,
-    };
-}
-const Allcustomer = () => {
-
+function Transaction() {
     const classes = useStyles();
-    const [isLoading,setIsLoading] = useState(false);
+
+
     const [data,setData] = useState([]);
+    const [delBtn,setDelBtn] = useState(false)
+    const [btnLoading,setBtnLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [Loading, setLoading] = useState(false)
+    let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
+    const [marketers,setMarketers] = useState([]);
 
     useEffect(() => {
         setIsLoading(true)
@@ -156,16 +56,10 @@ const Allcustomer = () => {
         allCustomer();
       },[])
 
-
-
-
-
-   
-
-    return (
-        <Fragment>
-            <PageTitle title="All Customers" />
-            <Grid container spacing={4}>
+    return (   
+    <Fragment>
+    <PageTitle title="All Customers" />
+                <Grid container spacing={4}>
                 {
                     isLoading ? 
                         (      <div className="sweet-loading">
@@ -174,7 +68,7 @@ const Allcustomer = () => {
                 ):
                 (
                     <Grid item xs={12}>
-                    <Widget title="Maketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                    <Widget title="Perform Transaction For Customer" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                         <Table className="mb-0">
                             <TableHead>
                                 <TableRow>
@@ -217,8 +111,7 @@ const Allcustomer = () => {
 
 
         </Fragment>
-
     )
 }
 
-export default Allcustomer
+export default Transaction

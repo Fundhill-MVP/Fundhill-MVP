@@ -49,6 +49,7 @@ import SavingsPlan from "./interest/SavingsPlan";
 import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
+import Transaction from "./transaction/Transaction";
 
 export {
     Login,
@@ -102,4 +103,5 @@ export {
     SavingsPlan,
     InterestRate,
     Fees,
+    Transaction
 }

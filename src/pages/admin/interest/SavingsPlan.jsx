@@ -19,23 +19,23 @@ import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
 
 
-// CONTEXT
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
 
+const override = css`
+display: block;
+margin: 0 auto;
+border-color: green;
+align-items: center;
+`;
 const SavingsPlan = () => {
     const classes = useStyles();
-
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ADD8E6");
     const [data, setData] = useState([]);
-
-    // <div className={classes.sweet_loading}>
-
+    const [delBtn, setDelBtn] = useState(false)
+    const [btnLoading, setBtnLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
+    const [Loading, setLoading] = useState(false)
+    let [loading, setloading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const [marketers, setMarketers] = useState([]);
     useEffect(() => {
         setIsLoading(true)
 
@@ -58,13 +58,13 @@ const SavingsPlan = () => {
             <Grid container spacing={4}>
                 {
                     isLoading ?
-                        (<div className="sweet-loading">
+                        (<div className={classes.sweet_loading}>
                             <BounceLoader color={color} l css={override} size={150} />
                         </div>
                         ) :
                         (
                             <Grid item xs={12}>
-                                <Widget title="Maketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                                <Widget title="Add A Customer Plan" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                                     <Table className="mb-0">
                                         <TableHead>
                                             <TableRow>
@@ -84,7 +84,7 @@ const SavingsPlan = () => {
                                                 <TableRow key={customer.id} >
                                                     <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
                                                     <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
-                                                    <TableCell> {customer.wallet.id} </TableCell>
+                                                    <TableCell> {customer.bank_account_number} </TableCell>
                                                     <TableCell> {customer.phone} </TableCell>
                                                     <TableCell> {customer.email}	</TableCell>
                                                     <TableCell>	{customer.agent.first_name} </TableCell>

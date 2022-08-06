@@ -64,10 +64,10 @@ const structure = [
     ],
   },
   {
-    id: 4, label: "Interest Rate", links: "#", icon: <SavingsOutlinedIcon />,
+    id: 4, label: "Savings Plan", links: "#", icon: <SavingsOutlinedIcon />,
     children: [
       { label: "Interest Rate", links: "/admin/dashboard/customer/interest_rate" },
-      { label: "Savings Plan", links: "/admin/dashboard/customer/savings_plan" },
+      { label: "Add Plan", links: "/admin/dashboard/customer/savings_plan" },
       { label: "Fees", links: "/admin/dashboard/customer/fees" },
 
     ],
@@ -83,7 +83,8 @@ const structure = [
   {
     id: 6, label: "Transaction", links: "#", icon: <ReceiptLongOutlinedIcon />,
     children: [
-      { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
+      { label: "Deposit And WithDrawal", links: "/admin/dashboard/customer/tranx" },
+      // { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
       { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
       { label: "Statement of Account", links: "/admin/dashboard/transaction/statement_of_account" },
       { label: "Account History", links: "/admin/dashboard/transaction/acount_history" },
