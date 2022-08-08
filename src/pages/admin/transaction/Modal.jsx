@@ -334,7 +334,7 @@ const withdrawCustomerFormState = () => ({
                                             {
                                             plan(customerId).map((customer) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
                                             })
                                             }
@@ -402,7 +402,7 @@ const withdrawCustomerFormState = () => ({
                                              {
                                              plan(customerId).map((customer) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
                                              })
                                              }
