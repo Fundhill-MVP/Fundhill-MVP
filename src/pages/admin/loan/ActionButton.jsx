@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import OptionModal from './Modal';
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+import OptionModal from './PendingModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -36,7 +33,7 @@ const StyledMenu = styled((props) => (
         '& .MuiMenuItem-root': {
             '& .MuiSvgIcon-root': {
                 fontSize: 18,
-                color: 'theme.palette.text.secondary',
+                color: theme.palette.text.secondary,
                 marginRight: theme.spacing(1.5),
             },
             '&:active': {
@@ -49,8 +46,10 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+
+export default function ActionButton({loanId}) {
+    const [anchorEl, setAnchorEl] = useState(null);
+    // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -59,20 +58,24 @@ export default function ActionButton() {
         setAnchorEl(null);
     };
 
+
+
+
+
     return (
         <div>
             <Button
-                style={{ color: 'black', fontSize: 12 }}
                 id="demo-customized-button"
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="text"
+                variant="contained"
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
             >
-                Options
+                Action
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -83,17 +86,15 @@ export default function ActionButton() {
                 open={open}
                 onClose={handleClose}
             >
+
                 <MenuItem disableRipple>
-                    <EditIcon />
-                    <OptionModal />
+                    <OptionModal loanId={loanId} />
                 </MenuItem>
-
-
                 <MenuItem disableRipple>
-                    <DeleteIcon />
-                    <OptionModal del />
+                    <OptionModal loanId={loanId} del />
                 </MenuItem>
             </StyledMenu>
         </div>
-    );
+    )
+
 }

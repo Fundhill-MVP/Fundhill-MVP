@@ -142,7 +142,7 @@ function NewProduct() {
                           <TableCell>{product?.interest}</TableCell>
                           <TableCell>{product?.mgt_charges}</TableCell>
                           <TableCell>
-                            <ActionButton />
+                            <ActionButton productId={product?.id} />
                           </TableCell>
                         </TableRow>
                       ))}
