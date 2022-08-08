@@ -41,7 +41,7 @@ const style = {
     p: 4,
 };
 
-export default function OptionModal({ del,setExpenseId }) {
+export default function OptionModal({ del,productId }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -59,43 +59,42 @@ export default function OptionModal({ del,setExpenseId }) {
 
 
 
-    useEffect(  () => {
-        setIsLoading(true)
-
-            const allExpenses = async() => {
-             try {
-                    const expenses = await api
-                    .service()
-                    .fetch("/dashboard/expense/",true);
-                    console.log(expenses.data.results)
-                    
-                if((api.isSuccessful(expenses))){
-                    setData(expenses.data.results);
-                    setIsLoading(false)
-                }else{
-                    setIsLoading(true)
-                }
-             } catch (error) {
-                console.log(error.message)
-             }
+    useEffect(() => {
+        try {
+          setIsLoading(true)
     
+          const allProduct = async () => {
+            const products = await api
+              .service()
+              .fetch("/dashboard/loan-product", true);
+            console.log(products.data.results)
+    
+            if ((api.isSuccessful(products))) {
+              setData(products.data.results);
+              setIsLoading(false)
+            } else {
+              setIsLoading(true)
             }
+          }
+          allProduct();
+        } catch (error) {
+          console.log(error)
+        }
+    
+      }, [])
 
-            allExpenses();
-    }, [])
 
-
-    const getExpenses = (id) => {
-        const expense = data.filter((item) => item.id === id);
+    const getProducts = (id) => {
+        const product = data.filter((item) => item.id === id);
         // console.log(fee);
-        setItem(expense[0]);
+        setItem(product[0]);
         console.log(item);
       }
     
       const handleProps = () => {
-        // console.log(setExpenseId);
-        getExpenses(setExpenseId);
-        // setItem(getFees(setExpenseId));
+        // console.log(productId);
+        getProducts(productId);
+        // setItem(getProducts(productId));
         return setOpen(true);
       }
     
@@ -114,43 +113,47 @@ export default function OptionModal({ del,setExpenseId }) {
       });
 
 
-    const editExpense = async(values,id) => {
+    const editProduct = async(values,id) => {
         setBtnLoading(true);
 
         try {
             console.log(values)
-
             const response = await api
                   .service()
-                  .update(`/dashboard/expense/${id}/`,values,true)
+                  .update(`/dashboard/loan-product/${id}/`,values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
-                toast.success("Expense created successfully!");
-                // navigate("/admin/dashboard/customer/expense/",{replace: true});
+                handleClose()
+                toast.success("Loan product successfully updated!");
+                navigate("/admin/dashboard/loan/new_product/",{replace: true});
               },0);
             }
             setBtnLoading(false);
         } catch (error) {
             console.log(error.message)
+            setBtnLoading(false);
+
         }
    
   }
 
-  const deleteExpense = async (id) => {
+  const deleteProduct = async (id) => {
     try {
         setDelBtn(true);
-        const res = await api.service().remove(`/dashboard/expense/${id}/`, true);
+        const res = await api.service().remove(`/dashboard/loan-product/${id}/`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
             handleClose()
-            toast.success("Successfully deleted expense!");
+            toast.success("Successfully deleted Loan!");
+    
             setDelBtn(false)
           }, 0);
         }
     } catch (error) {
         console.log(error);
+        setDelBtn(false)
     }
 
   }
@@ -174,7 +177,7 @@ export default function OptionModal({ del,setExpenseId }) {
                         {del ? (
                             <>
                                 <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                                    Confirm delete of Expense
+                                    Confirm delete of Loan Product
                                 </Typography>
 
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -185,7 +188,7 @@ export default function OptionModal({ del,setExpenseId }) {
                                 <Divider />
 
                                 <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2 }} gutterBottom>
-                                    Are you sure you want to delete this Expense?
+                                    Are you sure you want to delete this Loan Product?
                                 </Typography>
 
                                 <Divider />
@@ -196,7 +199,7 @@ export default function OptionModal({ del,setExpenseId }) {
                                         )
                                         :
                                         (
-                                            <Button onClick={() => deleteExpense(item.id)} style={{ background: 'red', color: 'white', marginLeft: 5 }}>yes</Button>
+                                            <Button onClick={() => deleteProduct(item.id)} style={{ background: 'red', color: 'white', marginLeft: 5 }}>yes</Button>
                                         )
                                         }
 
@@ -208,7 +211,7 @@ export default function OptionModal({ del,setExpenseId }) {
                                 <>
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                                        Expense
+                                        Loan Product
                                     </Typography>
 
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -219,15 +222,16 @@ export default function OptionModal({ del,setExpenseId }) {
                                     <Divider />
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }}>
-                                        Edit Expense
+                                        Edit Loan Product
                                     </Typography>
                                     <Formik
                                         initialValues={{
                                             name: item?.name,
-                                            percentage: item?.percentage
+                                            interest: item?.interest,
+                                            mgt_charges: item?.mgt_charges
                                         }}
                                         onSubmit={async(values) => {
-                                        await editExpense(values,item.id)
+                                        await editProduct(values,item.id)
                                     }}
                                     >          
                                         <Form style={{ display: 'flex', flexDirection: 'column' }}>
@@ -238,8 +242,14 @@ export default function OptionModal({ del,setExpenseId }) {
                                         </div>
 
                                         <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Percentage (%)</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="percentage" size='small' />
+                                            <div className={classes.divTypo}><Typography>Interest (%)</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="interest" size='small' />
+
+                                        </div>
+
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Management Charges (%)</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="mgt_charges" size='small' />
 
                                         </div>
 

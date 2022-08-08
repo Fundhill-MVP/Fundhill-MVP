@@ -144,7 +144,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     
         const allSavingsPlan = async() => {
                     try {
-                        const res = await api.service().fetch("/dashboard/savings-plan/",true);
+                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true",true);
                         console.log(res.data.results)
                         console.log("i got no result");
                         if(api.isSuccessful(res)){
@@ -334,7 +334,7 @@ const withdrawCustomerFormState = () => ({
                                             {
                                             plan(customerId).map((customer) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
                                             })
                                             }
@@ -402,7 +402,7 @@ const withdrawCustomerFormState = () => ({
                                              {
                                              plan(customerId).map((customer) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.plan_type} </MenuItem>
+                                                <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
                                              })
                                              }

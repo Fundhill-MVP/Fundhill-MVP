@@ -50,7 +50,7 @@ function AddBorrower() {
     setIsLoading(true)
 
     const allCustomer = async () => {
-      const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER", true);
+      const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
       console.log(res.data)
       if (api.isSuccessful(res)) {
         setCustomers(res.data.results)
@@ -184,6 +184,8 @@ function AddBorrower() {
                       <TableRow>
                         <TableCell >ID</TableCell>
                         <TableCell >Full Name</TableCell>
+                        <TableCell>Account Number</TableCell>
+                        <TableCell>Wallet Balance</TableCell>
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell >Group Loan</TableCell>
@@ -199,6 +201,21 @@ function AddBorrower() {
                         <TableCell><CheckBox /></TableCell>
                         <TableCell><OptionModal /></TableCell>
                       </TableRow>
+                      {customers.map((customer) => (
+                                    <TableRow key={customer.id} >
+                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
+                                    <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
+                                    <TableCell> {customer.bank_account_number} </TableCell>
+                                    <TableCell> {customer.wallet.balance} </TableCell>
+                                    <TableCell> {customer.phone} </TableCell>
+                                    <TableCell> {customer.email}	</TableCell>
+                                    <TableCell><CheckBox /></TableCell>
+                                    {/* <TableCell>	{customer.agent.first_name} </TableCell> */}
+                                    <TableCell>
+                                        <OptionModal customerId={customer?.id} />
+                                    </TableCell>
+                                    </TableRow>
+                                  ))}
                     </TableBody>
                   </Table>
                 </Widget>

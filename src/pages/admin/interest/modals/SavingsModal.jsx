@@ -133,6 +133,7 @@ const SavingsModal = ({ activate, deactivate,customerId }) => {
 
       const savingsFormState = (id) => ({
         user: id,
+        name: "",
         frequency: "",
         amount_per_cycle: 0,
         duration_in_months: 0,
@@ -147,6 +148,8 @@ const SavingsModal = ({ activate, deactivate,customerId }) => {
       const savingsValidationSchema = yupObject().shape({
         user: yupNumber()
         .required("User is required"),
+        name: yupString()
+        .required("name is required"),
         frequency: yupString()
         .required("frequency is required"),
         amount_per_cycle: yupNumber()
@@ -427,6 +430,11 @@ const deactivatePlan = async(value) => {
                                 }}
                             >
                                 <Form style={{ display: 'flex', flexDirection: 'column' }} >
+                                <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+
+                                    </div>
                                 <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Frequency</Typography></div>
                                         <Select

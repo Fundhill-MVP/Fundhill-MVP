@@ -174,13 +174,14 @@ const Allcustomer = () => {
                 ):
                 (
                     <Grid item xs={12}>
-                    <Widget title="Maketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                    <Widget title="All Active Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                         <Table className="mb-0">
                             <TableHead>
                                 <TableRow>
                                     <TableCell >ID</TableCell>
                                     <TableCell >Full Name</TableCell>
                                     <TableCell >Account Number</TableCell>
+                                    <TableCell>Wallet Balance</TableCell>
                                     <TableCell>Telephone</TableCell>
                                     <TableCell>Email</TableCell>
                                     <TableCell>Marketer</TableCell>
@@ -195,6 +196,7 @@ const Allcustomer = () => {
                                     <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
                                     <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
                                     <TableCell> {customer.bank_account_number} </TableCell>
+                                    <TableCell> {customer.wallet.balance} </TableCell>
                                     <TableCell> {customer.phone} </TableCell>
                                     <TableCell> {customer.email}	</TableCell>
                                     <TableCell>	{customer.agent.first_name} </TableCell>
