@@ -104,7 +104,7 @@ function AllExpenses() {
                           <TableCell>{expense?.amount}</TableCell>
                           <TableCell>{expense?.description}</TableCell>
                           <TableCell>
-                          <ActionButton setCurrentId={expense?.id}  />
+                          <ActionButton setExpenseId={expense?.id}  />
                           </TableCell>
                         </TableRow>
                       ))}
