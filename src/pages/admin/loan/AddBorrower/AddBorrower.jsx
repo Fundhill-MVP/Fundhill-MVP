@@ -185,6 +185,7 @@ function AddBorrower() {
                         <TableCell >ID</TableCell>
                         <TableCell >Full Name</TableCell>
                         <TableCell>Account Number</TableCell>
+                        <TableCell>Wallet Balance</TableCell>
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell >Group Loan</TableCell>
@@ -205,6 +206,7 @@ function AddBorrower() {
                                     <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
                                     <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
                                     <TableCell> {customer.bank_account_number} </TableCell>
+                                    <TableCell> {customer.wallet.balance} </TableCell>
                                     <TableCell> {customer.phone} </TableCell>
                                     <TableCell> {customer.email}	</TableCell>
                                     <TableCell><CheckBox /></TableCell>
