@@ -10,13 +10,13 @@ import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Divider, IconButton } from '@mui/material';
-import useStyles from '../styles';
+import useStyles from './styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import { api  } from "../../../../services";
-import {TextField} from "../../../../components/FormsUI"
+import { api  } from "../../../services";
+import {TextField} from "../../../components/FormsUI"
 
 
 
