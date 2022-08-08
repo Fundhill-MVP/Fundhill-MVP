@@ -19,6 +19,8 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
+import { Button } from '@mui/material';
+
 import ActionButton from './ActionButton';
 
 
@@ -106,8 +108,9 @@ function PendingLoan() {
                         <TableCell >Full Names </TableCell>
                         <TableCell > Amount + Interest </TableCell>
                         <TableCell > Account Number </TableCell>
+                        <TableCell> Loan Product </TableCell>
                         <TableCell> Payback Date </TableCell>
-                        <TableCell> Date </TableCell>
+                        <TableCell>  Day created </TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 
@@ -119,13 +122,19 @@ function PendingLoan() {
                           <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
                           <TableCell>{customer?.borrower?.first_name} {customer?.borrower?.last_name} </TableCell>
                           <TableCell>{customer?.amount_to_repay}</TableCell>
-                          <TableCell>{customer?.account_number}</TableCell>
+                          <TableCell>{customer?.bank_account_number}</TableCell>
                           <TableCell>{customer?.loan_product.name}</TableCell>
                           <TableCell>{customer?.final_due_date}</TableCell>
                           <TableCell>{customer?.date_created} </TableCell>
-                          <TableCell>{customer?.status}</TableCell>
                           <TableCell>
-                            <ActionButton />
+                          <Button
+                            variant='contained'
+                            style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
+                            {customer?.status}
+                          </Button>
+                        </TableCell>
+                          <TableCell>
+                            <ActionButton loanId={customer.id} />
                           </TableCell>
                         </TableRow>
                       ))}
