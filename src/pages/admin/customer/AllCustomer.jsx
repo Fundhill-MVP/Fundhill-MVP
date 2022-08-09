@@ -141,19 +141,25 @@ const Allcustomer = () => {
     let [color, setColor] = useState("#ADD8E6");
 
     useEffect(() => {
-        setIsLoading(true)
+        try {
+            setIsLoading(true)
 
-        const allCustomer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-          console.log(res.data)
-          if(api.isSuccessful(res)){
-            setData(res.data.results)
-          }
-        setIsLoading(false);
-    
+            const allCustomer = async() => {
+              const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
+              console.log(res.data)
+              if(api.isSuccessful(res)){
+                setData(res.data.results)
+              }
+        
+            }
+            setIsLoading(false);
+
+            allCustomer();
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+
         }
-
-        allCustomer();
       },[])
 
 
@@ -168,9 +174,10 @@ const Allcustomer = () => {
             <Grid container spacing={4}>
                 {
                     isLoading ? 
-                        (      <div className="sweet-loading">
-                    <BounceLoader color={color} l css={override} size={150} />
-                </div>
+                        (    
+                     <div className="sweet-loading">
+                        <BounceLoader color={color} l css={override} size={150} />
+                    </div>
                 ):
                 (
                     <Grid item xs={12}>
