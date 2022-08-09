@@ -107,8 +107,13 @@ const structure = [
       { label: "Pending Loan", links: "/admin/dashboard/loan/pending_loan" },
       { label: "Approved Loan", links: "/admin/dashboard/loan/approved_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/loan/disburse_loan" },
+
+      { label: "Ongoing Loan", links: "/admin/dashboard/ongoin_loan" },
+      { label: "Group Loan", links: "/admin/dashboard/loan/group_loan" },
+
       { label: "Ongoing Loan", links: "/admin/dashboard/loan/ongoing_loan" },
       { label: "Denied Loan", links: "/admin/dashboard/loan/denied_loan" },
+
       { label: "Invoice", links: "/admin/dashboard/loan/invoice" },
     ],
   },
