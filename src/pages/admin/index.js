@@ -41,7 +41,12 @@ import ApprovedLoan from "./loan/ApprovedLoan/ApprovedLoan";
 import DeniedLoan from "./loan/DeniedLoan/DeniedLoan";
 import OngoingLoan from "./loan/OngoingLoan/OngoingLoan"
 // import InvoiceLoan from "./loan/InvoiceLoan";
+<<<<<<< HEAD
+import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
+import GroupLoan from "./loan/GroupLoan/GroupLoan";
+=======
 // import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
+>>>>>>> 1ff194b82ff8ea667e83776b7d3025f721ab4c4c
 // import Dashboard from "./dashboard/Dashboard"
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
@@ -53,7 +58,6 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
-
 export {
     Login,
     ConfirmEmail,
@@ -99,6 +103,7 @@ export {
     DeniedLoan,
     Invoice,
     OngoingLoan,
+    GroupLoan,
     // Dashboard,
     AllExpenses,
     NewExpense,
