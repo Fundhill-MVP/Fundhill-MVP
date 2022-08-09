@@ -6,7 +6,6 @@ import TotalWithdrawal from "../../pages/dashboard/TotalWithdrawal";
 import NewProduct from "../../pages/dashboard/NewProduct";
 import FixedSavingsRep from "../../pages/dashboard/FixedSavingsRep";
 import AllBranch from "../../pages/dashboard/AllBranch/AllBranch";
-import OngoingLoans from "../../pages/dashboard/OngoingLoans/OngoingLoans";
 import Allmarketers from "../../pages/dashboard/Allmarketers/Allmarketers";
 import Allcustomers from "../../pages/dashboard/Allcustomers/Allcustomers";
 
@@ -18,7 +17,6 @@ function DashboardRoute() {
             {/* Dashboard */}
             <Route path="dashboard/total_deposite" element={<TotalDeposite />} />
             <Route path="dashboard/total_withdrawals" element={<TotalWithdrawal />} />
-            <Route path="dashboard/ongoin_loan" element={<OngoingLoans />} />
             <Route path="dashboard/all_marketers" element={<Allmarketers />} />
             <Route path="dashboard/all_customers" element={<Allcustomers />} />
             <Route path="dashboard/new_product" element={<NewProduct />} />
