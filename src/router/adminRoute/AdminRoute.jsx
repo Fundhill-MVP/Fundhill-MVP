@@ -59,6 +59,7 @@ import {
   InterestRate,
   Fees,
   Transaction,
+  GroupLoan,
 } from "../../pages/admin"
 
 // context
@@ -143,6 +144,7 @@ function AdminRoute() {
       <Route path="dashboard/loan/disburse_loan" element={<DisbursedLoan />} />
       <Route path="dashboard/loan/invoice" element={<Invoice />} />
       <Route path="dashboard/loan/ongoing_loan" element={<OngoingLoan />} />
+      <Route path="dashboard/loan/group_loan" element={<GroupLoan />} />
 
       {/* Expenses Management */}
       <Route path="dashboard/expense/new_expenses" element={<NewExpense />} />

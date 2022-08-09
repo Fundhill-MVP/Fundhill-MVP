@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/styles";
-
+import { fundhill } from "../../../../images";
 export default makeStyles(theme => ({
   container: {
     height: "100%",
@@ -10,6 +10,9 @@ export default makeStyles(theme => ({
   },
   logotypeContainer: {
     backgroundColor: theme.palette.primary.main,
+    backgroundImage: `url(${fundhill})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
     width: "60%",
     height: "100vh",
     display: "flex",

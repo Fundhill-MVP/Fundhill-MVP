@@ -39,6 +39,7 @@ import DisbursedLoan from "./loan/DisbursedLoan/DisbursedLoan";
 import PendingLoan from "./loan/PendingLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
 import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
+import GroupLoan from "./loan/GroupLoan/GroupLoan";
 // import Dashboard from "./dashboard/Dashboard"
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
@@ -50,7 +51,6 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
-
 export {
     Login,
     ConfirmEmail,
@@ -94,6 +94,7 @@ export {
     PendingLoan,
     Invoice,
     OngoingLoan,
+    GroupLoan,
     // Dashboard,
     AllExpenses,
     NewExpense,
