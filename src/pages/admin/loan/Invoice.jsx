@@ -44,8 +44,8 @@ const Invoice = () => {
         setIsLoading(true)
   
         const allCustomer = async () => {
-        //  const res = await api.service().fetch(`/dashboard/loan/?is_disbursed=true&borrower=${id}`, true);
-         const res = await api.service().fetch(`/dashboard/loan/?is_disbursed=true`, true);
+         const res = await api.service().fetch(`/dashboard/loan/?is_disbursed=true&borrower=${id}`, true);
+        //  const res = await api.service().fetch(`/dashboard/loan/?is_disbursed=true`, true);
           console.log(res.data);
           if (api.isSuccessful(res)) {
             setData(res.data.results[0])
