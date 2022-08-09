@@ -1,15 +1,14 @@
 import { Fragment, useEffect, useContext, useState } from 'react'
 import { Link } from "react-router-dom";
-// import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
-import { api } from '../../../services';
+import { api } from '../../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
-import { Context } from "../../../context/Context";
-import PageTitle from "../../../components/PageTitle"
-import Widget from "../../../components/Widget/Widget";
+import { Context } from "../../../../context/Context";
+import PageTitle from "../../../../components/PageTitle"
+import Widget from "../../../../components/Widget/Widget";
 import useStyles from './styles';
 import {
   Table,
@@ -21,7 +20,7 @@ import {
 } from "@material-ui/core";
 import { Button } from '@mui/material';
 
-import ActionButton from './ActionButton';
+import ActionButton from './PendingButton';
 
 
 // CONTEXT
@@ -61,26 +60,7 @@ function PendingLoan() {
     }
   }, [])
 
-  const approve_loan = async (values) => {
-    try {
-      setLoader(true);
-      console.log(values)
 
-      const response = await api
-        .service()
-        .push("/dashboard/loan/action/", values, true)
-
-      if (api.isSuccessful(response)) {
-        setTimeout(() => {
-          toast.success("Successfully approved loan!");
-          // navigate("/admin/dashboard/add_borrower",{replace: true});
-        }, 0);
-      }
-      setLoader(false);
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 
   return (
@@ -122,7 +102,7 @@ function PendingLoan() {
                           <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
                           <TableCell>{customer?.borrower?.first_name} {customer?.borrower?.last_name} </TableCell>
                           <TableCell>{customer?.amount_to_repay}</TableCell>
-                          <TableCell>{customer?.bank_account_number}</TableCell>
+                          <TableCell>{customer?.borrower.bank_account_number}</TableCell>
                           <TableCell>{customer?.loan_product.name}</TableCell>
                           <TableCell>{customer?.final_due_date}</TableCell>
                           <TableCell>{customer?.date_created} </TableCell>
