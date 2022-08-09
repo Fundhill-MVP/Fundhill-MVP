@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import PageTitle from "../../../components/PageTitle";
 import useStyles from './styles';
 import PrintIcon from '@mui/icons-material/Print';
+import Reciept from '../reciept';
 const Invoice = () => {
     const classes = useStyles();
     const Print = () => {
@@ -96,7 +97,7 @@ const Invoice = () => {
                         <PrintIcon />
                     </Fab>
                 </Box>
-
+                {/* <Reciept /> */}
             </Paper>
         </Fragment>
     )
