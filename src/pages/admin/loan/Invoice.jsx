@@ -97,7 +97,7 @@ const Invoice = () => {
                         <PrintIcon />
                     </Fab>
                 </Box>
-
+                {/* <Reciept /> */}
             </Paper>
         </Fragment>
     )
