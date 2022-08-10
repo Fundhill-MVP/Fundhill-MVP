@@ -32,19 +32,19 @@ const structure = [
   {
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
-  {
-    id: 1,
-    label: "Accounting",
-    links: "#",
-    icon: <BookIcon />,
-    children: [
-      { label: "Deposit", links: "/admin/dashboard/account/all_deposit" },
-      { label: "Withdrawal", links: "/admin/dashboard/account/all_withdrawsavings" },
-      { label: "Regular Savings", links: "/admin/dashboard/account/all_regsavings" },
-      { label: "Targeted Savings", links: "/admin/dashboard/account/all_targsavings" },
-      { label: "Fixed Savings", links: "/admin/dashboard/account/all_deposit" },
-    ],
-  },
+  // {
+  //   id: 1,
+  //   label: "Accounting",
+  //   links: "#",
+  //   icon: <BookIcon />,
+  //   children: [
+  //     { label: "Deposit", links: "/admin/dashboard/account/all_deposit" },
+  //     { label: "Withdrawal", links: "/admin/dashboard/account/all_withdrawsavings" },
+  //     { label: "Regular Savings", links: "/admin/dashboard/account/all_regsavings" },
+  //     { label: "Targeted Savings", links: "/admin/dashboard/account/all_targsavings" },
+  //     { label: "Fixed Savings", links: "/admin/dashboard/account/all_deposit" },
+  //   ],
+  // },
   {
     id: 2, label: "Branch", links: "#", icon: <AccountTreeIcon />,
     children: [
@@ -77,7 +77,7 @@ const structure = [
     children: [
       { label: "New Marketer", links: "/admin/dashboard/marketer/new_marketer" },
       { label: "All Marketers", links: "/admin/dashboard/marketer/all_marketer" },
-      { label: "Marketer Account", links: "/admin/dashboard/marketer/marketer-account" },
+      // { label: "Marketer Account", links: "/admin/dashboard/marketer/marketer-account" },
     ],
   },
   {
@@ -85,20 +85,20 @@ const structure = [
     children: [
       { label: "Deposit And WithDrawal", links: "/admin/dashboard/customer/tranx" },
       // { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
-      { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
-      { label: "Statement of Account", links: "/admin/dashboard/transaction/statement_of_account" },
-      { label: "Account History", links: "/admin/dashboard/transaction/acount_history" },
+      // { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
+      // { label: "Statement of Account", links: "/admin/dashboard/transaction/statement_of_account" },
+      // { label: "Account History", links: "/admin/dashboard/transaction/acount_history" },
 
     ],
   },
-  {
-    id: 7, label: "Esusu Management", links: "#", icon: <PointOfSaleOutlinedIcon />,
-    children: [
-      { label: "Esusu Transaction", links: "/admin/dashboard/esusu/esusu_transaction" },
-      { label: "Esusu Performance", links: "/admin/dashboard/esusu/esusu_perform" },
+  // {
+  //   id: 7, label: "Esusu Management", links: "#", icon: <PointOfSaleOutlinedIcon />,
+  //   children: [
+  //     { label: "Esusu Transaction", links: "/admin/dashboard/esusu/esusu_transaction" },
+  //     { label: "Esusu Performance", links: "/admin/dashboard/esusu/esusu_perform" },
 
-    ],
-  },
+  //   ],
+  // },
   {
     id: 8, label: "Loan Management", links: "#", icon: <CreditScoreOutlinedIcon />,
     children: [
@@ -107,9 +107,6 @@ const structure = [
       { label: "Pending Loan", links: "/admin/dashboard/loan/pending_loan" },
       { label: "Approved Loan", links: "/admin/dashboard/loan/approved_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/loan/disburse_loan" },
-
-      { label: "Group Loan", links: "/admin/dashboard/loan/group_loan" },
-
       { label: "Ongoing Loan", links: "/admin/dashboard/loan/ongoing_loan" },
       { label: "Denied Loan", links: "/admin/dashboard/loan/denied_loan" },
 
@@ -128,55 +125,12 @@ const structure = [
     id: 10, label: "Group Managment", links: "#", icon: <PaymentsOutlinedIcon />,
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
-      { label: "All Expenses", links: "/admin/dashboard/expense/all_expenses" },
+      // { label: "Pending GroupLoans", links: "/admin/dashboard/expense/all_expenses" },
+      { label: "Disburse Group Loan", links: "/admin/dashboard/group/group_loan" },
 
     ],
   }
-  // {
-  //   id: 3,
-  //   label: "Traction",
-  //   links: "#",
-  //   icon: <PaymentOutlinedIcon />,
-  //   children: [
-  //     {
-  //       label: "Deposite/Withdrawal", links: "#"
-  //     },
-  //     { label: "Fixed Deposite", links: "#" },
-  //     { label: "Targeted Savings", links: "#" },
-  //     { label: "Regular Savings", links: "#" },
-  //     { label: "Statement of Account", links: "#" },
-  //     { label: "My Transaction History", links: "#" },
-  //   ],
-  // },
-  // {
-  //   id: 4,
-  //   label: "Report",
-  //   links: "#",
-  //   icon: <ReportOutlinedIcon />,
-  //   children: [
-  //     { label: "General Report", links: "#" },
-  //   ],
-  // },
-  // {
-  //   id: 5,
-  //   label: "Esusu Management",
-  //   links: "#",
-  //   icon: <AccountBalanceOutlinedIcon />,
-  //   children: [
-  //     { label: "Esusu Transaction", links: "#" },
-  //     { label: "Esusu Management", links: "#" },
-  //   ],
-  // },
-  // {
-  //   id: 6,
-  //   label: "Expences",
-  //   links: "#",
-  //   icon: <AccountBalanceWalletOutlinedIcon />,
-  //   children: [
-  //     { label: "New Expences", links: "#" },
-  //     { label: "All Expences", links: "#" },
-  //   ],
-  // },
+
 ];
 
 function Sidebar({ location }) {
