@@ -123,6 +123,15 @@ const structure = [
 
     ],
   },
+  ,
+  {
+    id: 10, label: "Group Managment", links: "#", icon: <PaymentsOutlinedIcon />,
+    children: [
+      { label: "New Groups", links: "/admin/dashboard/group/new_group" },
+      { label: "All Expenses", links: "/admin/dashboard/expense/all_expenses" },
+
+    ],
+  }
   // {
   //   id: 3,
   //   label: "Traction",
