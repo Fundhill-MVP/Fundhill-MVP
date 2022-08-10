@@ -9,12 +9,15 @@ import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@material-ui/styles';
+import { Hidden } from "@material-ui/core";
+
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../services";
 import {TextField,Select} from "../../../components/FormsUI";
+import Receipt from "./Receipt"
 
 
 const override = css`
@@ -115,6 +118,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     const [customers,setCustomers] = useState([]);
     const [user,setUser] = useState("");
     const [item,setItem] = useState("");
+    const [result,setResult] = useState("")
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -123,7 +127,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
         const allCustomer = async() => {
         try {
             const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-            console.log(res.data.results)
+            // console.log(res.data.results)
             if(api.isSuccessful(res)){
               setData(res.data.results)
             }
@@ -145,8 +149,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
         const allSavingsPlan = async() => {
                     try {
                         const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true",true);
-                        console.log(res.data.results)
-                        console.log("i got no result");
+                        // console.log(res.data.results)
                         if(api.isSuccessful(res)){
                           //   console.log(res)
                           setCustomers(res.data.results)
@@ -171,7 +174,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
       const  customerSavingsPlan = async(id) => {
         try {
             const res = await api.service().fetch(`/dashboard/savings-plan/?user=${id}`,true);
-            console.log(res.data.results)
+            // console.log(res.data.results)
             if(api.isSuccessful(res)){
               //   console.log(res)
               handleLocks();
@@ -198,9 +201,10 @@ const fundCustomer = async(values) => {
 
         if(api.isSuccessful(response)){
             setTimeout( () => {
-                console.log(response.data.transaction)
+                console.log(response.data.data.transaction);
+                setResult(response.data.data.transaction);
                 handleLocks()
-                toast.success("Transaction successful!");
+                toast.success("Transaction successful");
             // navigate("/dashboard/loan-product",{replace: true});
             },0);
         }
@@ -222,7 +226,8 @@ const withdrawCustomer = async(values) => {
 
   if(api.isSuccessful(response)){
     setTimeout( () => {
-        console.log(response.data.transaction)
+        console.log(response.data.data.transaction)
+        setResult(response.data.data.transaction);
         handleLocks()
       toast.success("Transaction successful!");
       // navigate("/dashboard/loan-product",{replace: true});
@@ -243,7 +248,7 @@ const withdrawCustomerFormState = () => ({
 
 
 
-      console.log(customers);
+    //   console.log(customers);
       const plan = (id)=> {
             return customers.filter(customer => customer.user.id === id)
       }
@@ -270,7 +275,15 @@ const withdrawCustomerFormState = () => ({
                 <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Widthdraw</Button>
             )}
 
-   
+                {result && (
+                    <Hidden>
+                    <Receipt {...result} />
+                </Hidden>
+                )}
+                <Hidden>
+                <Receipt {...result}  />
+                </Hidden>
+
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
