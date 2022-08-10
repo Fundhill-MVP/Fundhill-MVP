@@ -62,7 +62,6 @@ import {
   Fees,
   Transaction,
   GroupLoan,
-  NewGroup
 } from "../../pages/admin"
 
 // context
@@ -148,7 +147,6 @@ function AdminRoute() {
       <Route path="dashboard/loan/invoice/:id" element={<Invoice />} />
       <Route path="dashboard/loan/ongoing_loan" element={<OngoingLoan />} />
 
-      <Route path="dashboard/loan/group_loan" element={<GroupLoan />} />
 
       <Route path="dashboard/loan/approved_loan" element={<ApprovedLoan />} />
       <Route path="dashboard/loan/denied_loan" element={<DeniedLoan />} />
@@ -159,11 +157,9 @@ function AdminRoute() {
 
       {/* Profile Management */}
       {/* <Route path="dashboard/update_profile" element={<Profile />} /> */}
+      <Route path="dashboard/group/group_loan" element={<GroupLoan />} />
 
 
-      {/* Group Management */}
-      <Route path="dashboard/group/new_group" element={<NewGroup />} />
-      {/* <Route path="dashboard/expense/all_expenses" element={<AllExpenses />} /> */}
 
 
 

@@ -40,7 +40,7 @@ import PendingLoan from "./loan/PendingLoan/PendingLoan";
 import ApprovedLoan from "./loan/ApprovedLoan/ApprovedLoan";
 import DeniedLoan from "./loan/DeniedLoan/DeniedLoan";
 import OngoingLoan from "./loan/OngoingLoan/OngoingLoan";
-import GroupLoan from "./loan/GroupLoan/GroupLoan";
+import GroupLoan from "./Groups/GroupLoan/GroupLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
 // import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
 // import Dashboard from "./dashboard/Dashboard"
@@ -54,7 +54,6 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
-import NewGroup from "./Groups/GroupSavings/NewGroup";
 
 export {
     Login,
@@ -112,5 +111,4 @@ export {
     InterestRate,
     Fees,
     Transaction,
-    NewGroup,
 }

@@ -90,7 +90,7 @@ function AddBorrower() {
                         <TableCell>Wallet Balance</TableCell>
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
-                        <TableCell >Group Loan</TableCell>
+                        {/* <TableCell >Group Loan</TableCell> */}
                         <TableCell>Single Loan</TableCell>
                       </TableRow>
                     </TableHead>
@@ -103,7 +103,7 @@ function AddBorrower() {
                                     <TableCell> {customer.wallet.balance} </TableCell>
                                     <TableCell> {customer.phone} </TableCell>
                                     <TableCell> {customer.email}	</TableCell>
-                                    <TableCell><CheckBox /></TableCell>
+                                    {/* <TableCell><CheckBox /></TableCell> */}
                                     {/* <TableCell>	{customer.agent.first_name} </TableCell> */}
                                     <TableCell>
                                         <OptionModal customerId={customer?.id} />
