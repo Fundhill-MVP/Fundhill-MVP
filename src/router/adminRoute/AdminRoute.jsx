@@ -62,6 +62,7 @@ import {
   Fees,
   Transaction,
   GroupLoan,
+  NewGroup
 } from "../../pages/admin"
 
 // context
@@ -160,6 +161,9 @@ function AdminRoute() {
       {/* <Route path="dashboard/update_profile" element={<Profile />} /> */}
 
 
+      {/* Group Management */}
+      <Route path="dashboard/group/new_group" element={<NewGroup />} />
+      {/* <Route path="dashboard/expense/all_expenses" element={<AllExpenses />} /> */}
 
 
 

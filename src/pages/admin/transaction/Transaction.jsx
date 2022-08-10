@@ -63,8 +63,8 @@ function Transaction() {
                 {
                     isLoading ? 
                         (      <div className="sweet-loading">
-                    <BounceLoader color={color} l css={override} size={150} />
-                </div>
+                                    <BounceLoader color={color}  css={override} size={150} />
+                                </div>
                 ):
                 (
                     <Grid item xs={12}>
