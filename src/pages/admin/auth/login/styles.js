@@ -2,6 +2,9 @@ import { makeStyles } from "@material-ui/styles";
 import { fundhill } from "../../../../images";
 export default makeStyles(theme => ({
   container: {
+    [theme.breakpoints.down("md")]: {
+      height: '100vh'
+    },
     height: "100%",
     width: "100vw",
     display: "flex",
@@ -47,7 +50,11 @@ export default makeStyles(theme => ({
     alignItems: "center",
     marginBottom: 20,
     [theme.breakpoints.down("md")]: {
-      width: "50%",
+      width: "100%",
+      flex: 1,
+      backgroundImage: `url(${fundhill})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
     },
   },
   form: {
@@ -56,6 +63,9 @@ export default makeStyles(theme => ({
   tab: {
     fontWeight: 400,
     fontSize: 18,
+    [theme.breakpoints.down("md")]: {
+      color: 'white !important'
+    }
   },
   greeting: {
     fontWeight: 500,
@@ -66,6 +76,9 @@ export default makeStyles(theme => ({
     fontWeight: 500,
     textAlign: "center",
     marginTop: theme.spacing(2),
+    [theme.breakpoints.down("md")]: {
+      color: 'white'
+    }
   },
   googleButton: {
     marginTop: theme.spacing(6),
@@ -123,6 +136,9 @@ export default makeStyles(theme => ({
   },
   textField: {
     borderBottomColor: theme.palette.background.light,
+    [theme.breakpoints.down("md")]: {
+      background: 'white'
+    }
   },
   formButtons: {
     width: "100%",
@@ -132,6 +148,9 @@ export default makeStyles(theme => ({
     alignItems: "center",
   },
   forgetButton: {
+    [theme.breakpoints.down("md")]: {
+      color: 'white'
+    },
     textTransform: "none",
     fontWeight: 600,
     border: 'none',
