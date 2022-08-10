@@ -54,6 +54,8 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
+import NewGroup from "./Groups/GroupSavings/NewGroup";
+
 export {
     Login,
     ConfirmEmail,
@@ -109,5 +111,6 @@ export {
     SavingsPlan,
     InterestRate,
     Fees,
-    Transaction
+    Transaction,
+    NewGroup,
 }
