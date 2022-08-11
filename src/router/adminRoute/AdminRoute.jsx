@@ -54,7 +54,8 @@ import {
   Dashboard,
   AllExpenses,
   NewExpense,
-  // Profile,
+  Profile,
+  Settings,
   PendingCustomer,
   DeletedCustomer,
   SavingsPlan,
@@ -62,7 +63,11 @@ import {
   Fees,
   Transaction,
   GroupLoan,
-  NewGroup
+  NewGroup,
+  TotalDeposits,
+  TotalWithdrawals,
+  AllDeposits,
+  AllWithdrawals
 } from "../../pages/admin"
 
 // context
@@ -119,8 +124,9 @@ function AdminRoute() {
 
 
       {/* Accounting         */}
-      {/* <Route path="dashboard/all_deposit" element={<AllDeposit />} />
-        <Route path="dashboard/all_fixedsavings" element={<AllFixedSaving />} />
+      <Route path="dashboard/account/all_deposits" element={<AllDeposits />} />
+      <Route path="dashboard/account/all_withdrawals" element={<AllWithdrawals />} />
+        {/* <Route path="dashboard/all_fixedsavings" element={<AllFixedSaving />} />
         <Route path="dashboard/all_Loan" element={<AllLoan />} />
         <Route path="dashboard/all_regsavings" element={<AllRegularSaving />} />
         <Route path="dashboard/all_targsavings" element={<AllTargetedSaving />} />
@@ -147,8 +153,6 @@ function AdminRoute() {
       <Route path="dashboard/loan/disburse_loan" element={<DisbursedLoan />} />
       <Route path="dashboard/loan/invoice/:id" element={<Invoice />} />
       <Route path="dashboard/loan/ongoing_loan" element={<OngoingLoan />} />
-
-
       <Route path="dashboard/loan/approved_loan" element={<ApprovedLoan />} />
       <Route path="dashboard/loan/denied_loan" element={<DeniedLoan />} />
 
@@ -157,12 +161,24 @@ function AdminRoute() {
       <Route path="dashboard/expense/all_expenses" element={<AllExpenses />} />
 
       {/* Profile Management */}
-      {/* <Route path="dashboard/update_profile" element={<Profile />} /> */}
+      <Route path="dashboard/profile/update_profile" element={<Profile />} />
+      <Route path="dashboard/profile/settings" element={<Settings />} />
+
+        {/* Group Management */}
       {/* <Route path="dashboard/group/group_loan" element={<GroupLoan />} /> */}
       <Route path="dashboard/group/new_group" element={<NewGroup />} />
 
 
+      {/* Reports */}
+      <Route path="dashboard/tranxs/total_deposits" element={<TotalDeposits />} />
+      <Route path="dashboard/tranxs/total_withdrawals" element={<TotalWithdrawals />} />
 
+        {/* <Route path="dashboard/regular_savings_report" element={<RegularReport />} />
+        <Route path="dashboard/targeted_savings_report" element={<TargetedReport />} />
+        <Route path="dashboard/fixed_savings_report" element={<FixedReport />} />
+        <Route path="dashboard/withdrawal_report" element={<WithdrawalReport />} />
+        <Route path="dashboard/deposit_report" element={<DepositReport />} />
+        <Route path="dashboard/loan_report" element={<LoanReport />} /> */}
 
 
 

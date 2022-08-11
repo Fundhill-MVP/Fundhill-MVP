@@ -165,7 +165,7 @@ export default function Dashboard(props) {
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
                   <Typography className={classes.amount} size="xl" weight="bold" >
-                    <span>&# {data.desposits} ;</span>
+                    <span>#{data.deposits}</span>
                   </Typography>
                 </Grid>
               </Grid>
@@ -182,7 +182,7 @@ export default function Dashboard(props) {
                   +11%
                 </Typography>
                 <Button className={classes.btnSeeMore} onClick={() => {
-                  navigate('total_deposite')
+                  navigate('/admin/dashboard/tranxs/total_deposits')
                 }}>See more</Button>
               </Grid>
             </Grid>
@@ -200,7 +200,7 @@ export default function Dashboard(props) {
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
                   <Typography size="xl" weight="bold" >
-                    <span>&# {data.withdrawals};</span>
+                    <span>#{data.withdrawals}</span>
                   </Typography>
                 </Grid>
               </Grid>
@@ -217,7 +217,7 @@ export default function Dashboard(props) {
                   +11%
                 </Typography>
                 <Button className={classes.btnSeeMore} onClick={
-                  () => navigate('total_withdrawals')
+                  () => navigate('/admin/dashboard/tranxs/total_withdrawals')
                 }>See more</Button>
               </Grid>
             </Grid>
@@ -235,7 +235,7 @@ export default function Dashboard(props) {
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
                   <Typography size="xl" weight="bold" noWrap>
-                    <span>&#{data.loans} ;</span>0
+                    <span>#{data.loans};</span>
                   </Typography>
                 </Grid>
               </Grid>

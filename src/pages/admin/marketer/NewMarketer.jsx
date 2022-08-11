@@ -90,7 +90,7 @@ function NewMarketer() {
 
   return (
     <Fragment>
-    <PageTitle title="Marketer" />
+    <PageTitle title={`${user.data.organisation_name}`} />
     <Box className={classes.formBox}>
         <Typography variant='h5'>Add New Marketer</Typography>
         <Formik

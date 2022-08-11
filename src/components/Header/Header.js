@@ -1,5 +1,5 @@
 import React, { useState,useContext } from "react";
-import {Link} from "react-router-dom";
+import {Link,useNavigate} from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -107,7 +107,8 @@ export default function Header(props) {
   var [profileMenu, setProfileMenu] = useState(null);
 
   const { user, dispatch } = useContext(Context);
-  const PF = "https://fundhill-api.herokuapp.com/media/"
+  const PF = "https://fundhill-api.herokuapp.com/media/";
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
@@ -149,42 +150,9 @@ export default function Header(props) {
           Fundhill
         </Typography>
         <div className={classes.grow} />
-        {/* <Button component={Link} href="https://flatlogic.com/templates/react-material-admin-full" variant={"outlined"} color={"secondary"} className={classes.purchaseBtn}>Unlock full version</Button> */}
 
-        <IconButton
-          color="inherit"
-          aria-haspopup="true"
-          aria-controls="mail-menu"
-          onClick={e => {
-            setNotificationsMenu(e.currentTarget);
-            setIsNotificationsUnread(false);
-          }}
-          className={classes.headerMenuButton}
-        >
-          <Badge
-            badgeContent={isNotificationsUnread ? notifications.length : null}
-            color="warning"
-          >
-            <NotificationsIcon classes={{ root: classes.headerIcon }} />
-          </Badge>
-        </IconButton>
-        <IconButton
-          color="inherit"
-          aria-haspopup="true"
-          aria-controls="mail-menu"
-          onClick={e => {
-            setMailMenu(e.currentTarget);
-            setIsMailsUnread(false);
-          }}
-          className={classes.headerMenuButton}
-        >
-          <Badge
-            badgeContent={isMailsUnread ? messages.length : null}
-            color="secondary"
-          >
-            <MailIcon classes={{ root: classes.headerIcon }} />
-          </Badge>
-        </IconButton>
+
+
         <IconButton
           aria-haspopup="true"
           color="inherit"
@@ -192,81 +160,18 @@ export default function Header(props) {
           aria-controls="profile-menu"
           onClick={e => setProfileMenu(e.currentTarget)}
         >
-          <Avatar src="" alt="profile" classes={{ root: classes.headerIcon }} />
+          {user.data.avatar ? 
+            (
+              <Avatar src={PF + user.avatar} alt="profile"  />
+            ):
+            (
+              <Avatar src="" alt="profile" classes={{ root: classes.headerIcon }} />
+            )
+          }
         </IconButton>
-        <Menu
-          id="mail-menu"
-          open={Boolean(mailMenu)}
-          anchorEl={mailMenu}
-          onClose={() => setMailMenu(null)}
-          MenuListProps={{ className: classes.headerMenuList }}
-          className={classes.headerMenu}
-          classes={{ paper: classes.profileMenu }}
-          disableAutoFocusItem
-        >
-          <div className={classes.profileMenuUser}>
-            <Typography variant="h4" weight="medium">
-              New Messages
-            </Typography>
-            <Typography
-              className={classes.profileMenuLink}
-              component="a"
-              color="secondary"
-            >
-              {messages.length} New Messages
-            </Typography>
-          </div>
-          {messages.map(message => (
-            <MenuItem key={message.id} className={classes.messageNotification}>
-              <div className={classes.messageNotificationSide}>
-                <UserAvatar color={message.variant} name={message.name} />
-                <Typography size="sm" color="text" colorBrightness="secondary">
-                  {message.time}
-                </Typography>
-              </div>
-              <div
-                className={classNames(
-                  classes.messageNotificationSide,
-                  classes.messageNotificationBodySide,
-                )}
-              >
-                <Typography weight="medium" gutterBottom>
-                  {message.name}
-                </Typography>
-                <Typography color="text" colorBrightness="secondary">
-                  {message.message}
-                </Typography>
-              </div>
-            </MenuItem>
-          ))}
-          <Fab
-            variant="extended"
-            color="primary"
-            aria-label="Add"
-            className={classes.sendMessageButton}
-          >
-            Send New Message
-            <SendIcon className={classes.sendButtonIcon} />
-          </Fab>
-        </Menu>
-        <Menu
-          id="notifications-menu"
-          open={Boolean(notificationsMenu)}
-          anchorEl={notificationsMenu}
-          onClose={() => setNotificationsMenu(null)}
-          className={classes.headerMenu}
-          disableAutoFocusItem
-        >
-          {notifications.map(notification => (
-            <MenuItem
-              key={notification.id}
-              onClick={() => setNotificationsMenu(null)}
-              className={classes.headerMenuItem}
-            >
-              <Notification {...notification} typographyVariant="inherit" />
-            </MenuItem>
-          ))}
-        </Menu>
+
+
+
         <Menu
           id="profile-menu"
           open={Boolean(profileMenu)}
@@ -278,7 +183,7 @@ export default function Header(props) {
         >
           <div className={classes.profileMenuUser}>
             <Typography variant="h4" weight="medium">
-              SmartDev
+              {user.data.first_name} {user.data.last_name}
             </Typography>
 
           </div>
@@ -287,14 +192,16 @@ export default function Header(props) {
               classes.profileMenuItem,
               classes.headerMenuItem,
             )}
+            onClick={() => navigate("/admin/dashboard/profile/update_profile")}
           >
-            <AccountIcon className={classes.profileMenuIcon} /> Profile
+            <AccountIcon  className={classes.profileMenuIcon} /> Profile
           </MenuItem>
           <MenuItem
             className={classNames(
               classes.profileMenuItem,
               classes.headerMenuItem,
             )}
+            onClick={() => navigate("/admin/dashboard/profile/settings")}
           >
             <SettingsIcon className={classes.profileMenuIcon} /> Settings
           </MenuItem>

@@ -46,7 +46,7 @@ import GroupLoan from "./Groups/GroupLoan/GroupLoan";
 import Dashboard from "./dashboard/Dashboard";
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
-// import Profile from "./profile/Profile";
+import Profile from "./profile/Profile";
 import PendingCustomer from "./customer/PendingCustomer";
 import DeletedCustomer from "./customer/DeletedCustomer";
 import SavingsPlan from "./interest/SavingsPlan";
@@ -55,7 +55,11 @@ import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
 import NewGroup from "./Groups/GroupSavings/NewGroup";
-
+import TotalDeposits from "./transaction/TotalDeposits";
+import TotalWithdrawals from "./transaction/TotalWithdrawals";
+import AllDeposits from "./report/AllDeposits/AllDeposits";
+import AllWithdrawals from "./report/AllWithdrawals/AllWithdrawals"
+import Settings from "./profile/Settings"
 export {
     Login,
     ConfirmEmail,
@@ -105,12 +109,17 @@ export {
     Dashboard,
     AllExpenses,
     NewExpense,
-    // Profile,
+    Profile,
     PendingCustomer,
     DeletedCustomer,
     SavingsPlan,
     InterestRate,
     Fees,
     Transaction,
-    NewGroup
+    NewGroup,
+    TotalDeposits,
+    TotalWithdrawals,
+    AllDeposits,
+    AllWithdrawals,
+    Settings,
 }

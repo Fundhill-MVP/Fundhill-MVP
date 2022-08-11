@@ -137,7 +137,7 @@ const SearchButton = () => {
                     <Box sx={style}>
 
                         <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                            Disburse Loan
+                            Transaction Date
                         </Typography>
 
                         <Divider />

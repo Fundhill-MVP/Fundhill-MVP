@@ -14,10 +14,11 @@ import {
     Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import React,{ Fragment, useState,useEffect } from "react";
+import React,{ Fragment, useState,useEffect,useContext } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
 import { api } from '../../../services';
+import {Context} from "../../../context/Context";
 import {BounceLoader} from "react-spinners";
 
 import ActionButton from './ActionButton';
@@ -139,6 +140,7 @@ const Allcustomer = () => {
     const [isLoading,setIsLoading] = useState(false);
     const [data,setData] = useState([]);
     let [color, setColor] = useState("#ADD8E6");
+    const {user} =  useContext(Context);
 
     useEffect(() => {
         try {
@@ -170,7 +172,7 @@ const Allcustomer = () => {
 
     return (
         <Fragment>
-            <PageTitle title="All Customers" />
+            <PageTitle title={`${user.data.organisation_name}`} />
             <Grid container spacing={4}>
                 {
                     isLoading ? 
