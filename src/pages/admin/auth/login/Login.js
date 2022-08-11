@@ -7,7 +7,6 @@ import { Context } from "../../../../context/Context";
 // styles
 import useStyles from "./styles";
 // context
-import { useUserDispatch, loginUser } from "../../../../context/UserContext"
 
 
 import assets from "../../../../components/assets/";
@@ -28,19 +27,9 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { css } from "@emotion/react";
-import { DotLoader } from "react-spinners"
 import { api } from "../../../../services";
 ;
 
-
-
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  border-color: red;
-`;
 
 
 const registerInitialFormState = () => ({
@@ -93,9 +82,6 @@ const loginFormValidation = Yup.object().shape({
 function Login(props) {
   const classes = useStyles();
   // global
-  const userDispatch = useUserDispatch();
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ADD8E6");
 
   const navigate = useNavigate();
   // const history = useHistory();

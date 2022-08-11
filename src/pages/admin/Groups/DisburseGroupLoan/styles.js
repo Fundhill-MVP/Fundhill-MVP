@@ -176,7 +176,12 @@ export default makeStyles(theme => ({
     width: '20%',
     marginRight: 5
   },
-
+  sweet_loading: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   success: {
     backgroundColor: theme.palette.success.main,
     color: '#fff',

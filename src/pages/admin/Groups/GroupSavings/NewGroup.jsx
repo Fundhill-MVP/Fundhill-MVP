@@ -13,6 +13,7 @@ import { Context } from "../../../../context/Context";
 // import { TextField } from "@mui/material";
 import SearchGroup from "./SearchGroup";
 import { TextField } from "../../../../components/FormsUI";
+// import { collapseClasses } from "@mui/material";
 
 
 // CONTEXT
@@ -115,30 +116,16 @@ function NewGroup() {
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Members</Typography></div>
-                                <SearchGroup  />
+                                <SearchGroup />
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Description</Typography></div>
                                 <TextField fullWidth variant='outlined' type="text" name="description" size='small' />
                             </div>
-                            {/* 
-                            <div className={classes.inputDiv}>
-                                <div className={classes.label}>
-                                    <Typography >Name</Typography>
-                                </div>
-                                <TextField className={classes.input} variant="outlined" size='small' name='amount' type='text' />
-                            </div>
-
-                            <div className={classes.inputDiv}>
-                                <div className={classes.label}>
-                                    <Typography >Description</Typography>
-                                </div>
-                                <TextField name="description" className={classes.input} variant="outlined" size='small' type='text' fullWidth={true} />
-                            </div> */}
 
                             {
                                 isLoading ?
-                                    (<div className="sweet-loading">
+                                    (<div className={classes.sweet_loading}>
                                         <DotLoader color={color} loading={loading} css={override} size={80} />
                                     </div>)
                                     : (

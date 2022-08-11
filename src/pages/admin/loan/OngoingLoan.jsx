@@ -92,7 +92,7 @@ function OngoingLoan() {
             (
 
 
-              <div className="sweet-loading">
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 
