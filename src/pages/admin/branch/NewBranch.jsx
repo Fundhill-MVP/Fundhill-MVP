@@ -1,4 +1,4 @@
-import { Fragment, useState,useEffect } from "react";
+import { Fragment, useState,useEffect, useContext } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { Formik, Form, useField,useFormikContext } from "formik";
 import {object as yupObject,string as yupString,number as yupNumber} from "yup";
@@ -9,6 +9,7 @@ import { Box, Button,  Typography,MenuItem } from '@material-ui/core'
 import PageTitle from '../../../components/PageTitle/PageTitle'
 import useStyles from './styles';
 import {api} from "../../../services"
+import {Context} from "../../../context/Context";
 import {TextField} from "../../../components/FormsUI"
 
 
@@ -27,6 +28,7 @@ const NewBranch = () => {
     const [bhead, setBHead] = useState("");
     const navigate = useNavigate();
     const [marketers,setMarketers] = useState([]);
+    const {user} = useContext(Context)
   
 
   
@@ -96,7 +98,7 @@ const NewBranch = () => {
       
     return (
         <Fragment>
-            <PageTitle title="FundHill" />
+            <PageTitle title={`${user.data.organisation_name}`} />
             <Box className={classes.formBox}>
                 <Typography variant='h5'>Add New Branch</Typography>
                 <Formik

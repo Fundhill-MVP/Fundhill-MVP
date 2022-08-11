@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState,useContext } from 'react'
 
 import { api } from '../../../services';
+import {Context} from "../../../context/Context";
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
 import PageTitle from "../../../components/PageTitle/PageTitle"
@@ -32,6 +33,7 @@ function PendingCustomer() {
   let [loading, setloading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
   const [data, setData] = useState([]);
+  const {user} = useContext(Context);
 
   useEffect(() => {
     try {
@@ -58,7 +60,7 @@ function PendingCustomer() {
  
   return (
     <Fragment>
-      <PageTitle title="Fundhill" />
+      <PageTitle title={`${user.data.organisation_name}`} />
       {
         isLoading ?
           (

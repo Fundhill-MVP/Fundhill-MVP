@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment, useEffect,useContext } from "react";
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
 import useStyles from './styles';
@@ -15,7 +15,7 @@ import PageTitle from "../../../components/PageTitle"
 import Widget from "../../../components/Widget/Widget";
 import AddFees from './modals/AddFees';
 import { api } from '../../../services';
-
+import {Context} from "../../../context/Context";
 
 // CONTEXT
 const override = css`
@@ -32,6 +32,7 @@ function Fees() {
   let [color, setColor] = useState("#ADD8E6");
   const [data, setData] = useState([]);
   const [feeId, setFeeId] = useState("");
+  const {user} = useContext(Context);
 
 
 
@@ -64,7 +65,7 @@ function Fees() {
 
   return (
     <Fragment>
-      <PageTitle title="Fundhill" />
+      <PageTitle title={`${user.data.organisation_name}`} />
       <Grid container spacing={4}>
         {
           isLoading ?

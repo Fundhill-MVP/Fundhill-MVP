@@ -168,13 +168,13 @@ const AllCustomersModal = ({ edit,customerId }) => {
 
     const deleteCustomer = async(id) => {
         setDelBtn(true)
-        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
+        const res = await api.service().fetch(`/accounts/auth/${id}/deactivate/`,true);
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {
                 setDelBtn(false)
                 handleLocks()
-                toast.success("Successfully deleted customer!");
+                toast.success("Successfully deactivated customer!");
             },0);
             }
   
@@ -344,7 +344,7 @@ const AllCustomersModal = ({ edit,customerId }) => {
                                         :
                                         (
                                             <Button onClick={() => deleteCustomer(user.id)} variant='contained' style={{ background: 'red', marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                Delete
+                                                Deactivate
                                             </Button>                        
                                                     )
                                         }

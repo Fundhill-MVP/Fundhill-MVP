@@ -106,7 +106,7 @@ function NewProduct() {
   }
   return (
     <Fragment>
-      <PageTitle title="Fundhill" />
+      <PageTitle title={`${user.data.organisation_name}`} />
       <Grid container spacing={4}>
         {
           isLoading ?

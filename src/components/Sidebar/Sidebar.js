@@ -32,19 +32,19 @@ const structure = [
   {
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
-  // {
-  //   id: 1,
-  //   label: "Accounting",
-  //   links: "#",
-  //   icon: <BookIcon />,
-  //   children: [
-  //     { label: "Deposit", links: "/admin/dashboard/account/all_deposit" },
-  //     { label: "Withdrawal", links: "/admin/dashboard/account/all_withdrawsavings" },
-  //     { label: "Regular Savings", links: "/admin/dashboard/account/all_regsavings" },
-  //     { label: "Targeted Savings", links: "/admin/dashboard/account/all_targsavings" },
-  //     { label: "Fixed Savings", links: "/admin/dashboard/account/all_deposit" },
-  //   ],
-  // },
+  {
+    id: 1,
+    label: "Accounting",
+    links: "#",
+    icon: <BookIcon />,
+    children: [
+      { label: "Deposit", links: "/admin/dashboard/account/all_deposits" },
+      { label: "Withdrawal", links: "/admin/dashboard/account/all_withdrawals" },
+      // { label: "Regular Savings", links: "/admin/dashboard/account/all_regsavings" },
+      // { label: "Targeted Savings", links: "/admin/dashboard/account/all_targsavings" },
+      // { label: "Fixed Savings", links: "/admin/dashboard/account/all_deposit" },
+    ],
+  },
   {
     id: 2, label: "Branch", links: "#", icon: <AccountTreeIcon />,
     children: [

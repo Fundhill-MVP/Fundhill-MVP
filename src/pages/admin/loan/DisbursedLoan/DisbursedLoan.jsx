@@ -130,7 +130,7 @@ function DisbursedLoan() {
 
   return (
     <Fragment>
-      <PageTitle title="Disbursed Loan" />
+      <PageTitle title={`${user.data.organisation_name}`} />
 
       <Paper className={classes.paper}>
         <Typography variant='h6' gutterBottom>Search Date Transaction</Typography>
