@@ -64,9 +64,9 @@ function NewCustomer() {
 
 
 
-  const [avatar, setAvatar] = useState(null);
-  const [id_document, setIdDocument] = useState(null);
-  const [utility_bill, setUtilityBill] = useState(null);
+  const [avatar, setAvatar] = useState("");
+  const [id_document, setIdDocument] = useState("");
+  const [utility_bill, setUtilityBill] = useState("");
  
   const [bvn, setBvn] = useState("");
 
@@ -157,7 +157,7 @@ function NewCustomer() {
     }
   return (
     <Fragment>
-    <PageTitle title="Add New Branch" />
+    <PageTitle title={`${user.data.organisation_name}`} />
     <Box className={classes.formBox}>
         <Typography variant='h5'>New Customer</Typography>
         <form style={{ marginBottom: 30 }} onSubmit={handleSubmit} >

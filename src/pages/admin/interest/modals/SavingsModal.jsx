@@ -460,7 +460,7 @@ const deactivatePlan = async(value) => {
                                     </div>
 
                                     <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Duration</Typography></div>
+                                        <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
                                         <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
 
                                     </div>

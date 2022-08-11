@@ -10,14 +10,14 @@ import {
     // Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState,useContext } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
 import ActionButton from "./ActionButtons/SavingsActionButton";
 import { api } from '../../../services';
 import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
-
+import {Context} from "../../../context/Context"
 
 
 const override = css`
@@ -36,6 +36,7 @@ const SavingsPlan = () => {
     let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const [marketers, setMarketers] = useState([]);
+    const {user} = useContext(Context)
     useEffect(() => {
         setIsLoading(true)
 
@@ -54,7 +55,7 @@ const SavingsPlan = () => {
 
     return (
         <Fragment>
-            <PageTitle title="All Customers" />
+            <PageTitle title={`${user.data.organisation_name}`} />
             <Grid container spacing={4}>
                 {
                     isLoading ?
