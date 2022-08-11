@@ -1,8 +1,8 @@
 import { Fragment, useEffect, useContext, useState } from 'react'
 import { Link } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
+// import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { api } from '../../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
@@ -35,9 +35,9 @@ function PendingLoan() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
   let [loading, setLoading] = useState(true);
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
   let [color, setColor] = useState("#ADD8E6");
-  const { user } = useContext(Context)
+  // const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -107,12 +107,12 @@ function PendingLoan() {
                           <TableCell>{customer?.final_due_date}</TableCell>
                           <TableCell>{customer?.date_created} </TableCell>
                           <TableCell>
-                          <Button
-                            variant='contained'
-                            style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
-                            {customer?.status}
-                          </Button>
-                        </TableCell>
+                            <Button
+                              variant='contained'
+                              style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
+                              {customer?.status}
+                            </Button>
+                          </TableCell>
                           <TableCell>
                             <ActionButton loanId={customer.id} />
                           </TableCell>

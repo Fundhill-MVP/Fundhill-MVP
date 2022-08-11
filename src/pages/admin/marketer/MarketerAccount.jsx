@@ -1,13 +1,13 @@
-import {Fragment,useEffect,useContext,useState} from 'react'
+import { Fragment, useEffect, useContext, useState } from 'react'
 import { Link } from "react-router-dom";
 // import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
-import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {BounceLoader} from "react-spinners";
-import {Context} from "../../../context/Context";
+import { BounceLoader } from "react-spinners";
+import { Context } from "../../../context/Context";
 import PageTitle from "../../../components/PageTitle"
 import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
@@ -32,78 +32,78 @@ const override = css`
 
 function MarketerAccount() {
   const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ADD8E6");
-    const {user} = useContext(Context);
-    const [marketers,setMarketers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
+  const { user } = useContext(Context);
+  const [marketers, setMarketers] = useState([]);
 
-    useEffect(() => {
-        setIsLoading(true)
+  useEffect(() => {
+    setIsLoading(true)
 
-        const allMarketerWallet = async() => {
-          const res = await api.service().fetch("/wallet/marketer/",true);
-          console.log(res.data)
-          if(api.isSuccessful(res)){
-              console.log(res)
-            setMarketers(res.data.results)
-          }
-    
-          setIsLoading(false);
-    
-        }
-
-        allMarketerWallet();
-      },[])
-
-      const edit_marketer = async(values,id) => {
-        setLoading(true);
-        console.log(values)
-
-        const response = await api
-            .service()
-            .update(`/accounts/auth/${id}/`,values,true)
-
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            toast.success("Marketer profile successfully updated!!");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
-        }
-        setLoading(false);
-    }
-    const fund_marketer = async(values,id) => {
-        setLoading(true);
-        console.log(values)
-
-        const response = await api
-            .service()
-            .push(`/wallet/marketer/${id}/fund-wallet/`,values,true)
-
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            toast.success("Transaction successful");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
-        }
-        setLoading(false);
-    }
-
-
-
-      const deleteMarketer = async(id) => {
-        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
-        console.log(res.data)
-        if(api.isSuccessful(res)){
-            setTimeout( () => {
-                toast.success("Successfully deleted marketer!");
-            },0);
-            }
-  
+    const allMarketerWallet = async () => {
+      const res = await api.service().fetch("/wallet/marketer/", true);
+      console.log(res.data)
+      if (api.isSuccessful(res)) {
+        console.log(res)
+        setMarketers(res.data.results)
       }
 
+      setIsLoading(false);
+
+    }
+
+    allMarketerWallet();
+  }, [])
+
+  const edit_marketer = async (values, id) => {
+    setLoading(true);
+    console.log(values)
+
+    const response = await api
+      .service()
+      .update(`/accounts/auth/${id}/`, values, true)
+
+    if (api.isSuccessful(response)) {
+      setTimeout(() => {
+        toast.success("Marketer profile successfully updated!!");
+        // navigate("/admin/allbranch",{replace: true})
+      }, 0);
+    }
+    setLoading(false);
+  }
+  const fund_marketer = async (values, id) => {
+    setLoading(true);
+    console.log(values)
+
+    const response = await api
+      .service()
+      .push(`/wallet/marketer/${id}/fund-wallet/`, values, true)
+
+    if (api.isSuccessful(response)) {
+      setTimeout(() => {
+        toast.success("Transaction successful");
+        // navigate("/admin/allbranch",{replace: true})
+      }, 0);
+    }
+    setLoading(false);
+  }
+
+
+
+  const deleteMarketer = async (id) => {
+    const res = await api.service().remove(`/accounts/auth/${id}/`, true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setTimeout(() => {
+        toast.success("Successfully deleted marketer!");
+      }, 0);
+    }
+
+  }
+
   return (
-<Fragment>
+    <Fragment>
       <PageTitle title="Fundhill" />
       <Grid container spacing={4}>
         {
@@ -111,7 +111,7 @@ function MarketerAccount() {
             (
 
 
-              <div className="sweet-loading">
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 

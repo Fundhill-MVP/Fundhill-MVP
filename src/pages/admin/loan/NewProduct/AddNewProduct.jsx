@@ -28,27 +28,27 @@ const override = css`
 
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 500,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    display: 'flex',
-    flexDirection: 'column',
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 500,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  display: 'flex',
+  flexDirection: 'column',
 
 };
 const AddNewProduct = () => {
-    const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
 
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
   const { user } = useContext(Context)
@@ -108,9 +108,9 @@ const AddNewProduct = () => {
 
       if (api.isSuccessful(response)) {
         setTimeout(() => {
-            handleClose()
+          handleClose()
           toast.success("Loan Product successfully created!");
-          navigate("/admin/dashboard/loan/new_product",{replace: true});
+          navigate("/admin/dashboard/loan/new_product", { replace: true });
         }, 0);
       }
       setIsLoading(false);
@@ -119,84 +119,84 @@ const AddNewProduct = () => {
     }
   }
 
-    return (
-        <div>
-            <Button variant='contained' style={{ textTransform: 'none', marginLeft: 20 }} onClick={handleOpen} >Add Product</Button>
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
+  return (
+    <div>
+      <Button variant='contained' style={{ textTransform: 'none', marginLeft: 20 }} onClick={handleOpen} >Add Product</Button>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+
+            <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
+              Add New Product
+            </Typography>
+
+            <Divider />
+
+            <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2, fontWeight: 600 }} gutterBottom>
+              Product
+            </Typography>
+
+            <Formik
+              initialValues={initialFormState()}
+              validationSchema={validationSchema}
+              onSubmit={async (values, actions) => {
+                await add_product(values)
+              }}
             >
-                <Fade in={open}>
-                    <Box sx={style}>
+              <Form style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
+                <div className={classes.formDiv}>
+                  <div className={classes.divTypo}><Typography>Product Name</Typography></div>
+                  <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                        <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                            Add New Product
-                        </Typography>
+                </div>
 
-                        <Divider />
+                <div className={classes.formDiv}>
+                  <div className={classes.divTypo}><Typography>Product Interest (%)</Typography></div>
+                  <TextField fullWidth variant='outlined' type="number" name="interest" size='small' />
 
-                        <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2, fontWeight: 600 }} gutterBottom>
-                            Product
-                        </Typography>
+                </div>
 
-                        <Formik
-                                initialValues={initialFormState()}
-                                validationSchema={validationSchema}
-                                onSubmit={async (values,actions) => {
-                                await add_product(values)
-                                }}
-                        >
-                            <Form style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
-                            <div className={classes.formDiv}>
-                                <div className={classes.divTypo}><Typography>Product Name</Typography></div>
-                                <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+                <div className={classes.formDiv}>
+                  <div className={classes.divTypo}><Typography>Mgt Charges (%)</Typography></div>
+                  <TextField fullWidth variant='outlined' type="number" name="mgt_charges" size='small' />
 
-                            </div>
-
-                            <div className={classes.formDiv}>
-                                <div className={classes.divTypo}><Typography>Product Interest (%)</Typography></div>
-                                <TextField fullWidth variant='outlined' type="number" name="interest" size='small'  />
-
-                            </div>
-
-                            <div className={classes.formDiv}>
-                                <div className={classes.divTypo}><Typography>Mgt Charges (%)</Typography></div>
-                                <TextField fullWidth variant='outlined' type="number" name="mgt_charges" size='small'  />
-
-                            </div>
+                </div>
 
 
-                            {
-                                isLoading ? 
-                                ( <div className="sweet-loading">
-                                    <DotLoader color={color} loading={loading} css={override}  size={80} />
-                                    </div>)
-                                : (
-                                    <Button type="submit" variant='contained' fullWidth style={{ background: 'green', marginTop: 10, alignSelf: 'center' }}>
-                                        Add
-                                    </Button>
-                                )
-                            }
+                {
+                  isLoading ?
+                    (<div className={classes.sweet_loading}>
+                      <DotLoader color={color} loading={loading} css={override} size={80} />
+                    </div>)
+                    : (
+                      <Button type="submit" variant='contained' fullWidth style={{ background: 'green', marginTop: 10, alignSelf: 'center' }}>
+                        Add
+                      </Button>
+                    )
+                }
 
-                            </Form>
-                        </Formik>
+              </Form>
+            </Formik>
 
-                        <Divider />
-                        <Button variant='contained' onClick={handleClose} style={{ background: 'gray', marginTop: 10, alignSelf: 'flex-end' }}>
-                            Close
-                        </Button>
-                    </Box>
-                </Fade>
-            </Modal>
-        </div>
-    )
+            <Divider />
+            <Button variant='contained' onClick={handleClose} style={{ background: 'gray', marginTop: 10, alignSelf: 'flex-end' }}>
+              Close
+            </Button>
+          </Box>
+        </Fade>
+      </Modal>
+    </div>
+  )
 }
 
 export default AddNewProduct
