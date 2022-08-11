@@ -21,7 +21,7 @@ import {
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
 import AddNewProduct from './AddNewProduct';
-
+import {on} from "../../../../events";
 
 // CONTEXT
 const override = css`
@@ -42,32 +42,28 @@ function NewProduct() {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
+  const newProduct = async () => {
+    setIsLoading(true)
+    const products = await api
+      .service()
+      .fetch("/dashboard/loan-product", true);
+    console.log(products.data.results)
 
+    if ((api.isSuccessful(products))) {
+      setData(products.data.results);
+      setIsLoading(false)
 
-
-  useEffect(() => {
-    try {
+    } else {
       setIsLoading(true)
-
-      const newProduct = async () => {
-        const products = await api
-          .service()
-          .fetch("/dashboard/loan-product", true);
-        console.log(products.data.results)
-
-        if ((api.isSuccessful(products))) {
-          setData(products.data.results);
-          setIsLoading(false)
-        } else {
-          setIsLoading(true)
-        }
-      }
-      newProduct();
-    } catch (error) {
-      console.log(error)
     }
+  }
 
-  }, [])
+
+    useEffect(() => {
+       newProduct();
+    },[])
+
+  on("reRenderProduct", newProduct)
 
   const initialFormState = () => ({
     name: "",
@@ -84,26 +80,7 @@ function NewProduct() {
       .required("interest rate is required"),
   });
 
-  const add_product = async (values) => {
-    try {
-      setIsLoading(true);
-      console.log(values)
 
-      const response = await api
-        .service()
-        .push("dashboard/loan-product/add/", values, true)
-
-      if (api.isSuccessful(response)) {
-        setTimeout(() => {
-          toast.success("Loan Product successfully created!");
-          // navigate("/dashboard/loan-product",{replace: true});
-        }, 0);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error)
-    }
-  }
   return (
     <Fragment>
       <PageTitle title={`${user.data.organisation_name}`} />

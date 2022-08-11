@@ -15,7 +15,7 @@ import { Context } from "../../../../context/Context";
 // import { TextField } from "@mui/material";
 
 
-export default function SearchGroup() {
+export default function SearchGroup({setSelectedOption}) {
 
     const { user } = useContext(Context)
     const [isLoading, setIsLoading] = useState(false);
@@ -46,9 +46,9 @@ export default function SearchGroup() {
 
         }
       },[])
-
-      const   setValue = (newValue) => {
-        console.log(newValue); //  { userName: 'jane', age: 43, message:[...] }
+      
+      const setValue = (newValue) => {
+        console.log(newValue); 
     }
     return (
         <Autocomplete
@@ -60,8 +60,11 @@ export default function SearchGroup() {
             getOptionLabel={(customer) => customer.first_name }
             getOptionSelected={(option, value) => option.id === value.id }
             onChange={(event, newValue) => {
-                setValue(newValue);
+                const serializedValues = newValue?.map((value) => value?.id);
+                setValue(serializedValues);
+                setSelectedOption(serializedValues)
             }}
+
 
 
 
