@@ -126,7 +126,7 @@ const structure = [
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
       // { label: "Pending GroupLoans", links: "/admin/dashboard/expense/all_expenses" },
-      { label: "Disburse Group Loan", links: "/admin/dashboard/group/group_loan" },
+      // { label: "Disburse Group Loan", links: "/admin/dashboard/group/group_loan" },
 
     ],
   }

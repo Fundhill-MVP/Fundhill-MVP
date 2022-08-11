@@ -12,7 +12,7 @@ import { useUserDispatch, loginUser } from "../../../../context/UserContext"
 
 import assets from "../../../../components/assets/";
 
-import { TextField, Button,Select } from "../../../../components/FormsUI"
+import { TextField, Button, Select } from "../../../../components/FormsUI"
 
 import React, { useState, useContext } from "react";
 import {
@@ -126,8 +126,8 @@ function Login(props) {
       dispatch({ type: "LOGIN_SUCCESS", payload: response?.data });
       setTimeout(() => {
         toast.success('Logged in successfully!');
-        // navigate("/admin/dashboard",{replace: true})
-        navigate("/admin/dashboard/branch/allbranch", { replace: true });
+        navigate("/admin/dashboard", { replace: true })
+        // navigate("/admin/dashboard/branch/allbranch", { replace: true });
       }, 0);
     }
 
@@ -343,7 +343,7 @@ function Login(props) {
                     fullWidth
                   />
 
-                  <FormControl style={{ marginTop: 2, width: '100%' }} >
+                  <FormControl style={{ marginTop: 2, width: '100%' }} className={classes.textField}>
                     {/* <InputLabel id="demo-select-small">Company Type</InputLabel> */}
                     <Select
                       labelid="demo-select-small"
