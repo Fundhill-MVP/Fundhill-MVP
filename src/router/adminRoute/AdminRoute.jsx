@@ -8,7 +8,7 @@ import Layout from "../../components/Layout/Layout"
 // import Login from "../../pages/login/Login";
 
 // pages
-import Dashboard from "../../pages/dashboard";
+// import Dashboard from "../../pages/dashboard";
 import {
   NewBranch,
   AllBranches,
@@ -51,7 +51,7 @@ import {
   OngoingLoan,
   ApprovedLoan,
   DeniedLoan,
-  // Dashboard,
+  Dashboard,
   AllExpenses,
   NewExpense,
   // Profile,
@@ -62,6 +62,7 @@ import {
   Fees,
   Transaction,
   GroupLoan,
+  NewGroup
 } from "../../pages/admin"
 
 // context
@@ -157,7 +158,8 @@ function AdminRoute() {
 
       {/* Profile Management */}
       {/* <Route path="dashboard/update_profile" element={<Profile />} /> */}
-      <Route path="dashboard/group/group_loan" element={<GroupLoan />} />
+      {/* <Route path="dashboard/group/group_loan" element={<GroupLoan />} /> */}
+      <Route path="dashboard/group/new_group" element={<NewGroup />} />
 
 
 

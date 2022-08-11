@@ -43,7 +43,7 @@ import OngoingLoan from "./loan/OngoingLoan/OngoingLoan";
 import GroupLoan from "./Groups/GroupLoan/GroupLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
 // import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
-// import Dashboard from "./dashboard/Dashboard"
+import Dashboard from "./dashboard/Dashboard";
 import NewExpense from "./expenses/NewExpense"
 import AllExpenses from "./expenses/AllExpenses"
 // import Profile from "./profile/Profile";
@@ -54,6 +54,7 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
+import NewGroup from "./Groups/GroupSavings/NewGroup";
 
 export {
     Login,
@@ -101,7 +102,7 @@ export {
     Invoice,
     OngoingLoan,
     GroupLoan,
-    // Dashboard,
+    Dashboard,
     AllExpenses,
     NewExpense,
     // Profile,
@@ -111,4 +112,5 @@ export {
     InterestRate,
     Fees,
     Transaction,
+    NewGroup
 }
