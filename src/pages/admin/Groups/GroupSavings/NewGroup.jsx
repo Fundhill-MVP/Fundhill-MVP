@@ -7,12 +7,12 @@ import { css } from "@emotion/react";
 import { DotLoader } from "react-spinners";
 import { Box, Button, Typography, MenuItem, } from '@material-ui/core'
 import PageTitle from '../../../../components/PageTitle/PageTitle'
-import useStyles from './styles';
+import useStyles from '../styles';
 import { api } from "../../../../services"
 import { Context } from "../../../../context/Context";
-import { TextField } from "@mui/material";
+// import { TextField } from "@mui/material";
 import SearchGroup from "./SearchGroup";
-// import { TextField } from "../../../../components/FormsUI";
+import { TextField } from "../../../../components/FormsUI";
 
 
 // CONTEXT
@@ -38,7 +38,6 @@ function NewGroup() {
         name: "",
         members: "",
         description: "",
-        friends: ['jared', 'ian', 'brent']
     });
 
     const validationSchema = yupObject().shape({
@@ -112,15 +111,15 @@ function NewGroup() {
 
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Name' required />
+                                <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Members</Typography></div>
-                                <SearchGroup />
+                                <SearchGroup  />
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Description</Typography></div>
-                                <TextField fullWidth variant='outlined' type="text" name="" size='small' placeholder='Description' required />
+                                <TextField fullWidth variant='outlined' type="text" name="description" size='small' />
                             </div>
                             {/* 
                             <div className={classes.inputDiv}>
