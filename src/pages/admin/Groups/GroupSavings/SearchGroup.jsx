@@ -1,6 +1,6 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import React,{ Fragment, useContext, useState, useEffect } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, FieldArray } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
@@ -23,19 +23,19 @@ export default function SearchGroup() {
     let [color, setColor] = useState("#ADD8E6");
     const navigate = useNavigate();
     const [customers, setCustomers] = useState([]);
-    const [members,setMembers] = useState("");
-    
+    const [members, setMembers] = useState("");
+
     useEffect(() => {
         try {
             setIsLoading(true)
 
-            const allCustomer = async() => {
-              const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-              console.log(res.data)
-              if(api.isSuccessful(res)){
-                setCustomers(res.data.results)
-              }
-        
+            const allCustomer = async () => {
+                const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+                console.log(res.data)
+                if (api.isSuccessful(res)) {
+                    setCustomers(res.data.results)
+                }
+
             }
             setIsLoading(false);
 
@@ -45,9 +45,9 @@ export default function SearchGroup() {
             setIsLoading(false);
 
         }
-      },[])
+    }, [])
 
-      const   setValue = (newValue) => {
+    const setValue = (newValue) => {
         console.log(newValue); //  { userName: 'jane', age: 43, message:[...] }
     }
     return (
@@ -57,18 +57,14 @@ export default function SearchGroup() {
             limitTags={2}
             id="multiple-limit-tags"
             options={customers}
-            getOptionLabel={(customer) => customer.first_name }
-            getOptionSelected={(option, value) => option.id === value.id }
+            getOptionLabel={(customer) => customer.first_name}
+            getOptionSelected={(option, value) => option.id === value.id}
             onChange={(event, newValue) => {
                 setValue(newValue);
             }}
-
-
-
-
             // defaultValue={customers.map((customer) => [customer.id])}
             renderInput={(params) => (
-                <TextField {...params} size='small' label="Members" name='members'  placeholder="Members" />
+                <TextField {...params} size='small' label="Members" name='members' placeholder="Members" />
             )}
             sx={{ width: '100%' }}
         />

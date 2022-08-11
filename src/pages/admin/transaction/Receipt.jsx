@@ -83,8 +83,8 @@ const useStyles = makeStyles({
 export default function Reciept(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const [data,setData] = React.useState("");
-    const [transtype,setTrans] = React.useState(false)
+    const [data, setData] = React.useState("");
+    const [transtype, setTrans] = React.useState(false)
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -103,17 +103,17 @@ export default function Reciept(props) {
     }
 
     React.useEffect(() => {
-        if(JSON.stringify(props) !== "{}"){
+        if (JSON.stringify(props) !== "{}") {
             console.log("ok working")
             handleClickOpen()
             setData(props)
             // console.log(data);
             const trans = data.trx_type;
-            if(trans === "WITHDRAWAL" ){
+            if (trans === "WITHDRAWAL") {
                 setTrans(true)
             }
         }
-    },[props.id])
+    }, [props.id])
 
 
     // if(id){
@@ -132,40 +132,40 @@ export default function Reciept(props) {
             {
                 transtype ? (
                     <>
-                    <Button style={{display:"none"}} variant="outlined" onClick={handleClickOpen}>
-                    Reciept
-                </Button>
-                <BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={open}
-                >
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Transaction Reciept
-                    </BootstrapDialogTitle>
-                    <Alert severity="success" color="info">
-                        This is a success alert — check it out!
-                    </Alert>
-                    <DialogContent dividers className={classes.deviderContainer} id='printable'>
-                        <Typography gutterBottom style={{ fontWeight: 600, fontSize: '0.8rem' }}>Transaction Reciept</Typography>
-                        <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on {data.created_date} </Typography>
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Amount</p>
-                                </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data.amount} </p>
-                                </div>
-                            </div>
-                        </div>
-    
+                        <Button style={{ display: "none" }} variant="outlined" onClick={handleClickOpen}>
+                            Reciept
+                        </Button>
+                        <BootstrapDialog
+                            onClose={handleClose}
+                            aria-labelledby="customized-dialog-title"
+                            open={open}
+                        >
+                            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                                Transaction Reciept
+                            </BootstrapDialogTitle>
+                            <Alert severity="success" color="info">
+                                This is a success alert — check it out!
+                            </Alert>
+                            <DialogContent dividers className={classes.deviderContainer} id='printable'>
+                                <Typography gutterBottom style={{ fontWeight: 600, fontSize: '0.8rem' }}>Transaction Reciept</Typography>
+                                <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on {data.created_date} </Typography>
 
-                        {/* <div className={classes.grid}>
+                                <div className={classes.grid}>
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid}>
+                                            <p className={classes.span}>Amount</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid1}>
+                                            <p> {data.amount} </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                {/* <div className={classes.grid}>
                             <div className={classes.gridItems}>
                                 <div className={classes.innerGrid}>
                                     <p className={classes.span}>Recipient</p>
@@ -179,107 +179,107 @@ export default function Reciept(props) {
                             </div>
                         </div> */}
 
-                        <div className={classes.grid}>
+                                <div className={classes.grid}>
                                     <div className={classes.gridItems}>
                                         <div className={classes.innerGrid}>
                                             <p className={classes.span}>Description</p>
                                         </div>
                                     </div>
-            
+
                                     <div className={classes.gridItems}>
                                         <div className={classes.innerGrid1}>
                                             <p> {data?.description} </p>
                                         </div>
                                     </div>
                                 </div>
-    
 
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Transaction ID</p>
+
+
+                                <div className={classes.grid}>
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid}>
+                                            <p className={classes.span}>Transaction ID</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid1}>
+                                            <p> {data.id} </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data.id} </p>
+
+                                <div className={classes.grid}>
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid}>
+                                            <p className={classes.span}>Status</p>
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.gridItems}>
+                                        <div className={classes.innerGrid1}>
+                                            <p> {data?.status} </p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Status</p>
-                                </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data?.status} </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                    </DialogContent>
-                    <DialogActions>
-                        <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
-                            Print
-                        </Button>
-                    </DialogActions>
-                </BootstrapDialog>
+
+                            </DialogContent>
+                            <DialogActions>
+                                <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
+                                    Print
+                                </Button>
+                            </DialogActions>
+                        </BootstrapDialog>
                     </>
-                ):
-                (
-                    <>
-                    <Button style={{display:"none"}} variant="outlined" onClick={handleClickOpen}>
-                    Reciept
-                </Button>
-                <BootstrapDialog
-                    onClose={handleClose}
-                    aria-labelledby="customized-dialog-title"
-                    open={open}
-                >
-                    <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                        Transaction Reciept
-                    </BootstrapDialogTitle>
-                    <Alert severity="success" color="info">
-                        This is a success alert — check it out!
-                    </Alert>
-                    <DialogContent dividers className={classes.deviderContainer} id='printable'>
-                        <Typography gutterBottom style={{ fontWeight: 600, fontSize: '0.8rem' }}>Transaction Reciept</Typography>
-                        <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on 08 August 2022 6:17pm</Typography>
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Amount</p>
-                                </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data.amount} </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                             <div className={classes.grid}>
+                ) :
+                    (
+                        <>
+                            <Button style={{ display: "none" }} variant="outlined" onClick={handleClickOpen}>
+                                Reciept
+                            </Button>
+                            <BootstrapDialog
+                                onClose={handleClose}
+                                aria-labelledby="customized-dialog-title"
+                                open={open}
+                            >
+                                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                                    Transaction Reciept
+                                </BootstrapDialogTitle>
+                                <Alert severity="success" color="info">
+                                    This is a success alert — check it out!
+                                </Alert>
+                                <DialogContent dividers className={classes.deviderContainer} id='printable'>
+                                    <Typography gutterBottom style={{ fontWeight: 600, fontSize: '0.8rem' }}>Transaction Reciept</Typography>
+                                    <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on 08 August 2022 6:17pm</Typography>
+
+                                    <div className={classes.grid}>
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid}>
+                                                <p className={classes.span}>Amount</p>
+                                            </div>
+                                        </div>
+
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid1}>
+                                                <p> {data.amount} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.grid}>
                                         <div className={classes.gridItems}>
                                             <div className={classes.innerGrid}>
                                                 <p className={classes.span}>Depositor</p>
                                             </div>
                                         </div>
-                
+
                                         <div className={classes.gridItems}>
                                             <div className={classes.innerGrid1}>
                                                 <p> {data.depositor} </p>
                                             </div>
                                         </div>
                                     </div>
-                        {/* <div className={classes.grid}>
+                                    {/* <div className={classes.grid}>
                             <div className={classes.gridItems}>
                                 <div className={classes.innerGrid}>
                                     <p className={classes.span}>Recipient</p>
@@ -294,48 +294,48 @@ export default function Reciept(props) {
                         </div> */}
 
 
-    
 
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Transaction ID</p>
-                                </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data.id} </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                        <div className={classes.grid}>
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid}>
-                                    <p className={classes.span}>Status</p>
-                                </div>
-                            </div>
-    
-                            <div className={classes.gridItems}>
-                                <div className={classes.innerGrid1}>
-                                    <p> {data?.status} </p>
-                                </div>
-                            </div>
-                        </div>
-    
-                    </DialogContent>
-                    <DialogActions>
-                        <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
-                            Print
-                        </Button>
-                    </DialogActions>
-                </BootstrapDialog>
-                    </>
-                )
+
+
+                                    <div className={classes.grid}>
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid}>
+                                                <p className={classes.span}>Transaction ID</p>
+                                            </div>
+                                        </div>
+
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid1}>
+                                                <p> {data.id} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className={classes.grid}>
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid}>
+                                                <p className={classes.span}>Status</p>
+                                            </div>
+                                        </div>
+
+                                        <div className={classes.gridItems}>
+                                            <div className={classes.innerGrid1}>
+                                                <p> {data?.status} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
+                                        Print
+                                    </Button>
+                                </DialogActions>
+                            </BootstrapDialog>
+                        </>
+                    )
             }
-            
+
         </div>
     );
 }
