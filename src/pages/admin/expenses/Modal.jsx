@@ -17,7 +17,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../services";
 import {TextField} from "../../../components/FormsUI"
-
+import {trigger} from "../../../events"
 
 
 
@@ -127,7 +127,7 @@ export default function OptionModal({ del,setExpenseId }) {
             if(api.isSuccessful(response)){
               setTimeout( () => {
                 toast.success("Expense created successfully!");
-                // navigate("/admin/dashboard/customer/expense/",{replace: true});
+                trigger("reRenderExpenses")
               },0);
             }
             setBtnLoading(false);
@@ -144,6 +144,7 @@ export default function OptionModal({ del,setExpenseId }) {
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderExpenses")
             handleClose()
             toast.success("Successfully deleted expense!");
             setDelBtn(false)

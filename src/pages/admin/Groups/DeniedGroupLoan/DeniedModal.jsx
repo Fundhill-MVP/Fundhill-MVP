@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
+import { trigger } from '../../../../events';
 
 
 
@@ -65,7 +66,7 @@ export default function OptionModal({ del,loanId }) {
           const allLoans = async () => {
             const loans = await api
               .service()
-              .fetch("/dashboard/loan/?status=PENDING", true);
+              .fetch("/dashboard/group-loan/?status=PENDING", true);
             console.log(loans.data.results)
     
             if ((api.isSuccessful(loans))) {
@@ -102,10 +103,11 @@ export default function OptionModal({ del,loanId }) {
         try {
             setDelBtn(true);
             console.log(values);
-            const res = await api.service().push(`/dashboard/loan/action/`,values, true);
+            const res = await api.service().push(`/dashboard/group-loan/action/`,values, true);
             console.log(res.data)
             if (api.isSuccessful(res)) {
               setTimeout(() => {
+                trigger("reRenderAllGroup")
                 handleClose()
                 toast.success("Successfully Approved Loan!");
         
@@ -125,10 +127,11 @@ export default function OptionModal({ del,loanId }) {
     try {
         setDelBtn(true);
         console.log(values);
-        const res = await api.service().remove(`/dashboard/loan/${values.id}/`, true);
+        const res = await api.service().remove(`/dashboard/group-loan/${values.id}/`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderAllGroup")
             handleClose()
             toast.success("Successfully deleted Loan!");
     

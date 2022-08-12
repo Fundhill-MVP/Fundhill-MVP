@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 
-import { api } from '../../../services';
+import { api } from '../../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
 import MUIDataTable from "mui-datatables";
@@ -16,12 +16,12 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
-//   import useStyles from "./styles";
-import PageTitle from "../../../components/PageTitle"
-import Widget from "../../../components/Widget/Widget";
-import { Context } from "../../../context/Context"
+  import useStyles from "../styles";
+import PageTitle from "../../../../components/PageTitle"
+import Widget from "../../../../components/Widget/Widget";
+import { Context } from "../../../../context/Context"
 import ActionButton from './ActionButton';
-import {on} from "../../../events"
+import {on} from "../../../../events"
 
 
 const override = css`
@@ -36,12 +36,12 @@ const states = {
   pending: "warning",
   declined: "secondary",
 };
-const useStyles = makeStyles(theme => ({
-  tableOverflow: {
-    overflow: 'auto'
-  }
-}))
-function AllBranches() {
+// const useStyles = makeStyles(theme => ({
+//   tableOverflow: {
+//     overflow: 'auto'
+//   }
+// }))
+function AllGroups() {
   const classes = useStyles();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -59,9 +59,9 @@ function AllBranches() {
 
 
 
-  const allBranch = async () => {
+  const allGroup = async () => {
     setIsLoading(true)
-    const res = await api.service().fetch("/dashboard/branches/", true);
+    const res = await api.service().fetch("/accounts/group/", true);
     console.log(res.data)
     if (api.isSuccessful(res)) {
       setData(res.data.results)
@@ -71,9 +71,9 @@ function AllBranches() {
 
   }
   useEffect(() => {
-    allBranch();
+    allGroup();
   }, [])
-  on("reRenderBranch",allBranch)
+  on("reRenderBranch",allGroup)
 
 
 
@@ -92,9 +92,10 @@ function AllBranches() {
             (
 
 
-              <div className="sweet-loading">
+                <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
+
 
             )
             :
@@ -104,23 +105,23 @@ function AllBranches() {
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
-                        <TableCell >Branch ID </TableCell>
-                        <TableCell >Branch Name </TableCell>
-                        <TableCell >Branch Branch Location </TableCell>
-                        <TableCell>Head of Branch</TableCell>
+                        <TableCell >Group ID </TableCell>
+                        <TableCell >Group Name </TableCell>
+                        <TableCell >Group Description </TableCell>
+                        {/* <TableCell>Head of group</TableCell> */}
                         <TableCell>Action</TableCell>
 
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {data.map((branch) => (
-                        <TableRow key={branch?.id}>
-                          <TableCell className="pl-3 fw-normal">{branch?.id}</TableCell>
-                          <TableCell>{branch?.name}</TableCell>
-                          <TableCell>{branch?.branch_address}</TableCell>
-                          <TableCell>{branch?.branch_head.first_name} {branch?.branch_head.last_name}</TableCell>
+                      {data.map((group) => (
+                        <TableRow key={group?.id}>
+                          <TableCell className="pl-3 fw-normal">{group?.id}</TableCell>
+                          <TableCell>{group?.name}</TableCell>
+                          <TableCell>{group?.description}</TableCell>
+                          {/* <TableCell>{group?.branch_head.first_name} {group?.branch_head.last_name}</TableCell> */}
                           <TableCell>
-                            <ActionButton setCurrentId={branch?.id}  />
+                            <ActionButton groupId={group?.id}  />
                           </TableCell>
                         </TableRow>
                       ))}
@@ -136,5 +137,5 @@ function AllBranches() {
   )
 }
 
-export default AllBranches
+export default AllGroups
 

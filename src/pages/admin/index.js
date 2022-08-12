@@ -40,7 +40,6 @@ import PendingLoan from "./loan/PendingLoan/PendingLoan";
 import ApprovedLoan from "./loan/ApprovedLoan/ApprovedLoan";
 import DeniedLoan from "./loan/DeniedLoan/DeniedLoan";
 import OngoingLoan from "./loan/OngoingLoan/OngoingLoan";
-import GroupLoan from "./Groups/GroupLoan/GroupLoan";
 // import InvoiceLoan from "./loan/InvoiceLoan";
 // import OngoingLoan from "../dashboard/OngoingLoans/OngoingLoans";
 import Dashboard from "./dashboard/Dashboard";
@@ -54,12 +53,19 @@ import InterestRate from "./interest/InterestRate";
 import Fees from "./interest/Fees";
 import Invoice from "./loan/Invoice";
 import Transaction from "./transaction/Transaction";
-import NewGroup from "./Groups/GroupSavings/NewGroup";
 import TotalDeposits from "./transaction/TotalDeposits";
 import TotalWithdrawals from "./transaction/TotalWithdrawals";
 import AllDeposits from "./report/AllDeposits/AllDeposits";
 import AllWithdrawals from "./report/AllWithdrawals/AllWithdrawals"
-import Settings from "./profile/Settings"
+import Settings from "./profile/Settings";
+import NewGroup from "./Groups/GroupSavings/NewGroup";
+import GroupLoan from "./Groups/GroupLoan/GroupLoan";
+import AllGroup from "./Groups/GroupSavings/AllGroups";
+import ApprovedGroupLoan from "./Groups/ApprovedGroupLoan/ApprovedLoan";
+import DeniedGroupLoan from "./Groups/DeniedGroupLoan/DeniedLoan";
+import DisburseGroupLoan from "./loan/DisburseLoan/DisbursedLoan";
+import OngoingGroupLoan from "./Groups/OngoingGroupLoan/OngoingLoan";
+
 export {
     Login,
     ConfirmEmail,
@@ -105,7 +111,6 @@ export {
     DeniedLoan,
     Invoice,
     OngoingLoan,
-    GroupLoan,
     Dashboard,
     AllExpenses,
     NewExpense,
@@ -116,10 +121,16 @@ export {
     InterestRate,
     Fees,
     Transaction,
-    NewGroup,
     TotalDeposits,
     TotalWithdrawals,
     AllDeposits,
     AllWithdrawals,
     Settings,
+    AllGroup,
+    GroupLoan,
+    NewGroup,
+    ApprovedGroupLoan,
+    DeniedGroupLoan,
+    DisburseGroupLoan,
+    OngoingGroupLoan,
 }
