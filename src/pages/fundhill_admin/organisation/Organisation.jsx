@@ -3,6 +3,7 @@ import React, { Fragment } from 'react'
 import PageTitle from '../../../components/PageTitle/PageTitle'
 import Widget from '../../../components/Widget/Widget'
 import useStyles from '../styles';
+import ActionButton from './ActionButton';
 const Organisation = () => {
     const classes = useStyles();
     return (
@@ -13,21 +14,23 @@ const Organisation = () => {
                     <Table className="mb-0">
                         <TableHead>
                             <TableRow>
-                                <TableCell >Branch ID </TableCell>
-                                <TableCell >Branch Name</TableCell>
-                                <TableCell >Branch Location</TableCell>
-                                <TableCell>Head of Branch</TableCell>
+                                <TableCell > ID </TableCell>
+                                <TableCell >Name</TableCell>
+                                <TableCell >Transactions</TableCell>
+                                <TableCell>Date</TableCell>
+                                <TableCell>Branches</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <TableRow>
                                 <TableCell className="pl-3 fw-normal">1</TableCell>
-                                <TableCell>	Leasson Teacher</TableCell>
-                                <TableCell>bukuru locus</TableCell>
-                                <TableCell>John onaks</TableCell>
+                                <TableCell>	Legendary</TableCell>
+                                <TableCell>null</TableCell>
+                                <TableCell>8 AUG 2022</TableCell>
+                                <TableCell>A Branch</TableCell>
                                 <TableCell>
-                                    {/* <BtnAction /> */}
+                                    <ActionButton />
                                 </TableCell>
                             </TableRow>
                         </TableBody>

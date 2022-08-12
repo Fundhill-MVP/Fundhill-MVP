@@ -7,6 +7,7 @@ import AuthRoute from "./adminRoute/AuthRoute";
 import HomeRoute from "./adminRoute/HomeRoute";
 import DashboardRoute from "./adminRoute/DashboardRoute";
 import { ContextProvider } from "../context/Context"
+import FundhillAdminRoute from "./adminRoute/FundhillAdminRoute";
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
           {AuthRoute()}
           {HomeRoute()}
           {DashboardRoute()}
+          {FundhillAdminRoute()}
         </Routes>
       </ContextProvider>
 
