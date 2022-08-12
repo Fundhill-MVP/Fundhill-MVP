@@ -17,7 +17,7 @@ import { DotLoader } from "react-spinners";
 import {TextField,Select} from "../../../../components/FormsUI";
 import useStyles from '../styles';
 import {Context} from "../../../../context/Context"
-
+import {trigger} from "../../../../events"
 
 // CONTEXT
 const override = css`
@@ -103,6 +103,7 @@ export default function OptionModal({loanId}) {
     const [loading, setLoading] = useState(true);
     const [color, setColor] = useState("#ADD8E6");
     const [myuser,setUser] = useState("");
+    const [groups,setGroups] = useState([]);
     const [marketers, setMarketers] = useState([]);
     const [branches, setBranches] = useState([]);
     const [customers, setCustomers] = useState([]);
@@ -111,71 +112,71 @@ export default function OptionModal({loanId}) {
     const navigate = useNavigate();
   
   
-    useEffect(() => {
+
+    const allGroup = async () => {
       setIsLoading(true)
-  
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setCustomers(res.data.results)
-        }
-  
-        // setIsLoading(false);
-  
+      const res = await api.service().fetch("/accounts/group/", true);
+      // console.log(res.data)
+      if (api.isSuccessful(res)) {
+        setGroups(res.data.results)
       }
-  
-      allCustomer();
-  
-      const allMarketer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?is_staff=True", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          //   console.log(res)
-          setMarketers(res.data.results)
-        }
-  
-        // setIsLoading(false);
-  
-      }
-  
-      allMarketer();
-  
-      const allBranches = async () => {
-        const res = await api.service().fetch("/dashboard/branches/", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setBranches(res.data.results)
-        }
-  
-        setIsLoading(false);
-  
-      }
-  
-      allBranches();
-  
-  
-      const newProduct = async () => {
-        const res = await api
-          .service()
-          .fetch("/dashboard/loan-product", true);
-        console.log(res.data.results)
-  
-        if ((api.isSuccessful(res))) {
-          setProducts(res.data.results);
-          setIsLoading(false)
-        }
-      }
-  
-      newProduct();
   
       setIsLoading(false);
   
-    }, []);
+    }
+
+    const allCustomer = async () => {
+      const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+      if (api.isSuccessful(res)) {
+        setCustomers(res.data.results)
+      }
+
+    }
+
+    const allMarketer = async () => {
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT", true);
+      console.log(res.data)
+      if (api.isSuccessful(res)) {
+        //   console.log(res)
+        setMarketers(res.data.results)
+      }
+
+
+    }
+
+    const allBranches = async () => {
+      const res = await api.service().fetch("/dashboard/branches/", true);
+      if (api.isSuccessful(res)) {
+        setBranches(res.data.results)
+      }
+
+
+    }
+
+    const newProduct = async () => {
+      const res = await api
+        .service()
+        .fetch("/dashboard/loan-product", true);
+      // console.log(res.data.results)
+
+      if ((api.isSuccessful(res))) {
+        setProducts(res.data.results);
+        setIsLoading(false)
+      }
+    }
+
+    useEffect(() => {
+      allGroup();
+      allCustomer();
+      allMarketer();
+      allBranches();
+      newProduct();
+
+    }, [])
   
   
-    const initialFormState = (id) => ({
-      group: id,
+    const initialFormState = () => ({
+      group: "",
       loan_product: "",
       amount: "",
       branch: "",
@@ -220,9 +221,9 @@ export default function OptionModal({loanId}) {
         
             if (api.isSuccessful(response)) {
               setTimeout(() => {
+                trigger("reRenderGroupLoan")
                 handleClose()
                 toast.success("Successfully assign loan!");
-                navigate("/admin/dashboard/group/group_loan", { replace: true });
               }, 0);
             }
             setLoader(false);
@@ -273,6 +274,26 @@ export default function OptionModal({loanId}) {
                             }}
                          >
                             <Form style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }} >
+
+                            <div className={classes.formDiv}>
+                            <div className={classes.divTypo}><Typography>Group</Typography></div>
+                                <FormControl fullWidth >
+
+                                    <TextField
+                                            select={true}
+                                            fullWidth
+                                            name="group"
+                                            variant='outlined'
+                                            label="Choose One"
+                                        >
+                                 {
+                                    groups.map((group) => (
+                                        <MenuItem key={group.id} value={group.id} > {group.name} </MenuItem>
+                                    ))
+                                 }
+                                    </TextField>
+                                </FormControl>
+                            </div>
                             <div className={classes.formDiv}>
                             <div className={classes.divTypo}><Typography>Branch</Typography></div>
                                 <FormControl fullWidth >

@@ -95,7 +95,7 @@ function NewExpense() {
   
   return (
 <Fragment>
-            <PageTitle title="FUNDHILL" />
+            <PageTitle title={`${user.data.organisation_name}`} />
             <Box className={classes.formBox}>
                 <Typography variant='h5'>Add New Expense</Typography>
                 <Formik

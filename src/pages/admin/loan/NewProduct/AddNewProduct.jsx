@@ -16,7 +16,7 @@ import { Context } from "../../../../context/Context";
 import PageTitle from "../../../../components/PageTitle/PageTitle"
 import Widget from "../../../../components/Widget/Widget";
 import { TextField } from '../../../../components/FormsUI';
-
+import {trigger} from "../../../../events"
 
 // CONTEXT
 const override = css`
@@ -47,7 +47,7 @@ const AddNewProduct = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
+  const [btnLoading,setBtnLoading] = useState(false)
   const [isLoading, setIsLoading] = useState(false);
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
@@ -62,11 +62,11 @@ const AddNewProduct = () => {
     try {
       setIsLoading(true)
 
-      const newProduct = async () => {
-        const products = await api
+      const newProduct =  async() => {
+        const products = api
           .service()
           .fetch("/dashboard/loan-product", true);
-        console.log(products.data.results)
+        // console.log(products.data.results)
 
         if ((api.isSuccessful(products))) {
           setData(products.data.results);
@@ -97,9 +97,9 @@ const AddNewProduct = () => {
       .required("interest rate is required"),
   });
 
-  const add_product = async (values) => {
-    try {
-      setIsLoading(true);
+  const add_product =  async(values) => {
+  
+      setBtnLoading(true);
       console.log(values)
 
       const response = await api
@@ -110,13 +110,12 @@ const AddNewProduct = () => {
         setTimeout(() => {
           handleClose()
           toast.success("Loan Product successfully created!");
-          navigate("/admin/dashboard/loan/new_product", { replace: true });
+          trigger("reRenderProduct")
+          // navigate("/admin/dashboard/loan/new_product",{replace: true});
         }, 0);
       }
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error)
-    }
+      setBtnLoading(false);
+
   }
 
   return (
@@ -174,7 +173,7 @@ const AddNewProduct = () => {
 
 
                 {
-                  isLoading ?
+                  btnLoading ?
                     (<div className={classes.sweet_loading}>
                       <DotLoader color={color} loading={loading} css={override} size={80} />
                     </div>)

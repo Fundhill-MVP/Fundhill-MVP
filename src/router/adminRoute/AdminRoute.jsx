@@ -67,7 +67,12 @@ import {
   TotalDeposits,
   TotalWithdrawals,
   AllDeposits,
-  AllWithdrawals
+  AllWithdrawals,
+  AllGroup,
+  ApprovedGroupLoan,
+  DeniedGroupLoan,
+  DisburseGroupLoan,
+  OngoingGroupLoan,
 } from "../../pages/admin"
 
 // context
@@ -137,7 +142,7 @@ function AdminRoute() {
       {/* Marketer */}
       <Route path="dashboard/marketer/new_marketer" element={<NewMarketer />} />
       <Route path="dashboard/marketer/all_marketer" element={<AllMarketer />} />
-      <Route path="dashboard/marketer/marketer_account" element={<MarketerAccount />} />
+      {/* <Route path="dashboard/marketer/marketer_account" element={<MarketerAccount />} /> */}
 
 
       {/* Esusu Management */}
@@ -165,9 +170,13 @@ function AdminRoute() {
       <Route path="dashboard/profile/settings" element={<Settings />} />
 
         {/* Group Management */}
-      {/* <Route path="dashboard/group/group_loan" element={<GroupLoan />} /> */}
       <Route path="dashboard/group/new_group" element={<NewGroup />} />
-
+      <Route path="dashboard/group/group_loan" element={<GroupLoan />} />
+      <Route path="dashboard/group/all_group" element={<AllGroup />} />
+      <Route path="dashboard/group/approved_loan" element={<ApprovedGroupLoan />} />
+      <Route path="dashboard/group/denied_loan" element={<DeniedGroupLoan />} />
+      <Route path="dashboard/group/ongoing_loan" element={<DeniedGroupLoan />} />
+      <Route path="dashboard/group/disbursed_loan" element={<DeniedGroupLoan />} />
 
       {/* Reports */}
       <Route path="dashboard/tranxs/total_deposits" element={<TotalDeposits />} />
