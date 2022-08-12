@@ -17,7 +17,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
-
+import {on} from "../../../events"
 
 // CONTEXT
 const override = css`
@@ -39,30 +39,23 @@ function AllExpenses() {
   // const [currentId,setCurrentId] = useState("");
 
 
+  const allExpenses = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/expense/", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      console.log(res.data.results)
+      setExpenses(res.data.results)
+    }
+
+    setIsLoading(false);
+
+  }
 
   useEffect(() => {
-    try {
-      setIsLoading(true)
-
-      const allExpenses = async () => {
-        const res = await api.service().fetch("/dashboard/expense/", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          console.log(res.data.results)
-          setExpenses(res.data.results)
-        }
-
-        setIsLoading(false);
-
-      }
-
-      allExpenses();
-    } catch (error) {
-      console.log(error)
-      setIsLoading(false)
-    }
+    allExpenses()
   }, []);
-
+  on("reRenderExpenses",allExpenses)
 
   return (
     <Fragment>

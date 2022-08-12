@@ -125,8 +125,13 @@ const structure = [
     id: 10, label: "Group Managment", links: "#", icon: <PaymentsOutlinedIcon />,
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
-      // { label: "Pending GroupLoans", links: "/admin/dashboard/expense/all_expenses" },
-      // { label: "Disburse Group Loan", links: "/admin/dashboard/group/group_loan" },
+      { label: "All Groups", links: "/admin/dashboard/group/all_group" },
+      { label: "Group Loan", links: "/admin/dashboard/group/group_loan" },
+      { label: "Approve Loan", links: "/admin/dashboard/group/approved_loan" },
+      { label: "Denied Loan", links: "/admin/dashboard/group/denied_loan" },
+      { label: "Ongoing Loan", links: "/admin/dashboard/group/ongoing_loan" },
+      { label: "Disbursed Loan", links: "/admin/dashboard/group/disbursed_loan" },
+      { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
 
     ],
   }

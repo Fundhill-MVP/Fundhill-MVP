@@ -1,16 +1,16 @@
 import { Container, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect,useContext } from 'react'
 import PageTitle from '../../../../components/PageTitle/PageTitle'
 import Widget from '../../../../components/Widget/Widget'
 import useStyles from './styles';
-import ActionButton from './ActionButton';
+import ActionButton from './PendingButton';
 import AddLoan from './Modal';
 
 import { api } from '../../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
-// import {Context} from "../../../../context/Context";
-
+import {Context} from "../../../../context/Context";
+import {on} from "../../../../events";
 
 
 
@@ -30,38 +30,33 @@ const GroupLoan = () => {
   let [color, setColor] = useState("#ADD8E6");
   const [loans, setLoans] = useState([]);
   const [currentId, setCurrentId] = useState("");
+  const {user} = useContext(Context);
 
+
+  const allGroupLoan = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/group-loan/?status=PENDING", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      // console.log(res.data.results)
+      setLoans(res.data.results)
+    }
+    setIsLoading(false);
+
+  }
 
 
   useEffect(() => {
-    try {
-      setIsLoading(true)
+    allGroupLoan();
 
-      const allGroupLoan = async () => {
-        const res = await api.service().fetch("/dashboard/group-loan/", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          console.log(res.data.results)
-          setLoans(res.data.results)
-        }
-
-        setIsLoading(false);
-
-      }
-
-      allGroupLoan();
-    } catch (error) {
-      console.log(error)
-      setIsLoading(false)
-    }
   }, []);
-
+  on("reRenderGroupLoan",allGroupLoan)
 
   return (
     <Fragment>
-      <PageTitle title="Group Loan" />
+      <PageTitle title={`${user.data.organisation_name}`} />
       <Container>
-        <Widget title="Group Loan Details" upperTitle noBodyPadding >
+        <Widget title="Group Loan" upperTitle noBodyPadding >
           <div style={{ marginTop: 10, marginBottom: 10, marginLeft: 20 }}>
             <AddLoan />
           </div>
@@ -92,13 +87,13 @@ const GroupLoan = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {loans.map((loan) => (
+                  {loans.map((loan) => (
                       <TableRow key={loan?.id}>
                         <TableCell className="pl-3 fw-normal">{loan?.id}</TableCell>
-                        <TableCell>{loan?.group?.group_name}  </TableCell>
+                        <TableCell>{loan?.group?.name}  </TableCell>
                         <TableCell>{loan?.amount}</TableCell>
                         <TableCell>{loan?.amount_to_repay}</TableCell>
-                        <TableCell>{loan?.loan_officer}</TableCell>
+                        <TableCell>{loan?.loan_officer.first_name}</TableCell>
                         <TableCell>{loan?.loan_product.name}</TableCell>
                         <TableCell>{loan?.category}</TableCell>
                         <TableCell>{loan?.payment_frequency}</TableCell>
@@ -113,7 +108,7 @@ const GroupLoan = () => {
                           </Button>
                         </TableCell>
                         <TableCell>
-                          <ActionButton loanId={loan.id} />
+                          <ActionButton loanId={loan?.id} />
                         </TableCell>
                       </TableRow>
                     ))}

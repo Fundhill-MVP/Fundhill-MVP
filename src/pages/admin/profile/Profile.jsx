@@ -155,6 +155,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="first_name"
               value={user.data.first_name}
             />
           </div>
@@ -167,6 +168,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="middle_name"
               value={user.data.middle_name}
             />
           </div>
@@ -179,6 +181,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="last_name"
               value={user.data.last_name}
             />
           </div>
@@ -207,6 +210,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='email'
+              name="email"
               value={user.data.email}
             />
           </div>
@@ -220,6 +224,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="residential_address"
               value={user.data.residential_address}
             />
           </div>
@@ -232,6 +237,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="business_address"
               value={user.data.business_address}
             />
           </div>
@@ -244,6 +250,7 @@ function Profile() {
               variant="outlined"
               size='small'
               type='text'
+              name="phone"
               value={user.data.phone}
             />
           </div>

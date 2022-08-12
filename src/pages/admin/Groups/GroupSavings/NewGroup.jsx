@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { object as yupObject, string as yupString, number as yupNumber } from "yup";
+import { object as yupObject, string as yupString,array as yupArray, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import { DotLoader } from "react-spinners";
@@ -37,7 +37,7 @@ function NewGroup() {
 
     const initialFormState = () => ({
         name: "",
-        members: "",
+        members: [],
         description: "",
     });
 
@@ -45,7 +45,10 @@ function NewGroup() {
         name: yupString()
             .required("Group name is required"),
         description: yupString()
-            .required("Enter the group description")
+            .required("Enter the group description"),
+        members: yupArray()
+            .of(yupNumber())
+            .required("Select a member")
     })
 
 
@@ -107,7 +110,7 @@ function NewGroup() {
                     }}
                 >
 
-                    {({ values }) => (
+                    {(prop) => (
                         <Form style={{ marginBottom: 30 }} >
 
                             <div className={classes.formDiv}>
@@ -116,7 +119,11 @@ function NewGroup() {
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Members</Typography></div>
-                                <SearchGroup />
+                                <SearchGroup
+                                    setSelectedOption = {(value) => {
+                                        prop.setFieldValue("members",value)
+                                    }}
+                                  />
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Description</Typography></div>

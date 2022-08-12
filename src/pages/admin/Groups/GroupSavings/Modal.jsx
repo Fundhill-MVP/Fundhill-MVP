@@ -5,12 +5,12 @@ import {CircularProgress} from "@material-ui/core";
 import { Formik, Form,  } from "formik";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import { api } from '../../../services';
+import { api } from '../../../../services';
 import {toast} from "react-toastify"
-import {TextField} from "../../../components/FormsUI"
+import {TextField} from "../../../../components/FormsUI"
 import CloseIcon from '@mui/icons-material/Close';
-import useStyles from './styles';
-import {trigger} from "../../../events";
+import useStyles from '../styles';
+import {trigger} from "../../../../events";
 
 // CONTEXT
 const override = css`

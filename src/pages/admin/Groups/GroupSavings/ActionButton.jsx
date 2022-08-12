@@ -1,11 +1,9 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import EditIcon from '@mui/icons-material/Edit';
-import FileCopyIcon from '@mui/icons-material/FileCopy';
+import { Button, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+import AllModal from './Modal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -48,8 +46,10 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function ActionButton() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+
+export default function ActionButton({setCurrentId}) {
+    const [anchorEl, setAnchorEl] = useState(null);
+    // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -57,6 +57,7 @@ export default function ActionButton() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
 
     return (
         <div>
@@ -69,10 +70,9 @@ export default function ActionButton() {
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
-                size='small'
                 style={{ textTransform: 'none' }}
             >
-                Options
+                Action
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -83,13 +83,14 @@ export default function ActionButton() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose} disableRipple>
-                    Edit
+                <MenuItem disableRipple>
+                    <AllModal setCurrentId={setCurrentId} />
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
-                    Delete
+                <MenuItem disableRipple>
+                    <AllModal setCurrentId={setCurrentId} updates />
                 </MenuItem>
             </StyledMenu>
         </div>
-    );
+    )
+
 }

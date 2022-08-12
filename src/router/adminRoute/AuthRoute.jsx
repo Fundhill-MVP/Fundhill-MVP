@@ -1,6 +1,4 @@
-import { Route } from "react-router-dom"
-
-
+import { Route } from "react-router-dom";
 // pages
 import { Login, ConfirmEmail, } from "../../pages/admin";
 import { EmailInstructions, ForgotPassword, ResetPassword, Token } from "../../pages/admin/auth";

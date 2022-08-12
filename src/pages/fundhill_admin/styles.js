@@ -1,7 +1,99 @@
-import { lightBlue } from "@material-ui/core/colors";
 import { makeStyles } from "@material-ui/styles";
 
 export default makeStyles(theme => ({
+  // my Itodo's styling
+  rateGrid: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%'
+  },
+  btnSeeMore: {
+    fontSize: 16,
+    textTransform: 'none',
+    width: '80%',
+    color: 'blue'
+  },
+
+  percent: {
+    background: 'green',
+    color: 'white !important',
+    padding: 1,
+    paddingLeft: 2,
+    paddingRight: 2,
+    borderRadius: 5
+  },
+  amount: {
+    fontWeight: 600
+  },
+
+  formBox: {
+    width: '100%',
+    background: 'white',
+    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+    padding: 10,
+    borderRadius: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  inputDiv: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    marginTop: 20,
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: 'column',
+      alignItems: 'start',
+      width: '90%',
+
+    }
+  },
+  input: {
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    width: '100%',
+  },
+  label: {
+    width: '15%',
+    [theme.breakpoints.down("sm")]: {
+      width: '50%'
+    }
+  },
+  btnSubmit: {
+    width: '100%',
+    backgroundColor: 'blue',
+    color: '#fff',
+    marginTop: 10,
+    fontWeight: 600,
+
+    '&:hover': {
+      backgroundColor: 'lightBlue',
+      color: 'black'
+    }
+  },
+
+  // modal styles
+  formDiv: {
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: 10
+  },
+
+  divTypo: {
+    width: '20%',
+    marginRight: 5
+  },
+
+  profileImage: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '80%',
+    height: '90%',
+    alignSelf: 'center'
+  },
+  // Itodo's styling ends here
+
   card: {
     minHeight: "100%",
     display: "flex",
@@ -116,67 +208,6 @@ export default makeStyles(theme => ({
     fontSize: "18px !important",
     marginLeft: theme.spacing(1),
   },
-
-  // for addNewbranch
-  formBox: {
-    width: '100%',
-    background: 'white',
-    boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-    padding: 10,
-    borderRadius: 10,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  inputDiv: {
-    display: 'flex',
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 20,
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: 'column',
-      alignItems: 'start',
-      width: '90%',
-
-    }
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    width: '100%',
-  },
-  label: {
-    width: '15%',
-    [theme.breakpoints.down("sm")]: {
-      width: '50%'
-    }
-  },
-  btnSubmit: {
-    width: '100%',
-    backgroundColor: 'blue',
-    color: '#fff',
-    marginTop: 10,
-    fontWeight: 600,
-
-    '&:hover': {
-      backgroundColor: 'lightBlue',
-      color: 'black'
-    }
-  },
-
-  // modal styles
-  formDiv: {
-    display: 'flex',
-    alignItems: 'center',
-    marginTop: 10
-  },
-
-  divTypo: {
-    width: '20%',
-    marginRight: 5
-  },
-
   success: {
     backgroundColor: theme.palette.success.main,
     color: '#fff',
@@ -188,40 +219,5 @@ export default makeStyles(theme => ({
   secondary: {
     backgroundColor: theme.palette.secondary.main,
     color: '#fff',
-  },
-  sweet_loading: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  check: {
-    zIndex: 1,
-    borderRadius: 100,
-    right: 0,
-    color: 'green !important'
-  },
-  checkDiv: {
-    position: 'relative',
-    background: 'red',
-    right: 5,
-    top: 5,
-    borderRadius: 100,
-    zIndex: 1,
-    opacity: 0.5
-  },
-  paper: {
-    padding: 10
-  },
-
-  // invoice Section
-  invoicePaper: {
-    padding: 20,
-
-  },
-
-  invoiceBox1: {
-    display: 'flex',
-    justifyContent: 'space-between',
   }
 }));
