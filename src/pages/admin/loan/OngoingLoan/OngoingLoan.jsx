@@ -19,8 +19,9 @@ import {
   Grid,
 } from "@material-ui/core";
 import { Button } from '@mui/material';
-
+import SearchButton from "./SearchButton"
 import ActionButton from './OngoingButton';
+import { on } from '../../../../events';
 
 
 // CONTEXT
@@ -40,26 +41,24 @@ function OngoingLoan() {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
 
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/dashboard/loan/?is_disbursed=true", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
+  const OngoingCustomerLoan = async () => {
+    setIsLoading(true)
 
-      }
-
-      allCustomer();
-    } catch (error) {
-      console.log(error)
+    const res = await api.service().fetch("/dashboard/loan/?is_disbursed=true", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
-  }, [])
+    setIsLoading(false);
 
+  }
+
+  useEffect(() => {
+    OngoingCustomerLoan();
+
+  }, [])
+  on("reRenderOngoingCustomerLoan",OngoingCustomerLoan)
 
 
 

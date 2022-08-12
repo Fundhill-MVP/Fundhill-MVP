@@ -65,6 +65,7 @@ import ApprovedGroupLoan from "./Groups/ApprovedGroupLoan/ApprovedLoan";
 import DeniedGroupLoan from "./Groups/DeniedGroupLoan/DeniedLoan";
 import DisburseGroupLoan from "./loan/DisburseLoan/DisbursedLoan";
 import OngoingGroupLoan from "./Groups/OngoingGroupLoan/OngoingLoan";
+import GroupPlan from "./Groups/Savings/AddPlan";
 
 export {
     Login,
@@ -133,4 +134,5 @@ export {
     DeniedGroupLoan,
     DisburseGroupLoan,
     OngoingGroupLoan,
+    GroupPlan,
 }

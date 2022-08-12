@@ -179,7 +179,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                 <Fade in={lock}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {updates ? 'Confirm Delete of Leasson Teacher' : 'branch ID'}
+                            {updates ? 'Confirm Delete of Branch' : 'branch ID'}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>

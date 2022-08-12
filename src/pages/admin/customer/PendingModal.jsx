@@ -11,6 +11,7 @@ import {CircularProgress} from "@material-ui/core";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import useStyles from './styles';
+import { trigger } from '../../../events';
 
 
 
@@ -62,6 +63,7 @@ export default function ActionButton({ del, customerId }) {
             console.log(res.data)
             if(api.isSuccessful(res)){
                 setTimeout( () => {
+                    trigger("reRenderAllPendingCustomer");
                     setActiveBtn(false);
                     handleClose()
                     toast.success("Successfully activated customer!");
@@ -83,6 +85,7 @@ export default function ActionButton({ del, customerId }) {
             console.log(res.data)
             if(api.isSuccessful(res)){
                 setTimeout( () => {
+                    trigger("reRenderAllPendingCustomer");
                     setDeactiveBtn(false)
                     handleClose()
                     toast.success("Successfully deactivated customer!");
@@ -102,6 +105,7 @@ export default function ActionButton({ del, customerId }) {
                 console.log(res.data)
                 if(api.isSuccessful(res)){
                     setTimeout( () => {
+                        trigger("reRenderAllPendingCustomer");
                         setDelBtn(false);
                         handleClose()
                         toast.success("Successfully deleted customer!");

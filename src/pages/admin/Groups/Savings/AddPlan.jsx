@@ -41,7 +41,7 @@ const states = {
 //     overflow: 'auto'
 //   }
 // }))
-function AllGroups() {
+function GroupPlan() {
   const classes = useStyles();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +72,7 @@ function AllGroups() {
   }
   useEffect(() => {
     allGroup();
-  }, [])
+  }, []);
   on("reRenderAllGroup",allGroup)
 
 
@@ -137,5 +137,5 @@ function AllGroups() {
   )
 }
 
-export default AllGroups
+export default GroupPlan
 

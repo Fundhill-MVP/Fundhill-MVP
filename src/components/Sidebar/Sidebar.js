@@ -126,13 +126,14 @@ const structure = [
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
       { label: "All Groups", links: "/admin/dashboard/group/all_group" },
+      { label: "Group Plan", links: "/admin/dashboard/group/group_plan" },
       { label: "Group Loan", links: "/admin/dashboard/group/group_loan" },
       { label: "Approve Loan", links: "/admin/dashboard/group/approved_loan" },
       { label: "Denied Loan", links: "/admin/dashboard/group/denied_loan" },
       { label: "Ongoing Loan", links: "/admin/dashboard/group/ongoing_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/group/disbursed_loan" },
       { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
-
+     
     ],
   }
 

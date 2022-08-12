@@ -17,6 +17,7 @@ import {
 } from "@material-ui/core";
 import { Button } from '@mui/material';
 import ActionButton from './PendingModal';
+import { on } from '../../../events';
 
 // CONTEXT
 const override = css`
@@ -35,28 +36,23 @@ function PendingCustomer() {
   const [data, setData] = useState([]);
   const { user } = useContext(Context);
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
 
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
 
-      }
-      allCustomer();
-
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false)
+  const allPendingCustomer = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
+    setIsLoading(false);
 
+  }
+  useEffect(() => {
+    allPendingCustomer();
   }, [])
 
+  on("reRenderAllPendingCustomer",allPendingCustomer);
 
   return (
     <Fragment>
@@ -90,23 +86,6 @@ function PendingCustomer() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow >
-                        <TableCell className="pl-3 fw-normal">50</TableCell>
-                        <TableCell>John Mike</TableCell>
-                        <TableCell>000122234</TableCell>
-                        <TableCell>09033020094</TableCell>
-                        <TableCell>something@gmail.come</TableCell>
-                        <TableCell>mohamed</TableCell>
-                        <TableCell>
-                          <Button
-                            variant='contained'
-                            style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
-                            Not Approved
-                          </Button></TableCell>
-                        <TableCell>
-                          <ActionButton />
-                        </TableCell>
-                      </TableRow>
                       {data.map((customer) => (
                         <TableRow key={customer?.id}>
                           <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
