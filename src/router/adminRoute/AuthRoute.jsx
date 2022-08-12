@@ -10,7 +10,7 @@ function AuthRoute() {
   return (
     <Route path ="auth">
                 {/* Auth */}
-        <Route path="login" element={<Login />} />
+        <Route exact path="login" element={<Login />} />
         <Route path="confirm_email" element={<ConfirmEmail />} />
     </Route>
   )
