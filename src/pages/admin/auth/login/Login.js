@@ -223,6 +223,7 @@ function Login(props) {
                     )}
                     <button
                       className={classes.forgetButton}
+                      onClick={() => { navigate('/auth/forgot_password') }}
                     >
                       Forget Password
                     </button>
