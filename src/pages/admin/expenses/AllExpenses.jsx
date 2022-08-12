@@ -1,13 +1,10 @@
-import {Fragment,useEffect,useContext,useState} from 'react'
-import { Link } from "react-router-dom";
+import { Fragment, useEffect, useContext, useState } from 'react'
 // import "./Dashboard.css"
-import { Formik, Form, Field } from "formik";
-import {object as yupObject,string as yupString,number as yupNumber} from "yup";
-import { toast } from "react-toastify";
+import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {BounceLoader} from "react-spinners";
-import {Context} from "../../../context/Context";
+import { BounceLoader } from "react-spinners";
+import { Context } from "../../../context/Context";
 import PageTitle from "../../../components/PageTitle"
 import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
@@ -20,7 +17,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
-
+import {on} from "../../../events"
 
 // CONTEXT
 const override = css`
@@ -33,42 +30,35 @@ const override = css`
 
 
 function AllExpenses() {
-    const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ADD8E6");
-    const {user} = useContext(Context);
-    const [expenses,setExpenses] = useState([]);
-    const [currentId,setCurrentId] = useState("");
+  const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
+  const { user } = useContext(Context);
+  const [expenses, setExpenses] = useState([]);
+  // const [currentId,setCurrentId] = useState("");
 
 
+  const allExpenses = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/expense/", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      console.log(res.data.results)
+      setExpenses(res.data.results)
+    }
 
-    useEffect(() => {
-        try {
-            setIsLoading(true)
+    setIsLoading(false);
 
-            const allExpenses = async() => {
-              const res = await api.service().fetch("/dashboard/expense/",true);
-              console.log(res.data)
-              if(api.isSuccessful(res)){
-                  console.log(res.data.results)
-                setExpenses(res.data.results)
-              }
-        
-              setIsLoading(false);
-        
-            }
-    
-            allExpenses();
-        } catch (error) {
-            console.log(error)
-            setIsLoading(false)
-        }
-      },[]);
+  }
 
-      
+  useEffect(() => {
+    allExpenses()
+  }, []);
+  on("reRenderExpenses",allExpenses)
+
   return (
-<Fragment>
+    <Fragment>
       <PageTitle title={`${user.data.organisation_name}`} />
       <Grid container spacing={4}>
         {
@@ -76,7 +66,7 @@ function AllExpenses() {
             (
 
 
-              <div className="sweet-loading">
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 
@@ -104,7 +94,7 @@ function AllExpenses() {
                           <TableCell>{expense?.amount}</TableCell>
                           <TableCell>{expense?.description}</TableCell>
                           <TableCell>
-                          <ActionButton setExpenseId={expense?.id}  />
+                            <ActionButton setExpenseId={expense?.id} />
                           </TableCell>
                         </TableRow>
                       ))}

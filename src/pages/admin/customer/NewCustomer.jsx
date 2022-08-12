@@ -400,7 +400,7 @@ function NewCustomer() {
                 </div>
                 {
                             isLoading ? 
-                              ( <div className="sweet-loading">
+                              ( <div className={classes.sweet_loading}>
                                   <DotLoader color={color} loading={loading} css={override}  size={80} />
                                 </div>)
                               : (

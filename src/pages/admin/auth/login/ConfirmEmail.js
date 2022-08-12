@@ -2,7 +2,6 @@ import { Button, Container, Typography } from '@material-ui/core';
 import assets from '../../../../components/assets';
 import React from 'react'
 import useStyles from './styles';
-import { Link } from 'react-router-dom';
 
 const ConfirmEmail = () => {
     const classes = useStyles();

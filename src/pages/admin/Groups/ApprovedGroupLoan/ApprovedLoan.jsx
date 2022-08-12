@@ -20,9 +20,8 @@ import {
   Grid,
 } from "@material-ui/core";
 import { Button } from '@mui/material';
-
 import ActionButton from './ApprovedButton';
-
+import {on} from "../../../../events"
 
 // CONTEXT
 const override = css`
@@ -32,102 +31,97 @@ const override = css`
 `;
 
 function ApprovedLoan() {
-    const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    const [loader, setLoader] = useState(false);
-    let [color, setColor] = useState("#ADD8E6");
-    const { user } = useContext(Context)
-    const [data, setData] = useState([]);
-  
-    useEffect(() => {
-      try {
-        setIsLoading(true)
-  
-        const allCustomer = async () => {
-          const res = await api.service().fetch("/dashboard/loan/?status=APPROVED", true);
-          console.log(res.data)
-          if (api.isSuccessful(res)) {
-            setData(res.data.results)
-          }
-          setIsLoading(false);
-  
-        }
-  
-        allCustomer();
-      } catch (error) {
-        console.log(error)
-      }
-    }, [])
-  
+  const classes = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  // const [loader, setLoader] = useState(false);
+  let [color, setColor] = useState("#ADD8E6");
+  const { user } = useContext(Context)
+  const [data, setData] = useState([]);
 
-  
-  
-    return (
-      <Fragment>
-        <PageTitle title="Fundhill" />
-        <Grid container spacing={4}>
-          {
-            isLoading ?
-              (
-  
-  
-                <div className={classes.sweet_loading}>
-                  <BounceLoader color={color} loading={loading} css={override} size={150} />
-                </div>
-  
-              )
-              :
-              (
-                <Grid item xs={12}>
-                  <Widget title="All Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                    <Table className="mb-0">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell > ID </TableCell>
-                          <TableCell >Full Names </TableCell>
-                          <TableCell > Amount + Interest </TableCell>
-                          <TableCell > Account Number </TableCell>
-                          <TableCell> Loan Product </TableCell>
-                          <TableCell> Payback Date </TableCell>
-                          <TableCell>  Day created </TableCell>
-                          <TableCell>Status</TableCell>
-                          <TableCell>Action</TableCell>
-  
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {data.map((customer) => (
-                          <TableRow key={customer?.id}>
-                            <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
-                            <TableCell>{customer?.borrower?.first_name} {customer?.borrower?.last_name} </TableCell>
-                            <TableCell>{customer?.amount_to_repay}</TableCell>
-                            <TableCell>{customer?.borrower.bank_account_number}</TableCell>
-                            <TableCell>{customer?.loan_product.name}</TableCell>
-                            <TableCell>{customer?.final_due_date}</TableCell>
-                            <TableCell>{customer?.date_created} </TableCell>
-                            <TableCell>
+
+  const allGroup = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/group-loan/?status=APPROVED", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
+    }
+    setIsLoading(false);
+
+  }
+
+  useEffect(() => {
+    allGroup();
+  }, [])
+  on("reRenderAllGroup",allGroup)
+
+
+  return (
+    <Fragment>
+      <PageTitle title={`${user.data.organisation_name}`} />
+      <Grid container spacing={4}>
+        {
+          isLoading ?
+            (
+
+
+              <div className={classes.sweet_loading}>
+                <BounceLoader color={color} loading={loading} css={override} size={150} />
+              </div>
+
+            )
+            :
+            (
+              <Grid item xs={12}>
+                <Widget title="All Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                  <Table className="mb-0">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell > ID </TableCell>
+                        <TableCell >Full Names </TableCell>
+                        <TableCell > Amount + Interest </TableCell>
+                        <TableCell > Account Number </TableCell>
+                        <TableCell> Loan Product </TableCell>
+                        <TableCell> Payback Date </TableCell>
+                        <TableCell>  Day created </TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Action</TableCell>
+
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.map((customer) => (
+                        <TableRow key={customer?.id}>
+                          <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
+                          <TableCell>{customer?.group?.created_by?.first_name} {customer?.borrower?.last_name} </TableCell>
+                          <TableCell>{customer?.amount_to_repay}</TableCell>
+                          <TableCell>{customer?.group?.created_by?.bank_account_number}</TableCell>
+                          <TableCell>{customer?.loan_product.name}</TableCell>
+                          <TableCell>{customer?.final_due_date}</TableCell>
+                          <TableCell>{customer?.date_created} </TableCell>
+                          <TableCell>
                             <Button
                               variant='contained'
                               style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
                               {customer?.status}
                             </Button>
                           </TableCell>
-                            <TableCell>
-                              <ActionButton loanId={customer.id} />
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </Widget>
-                </Grid>
-              )
-          }
-  
-        </Grid>
-      </Fragment>
-    )
+                          <TableCell>
+                            <ActionButton loanId={customer.id} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Widget>
+              </Grid>
+            )
+        }
+
+      </Grid>
+    </Fragment>
+  )
 }
 
 export default ApprovedLoan

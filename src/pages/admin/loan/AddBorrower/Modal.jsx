@@ -111,67 +111,54 @@ export default function OptionModal({customerId}) {
     const navigate = useNavigate();
   
   
+
+    const allCustomer = async () => {
+      const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+      if (api.isSuccessful(res)) {
+        setCustomers(res.data.results)
+      }
+
+    }
+
+    const allMarketer = async () => {
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT", true);
+      console.log(res.data)
+      if (api.isSuccessful(res)) {
+        //   console.log(res)
+        setMarketers(res.data.results)
+      }
+
+
+    }
+
+    const allBranches = async () => {
+      const res = await api.service().fetch("/dashboard/branches/", true);
+      if (api.isSuccessful(res)) {
+        setBranches(res.data.results)
+      }
+
+
+    }
+
+    const newProduct = async () => {
+      const res = await api
+        .service()
+        .fetch("/dashboard/loan-product", true);
+      // console.log(res.data.results)
+
+      if ((api.isSuccessful(res))) {
+        setProducts(res.data.results);
+        setIsLoading(false)
+      }
+    }
+
     useEffect(() => {
-      setIsLoading(true)
-  
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setCustomers(res.data.results)
-        }
-  
-        // setIsLoading(false);
-  
-      }
-  
       allCustomer();
-  
-      const allMarketer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?is_staff=True", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          //   console.log(res)
-          setMarketers(res.data.results)
-        }
-  
-        // setIsLoading(false);
-  
-      }
-  
       allMarketer();
-  
-      const allBranches = async () => {
-        const res = await api.service().fetch("/dashboard/branches/", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setBranches(res.data.results)
-        }
-  
-        setIsLoading(false);
-  
-      }
-  
       allBranches();
-  
-  
-      const newProduct = async () => {
-        const res = await api
-          .service()
-          .fetch("/dashboard/loan-product", true);
-        console.log(res.data.results)
-  
-        if ((api.isSuccessful(res))) {
-          setProducts(res.data.results);
-          setIsLoading(false)
-        }
-      }
-  
       newProduct();
-  
-      setIsLoading(false);
-  
-    }, []);
+
+    }, [])
   
   
     const initialFormState = (id) => ({

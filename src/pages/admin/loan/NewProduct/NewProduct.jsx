@@ -47,10 +47,10 @@ function NewProduct() {
     const products = await api
       .service()
       .fetch("/dashboard/loan-product", true);
-    console.log(products.data.results)
+    // console.log(products.data.results)
 
     if ((api.isSuccessful(products))) {
-      setData(products.data.results);
+      setData(products?.data?.results);
       setIsLoading(false)
 
     } else {

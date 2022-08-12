@@ -179,7 +179,7 @@ export default function OptionModal({ del,loanId }) {
 
                                     <Formik
                                         initialValues={{
-                                            id: item?.id,
+                                            id: loanId,
                                             status: "DENIED",
                                         }}
                                         onSubmit={async(values) => {
@@ -229,7 +229,7 @@ export default function OptionModal({ del,loanId }) {
 
                                     <Formik
                                         initialValues={{
-                                            id: item?.id,
+                                            id: loanId,
                                             status: "APPROVED",
                                         }}
                                         onSubmit={async(values) => {

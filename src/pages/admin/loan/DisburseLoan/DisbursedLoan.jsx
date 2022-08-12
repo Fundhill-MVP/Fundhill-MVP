@@ -92,7 +92,7 @@ function DisburseLoan() {
                         <TableCell>  Day created </TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
-                        <TableCell>Receipt</TableCell>
+                        {/* <TableCell>Receipt</TableCell> */}
 
                       </TableRow>
                     </TableHead>
@@ -124,9 +124,9 @@ function DisburseLoan() {
                           </Link>
 
                         </TableCell>
-                          <TableCell>
+                          {/* <TableCell>
                             <ActionButton loanId={customer.id} />
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>

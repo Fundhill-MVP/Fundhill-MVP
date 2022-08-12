@@ -38,32 +38,29 @@ function DisburseLoan() {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
 
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/dashboard/loan/?is_disbursed=true", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
-
-      }
-
-      allCustomer();
-    } catch (error) {
-      console.log(error)
+  const allGroup = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/group-loan/?is_disbursed=true", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
-  }, [])
+    setIsLoading(false);
 
+  }
+
+  useEffect(() => {
+    allGroup();
+
+  }, [])
+  on("reRenderAllGroup",allGroup)
 
 
 
   return (
     <Fragment>
-      <PageTitle title="Fundhill" />
+      <PageTitle title={`${user.data.organisation_name}`} />
       <Grid container spacing={4}>
         {
           isLoading ?
@@ -92,7 +89,7 @@ function DisburseLoan() {
                         <TableCell>  Day created </TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
-                        <TableCell>Receipt</TableCell>
+                        {/* <TableCell>Receipt</TableCell> */}
 
                       </TableRow>
                     </TableHead>
@@ -102,7 +99,7 @@ function DisburseLoan() {
                           <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
                           <TableCell>{customer?.borrower?.first_name} {customer?.borrower?.last_name} </TableCell>
                           <TableCell>{customer?.amount_to_repay}</TableCell>
-                          <TableCell>{customer?.borrower.bank_account_number}</TableCell>
+                          <TableCell>{customer?.group?.created_by?.bank_account_number}</TableCell>
                           <TableCell>{customer?.loan_product.name}</TableCell>
                           <TableCell>{customer?.final_due_date}</TableCell>
                           <TableCell>{customer?.date_created} </TableCell>
@@ -116,7 +113,6 @@ function DisburseLoan() {
                         <TableCell>
                           <Link to={`/admin/dashboard/loan/invoice/${customer?.id}`} >
                           <Button
-
                             variant='contained'
                             style={{ textTransform: 'none', fontSize: 12, background: 'blue' }}>
                             Get Invoice
@@ -124,9 +120,9 @@ function DisburseLoan() {
                           </Link>
 
                         </TableCell>
-                          <TableCell>
+                          {/* <TableCell>
                             <ActionButton loanId={customer.id} />
-                          </TableCell>
+                          </TableCell> */}
                         </TableRow>
                       ))}
                     </TableBody>

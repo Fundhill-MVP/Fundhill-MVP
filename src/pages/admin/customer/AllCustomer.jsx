@@ -1,5 +1,5 @@
 import { Divider, Grid, MenuItem } from "@material-ui/core";
-import {  useTheme } from "@material-ui/styles";
+import { useTheme } from "@material-ui/styles";
 import { css } from "@emotion/react";
 import useStyles from './styles'
 import { styled, alpha } from '@mui/material/styles';
@@ -14,12 +14,12 @@ import {
     Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import React,{ Fragment, useState,useEffect,useContext } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
 import { api } from '../../../services';
-import {Context} from "../../../context/Context";
-import {BounceLoader} from "react-spinners";
+import { Context } from "../../../context/Context";
+import { BounceLoader } from "react-spinners";
 
 import ActionButton from './ActionButton';
 
@@ -137,22 +137,22 @@ function getStyles(name, personName, theme) {
 const Allcustomer = () => {
 
     const classes = useStyles();
-    const [isLoading,setIsLoading] = useState(false);
-    const [data,setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [data, setData] = useState([]);
     let [color, setColor] = useState("#ADD8E6");
-    const {user} =  useContext(Context);
+    const { user } = useContext(Context);
 
     useEffect(() => {
         try {
             setIsLoading(true)
 
-            const allCustomer = async() => {
-              const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-              console.log(res.data)
-              if(api.isSuccessful(res)){
-                setData(res.data.results)
-              }
-        
+            const allCustomer = async () => {
+                const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+                console.log(res.data)
+                if (api.isSuccessful(res)) {
+                    setData(res.data.results)
+                }
+
             }
             setIsLoading(false);
 
@@ -162,67 +162,67 @@ const Allcustomer = () => {
             setIsLoading(false);
 
         }
-      },[])
+    }, [])
 
 
 
 
 
-   
+
 
     return (
         <Fragment>
             <PageTitle title={`${user.data.organisation_name}`} />
             <Grid container spacing={4}>
                 {
-                    isLoading ? 
-                        (    
-                     <div className="sweet-loading">
-                        <BounceLoader color={color} l css={override} size={150} />
-                    </div>
-                ):
-                (
-                    <Grid item xs={12}>
-                    <Widget title="All Active Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                        <Table className="mb-0">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell >ID</TableCell>
-                                    <TableCell >Full Name</TableCell>
-                                    <TableCell >Account Number</TableCell>
-                                    <TableCell>Wallet Balance</TableCell>
-                                    <TableCell>Telephone</TableCell>
-                                    <TableCell>Email</TableCell>
-                                    <TableCell>Marketer</TableCell>
-                                    <TableCell>Status</TableCell>
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {/* <TableRow> */}
-                                  {data.map((customer) => (
-                                    <TableRow key={customer.id} >
-                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
-                                    <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
-                                    <TableCell> {customer.bank_account_number} </TableCell>
-                                    <TableCell> {customer.wallet.balance} </TableCell>
-                                    <TableCell> {customer.phone} </TableCell>
-                                    <TableCell> {customer.email}	</TableCell>
-                                    <TableCell>	{customer.agent.first_name} </TableCell>
-                                    <TableCell>	<Button style={{ textTransform: 'none' }} variant="contained" disableElevation> {customer.status} </Button></TableCell>
-                                    <TableCell>
-                                        <ActionButton customerId={customer?.id} />
-                                    </TableCell>
-                                    </TableRow>
-                                  ))}
-                                {/* </TableRow> */}
-                            </TableBody>
-                        </Table>
-                    </Widget>
-                </Grid>
-                )
+                    isLoading ?
+                        (
+                            <div className={classes.sweet_loading}>
+                                <BounceLoader color={color} l css={override} size={150} />
+                            </div>
+                        ) :
+                        (
+                            <Grid item xs={12}>
+                                <Widget title="All Active Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                                    <Table className="mb-0">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell >ID</TableCell>
+                                                <TableCell >Full Name</TableCell>
+                                                <TableCell >Account Number</TableCell>
+                                                <TableCell>Wallet Balance</TableCell>
+                                                <TableCell>Telephone</TableCell>
+                                                <TableCell>Email</TableCell>
+                                                <TableCell>Marketer</TableCell>
+                                                <TableCell>Status</TableCell>
+                                                <TableCell>Action</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {/* <TableRow> */}
+                                            {data.map((customer) => (
+                                                <TableRow key={customer.id} >
+                                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
+                                                    <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
+                                                    <TableCell> {customer.bank_account_number} </TableCell>
+                                                    <TableCell> {customer.wallet.balance} </TableCell>
+                                                    <TableCell> {customer.phone} </TableCell>
+                                                    <TableCell> {customer.email}	</TableCell>
+                                                    <TableCell>	{customer.agent.first_name} </TableCell>
+                                                    <TableCell>	<Button style={{ textTransform: 'none' }} variant="contained" disableElevation> {customer.status} </Button></TableCell>
+                                                    <TableCell>
+                                                        <ActionButton customerId={customer?.id} />
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                            {/* </TableRow> */}
+                                        </TableBody>
+                                    </Table>
+                                </Widget>
+                            </Grid>
+                        )
                 }
-       
+
 
             </Grid>
 

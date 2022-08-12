@@ -17,6 +17,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
+import { trigger } from '../../../../events';
 
 
 
@@ -56,31 +57,22 @@ export default function OptionModal({ del,loanId }) {
     const [item, setItem] = useState("");
     const  navigate = useNavigate();
 
+    const allLoans = async () => {
+        const loans = await api
+          .service()
+          .fetch("/dashboard/group-loan/?status=APPROVED", true);
+        // console.log(loans.data.results)
 
+        if ((api.isSuccessful(loans))) {
+          setData(loans.data.results);
+        } 
+      }
 
 
     useEffect(() => {
-        try {
-          setIsLoading(true)
-    
-          const allLoans = async () => {
-            const loans = await api
-              .service()
-              .fetch("/dashboard/loan/?status=APPROVED", true);
-            console.log(loans.data.results)
-    
-            if ((api.isSuccessful(loans))) {
-              setData(loans.data.results);
-              setIsLoading(false)
-            } else {
-              setIsLoading(true)
-            }
-          }
-          allLoans();
-        } catch (error) {
-          console.log(error)
-        }
-    
+
+        allLoans();
+
       }, [])
 
 
@@ -103,10 +95,11 @@ export default function OptionModal({ del,loanId }) {
         try {
             setDelBtn(true);
             console.log(values);
-            const res = await api.service().fetch(`/dashboard/loan/${values.id}/disburse/`, true);
+            const res = await api.service().fetch(`/dashboard/group-loan/${values.id}/disburse/`, true);
             console.log(res.data)
             if (api.isSuccessful(res)) {
               setTimeout(() => {
+                trigger("reRenderAllGroup")
                 handleClose()
                 toast.success("Successfully Disbursed Loan!");
         
@@ -126,10 +119,11 @@ export default function OptionModal({ del,loanId }) {
     try {
         setDelBtn(true);
         console.log(values);
-        const res = await api.service().push(`/dashboard/loan/action/`,values, true);
+        const res = await api.service().push(`/dashboard/group-loan/action/`,values, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderAllGroup")
             handleClose()
             toast.success("Successfully denied Loan!");
     
