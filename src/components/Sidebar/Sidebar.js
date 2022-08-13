@@ -12,7 +12,6 @@ import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import CreditScoreOutlinedIcon from '@mui/icons-material/CreditScoreOutlined';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -34,7 +33,7 @@ const structure = [
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
   {
-    id: 10, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
+    id: 11, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
     children: [
       { label: "Organisations", links: "/admin/fundhill/organisation" },
       { label: "Users", links: "/admin/fundhill/users" },

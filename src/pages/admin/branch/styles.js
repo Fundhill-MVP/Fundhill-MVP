@@ -165,12 +165,6 @@ export default makeStyles(theme => ({
     }
   },
 
-  sweet_loading: {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   // modal styles
   formDiv: {
     display: 'flex',
@@ -181,6 +175,13 @@ export default makeStyles(theme => ({
   divTypo: {
     width: '20%',
     marginRight: 5
+  },
+
+  sweet_loading: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 
   success: {

@@ -71,9 +71,6 @@ const TotalDeposits = () => {
       <PageTitle title="All Deposits made today" />
       <Grid container spacing={4}>
 
-        <div className={classes.sweet_loading}>
-          <BounceLoader color={color} l css={override} size={150} />
-        </div>
         {
           isLoading ?
             (

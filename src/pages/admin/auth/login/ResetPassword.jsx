@@ -1,10 +1,27 @@
 import { makeStyles } from '@material-ui/styles'
-import { Button, FilledInput, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
-import React from 'react';
+import {  FilledInput, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { useNavigate } from 'react-router-dom';
+import { TextField} from "../../../../components/FormsUI"
+import { css } from "@emotion/react";
+import React, { useState, useContext } from "react";
+
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { api } from "../../../../services";
+import { Context } from "../../../../context/Context";
+import {DotLoader} from "react-spinners";
+
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 const useStyles = makeStyles(theme => ({
     container: {
         display: 'flex',
@@ -39,7 +56,9 @@ const useStyles = makeStyles(theme => ({
     btn: {
         marginTop: '10px !important'
     }
-}))
+}));
+
+
 const ResetPassword = () => {
     const [values, setValues] = React.useState({
         password: '',
@@ -62,14 +81,58 @@ const ResetPassword = () => {
     };
 
     const classes = useStyles();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const {userid,token} = useParams();
 
+    // const initialFormState = () => ({
+    //     uidb64: `${userid}`,
+    //     token: `${token}`,
+    //     password:""
+    // });
+      
+    const initialFormState = () => ({
+        uidb64: `${9}`,
+        token: `${1234567}`,
+        password:""
+    });  
+      
+      const formValidation = Yup.object().shape({
+        password: Yup.string()
+          .required('Required'),
+      });
+
+    const submitResetPassword = async (values) => {
+        setIsLoading(true);
+        console.log(values);
+        const response = await api
+          .service()
+          .push('/accounts/manage/complete-password-reset/', values, true);
+    
+        if (api.isSuccessful(response)) {
+          setTimeout(() => {
+            toast.success('Token Verified  successfully.');
+            navigate('/auth/login')
+          }, 0);
+        }
+    
+        setIsLoading(false);
+      }
     return (
         <div className={classes.container}>
             <div className={classes.formContainer}>
-                <form className={classes.form}>
-                    <Typography variant='h5' gutterBottom className={classes.title}>Reset Password?</Typography>
-                    <TextField className={classes.input} variant='outlined' fullWidth type='password' placeholder='Insert New Password' />
+            <Formik
+                initialValues={initialFormState()}
+                validationSchema={formValidation}
+                onSubmit={async (values) => {
+                  await submitResetPassword(values)
+                }}
+            >
+                <Form className={classes.form}>
+                <Typography variant='h5' gutterBottom className={classes.title}>Reset Password?</Typography>
+                    <TextField className={classes.input} variant='outlined' name="password" fullWidth type='password' placeholder='Insert New Password' />
                     <FormControl className={classes.input} fullWidth variant="outlined">
                         <OutlinedInput
                             placeholder="Confirm password"
@@ -91,8 +154,18 @@ const ResetPassword = () => {
                             }
                         />
                     </FormControl>
-                    <Button className={classes.btn} variant='contained' fullWidth>Submit</Button>
-                </form>
+                    {/* <Button className={classes.btn} variant='contained' fullWidth>Submit</Button> */}
+                    {
+                            isLoading ? 
+                            ( <div className="sweet-loading">
+                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                              </div>)
+                            : (
+                                <Button type="submit" className={classes.btn} variant='contained' fullWidth>Submit</Button>
+                             )
+                         }
+                </Form>
+            </Formik>
             </div>
         </div>
     )

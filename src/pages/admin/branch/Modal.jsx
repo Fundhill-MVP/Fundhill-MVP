@@ -249,7 +249,8 @@ const AllModal = ({ updates,setCurrentId }) => {
                                             )
                                         })}
                                         </TextField>
-                                    </div>                                                    {
+                                    </div>                                          
+                                              {
                                             btnLoading ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />

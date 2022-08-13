@@ -13,9 +13,10 @@ import useStyles from '../styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners";
+import {DotLoader,BounceLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
+import { trigger } from '../../../../events';
 
 
 
@@ -40,6 +41,16 @@ const style = {
     p: 4,
 };
 
+// table
+function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+    createData(1, '2022-05-2', 15000, 'Cash', 'For Loan'),
+    // createData('Ice cream sandwich', 237, 9.0, 37,),
+
+];
 export default function OptionModal({ history,loanId }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -54,6 +65,7 @@ export default function OptionModal({ history,loanId }) {
     const [data, setData] = useState([]);
     const [item, setItem] = useState("");
     const  navigate = useNavigate();
+    const [loanHistory,setLoanHistory] = useState([]);
 
 
 
@@ -62,20 +74,20 @@ export default function OptionModal({ history,loanId }) {
         try {
           setIsLoading(true)
     
-          const allProduct = async () => {
-            const products = await api
+          const loanHistory = async () => {
+            const loans = await api
               .service()
               .fetch("/dashboard/loan-product", true);
-            console.log(products.data.results)
+            console.log(loans.data.results)
     
-            if ((api.isSuccessful(products))) {
-              setData(products.data.results);
+            if ((api.isSuccessful(loans))) {
+              setData(loans.data.results);
               setIsLoading(false)
             } else {
               setIsLoading(true)
             }
           }
-          allProduct();
+          loanHistory();
         } catch (error) {
           console.log(error)
         }
@@ -99,33 +111,33 @@ export default function OptionModal({ history,loanId }) {
     
 
 
-      const initialFormState = () => ({
-        name: "",
-        percentage: 0,
+      const initialFormState = (id) => ({
+        name: id,
+        amount: 0,
       });
 
       const validationSchema = yupObject().shape({
         name: yupString()
-        .required("What type of interest rate is this"),
-        percentage: yupNumber()
+        .required("user id is required"),
+        amount: yupNumber()
         .required("Enter a percentage"),
       });
 
 
-    const editProduct = async(values,id) => {
+    const payLoan = async(values) => {
         setBtnLoading(true);
 
         try {
             console.log(values)
             const response = await api
                   .service()
-                  .update(`/dashboard/loan-product/${id}/`,values,true)
+                  .push(`/dashboard/loan/${loanId}/repay`,values,true)
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
+                trigger("reRenderOngoingCustomerLoan")
                 handleClose()
-                toast.success("Loan product successfully updated!");
-                navigate("/admin/dashboard/loan/new_product/",{replace: true});
+                toast.success("Transaction was successfully.");
               },0);
             }
             setBtnLoading(false);
@@ -137,19 +149,22 @@ export default function OptionModal({ history,loanId }) {
    
   }
 
-  const deleteProduct = async (id) => {
+  const paymentHistory = async (id) => {
     try {
-        setDelBtn(true);
-        const res = await api.service().remove(`/dashboard/loan-product/${id}/`, true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setTimeout(() => {
-            handleClose()
-            toast.success("Successfully deleted Loan!");
+        const loanHistory = async () => {
+            const loans = await api
+              .service()
+              .fetch("/dashboard/loan", true);
+            console.log(loans.data.results)
     
-            setDelBtn(false)
-          }, 0);
-        }
+            if ((api.isSuccessful(loans))) {
+                setLoanHistory(loans.data.results);
+              setIsLoading(false)
+            } else {
+              setIsLoading(true)
+            }
+          }
+          loanHistory();
     } catch (error) {
         console.log(error);
         setDelBtn(false)
@@ -159,7 +174,7 @@ export default function OptionModal({ history,loanId }) {
 
     return (
         <div>
-            <Button style={{ color: 'black', textTransform: 'none' }} onClick={handleOpen && handleProps} >{history ? `Delete` : `Update`}</Button>
+            <Button style={{ color: 'black', textTransform: 'none' }} onClick={handleOpen && handleProps} >{history ? `Payment History` : `Pay Loan`}</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -173,8 +188,25 @@ export default function OptionModal({ history,loanId }) {
             >
                 <Fade in={open}>
                     <Box sx={style}>
-                        {history ? (
+                        {history ? 
+                            
+                                isLoading ?
+                                (
+
+
+                                <div className={classes.sweet_loading}>
+                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                </div>
+
+                                ):
+                                (
                             <>
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                                        <IconButton onClick={handleClose}>
+                                            <CloseIcon fontSize="small" />
+                                        </IconButton>
+                                    </Box>
+                                    <Divider />
                                 <TableContainer component={Paper}>
                                     <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Payment History</Typography>
                                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -206,13 +238,15 @@ export default function OptionModal({ history,loanId }) {
                                     </Table>
                                 </TableContainer>
                             </>
-                        ) :
+                        )
+                            
+                        :
 
                             (
                                 <>
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                                        Loan Product
+                                        Repay Loan
                                     </Typography>
 
                                     <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -223,36 +257,23 @@ export default function OptionModal({ history,loanId }) {
                                     <Divider />
 
                                     <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }}>
-                                        Edit Loan Product
+                                        Enter Repayment Amount
                                     </Typography>
                                     <Formik
-                                        initialValues={{
-                                            name: item?.name,
-                                            interest: item?.interest,
-                                            mgt_charges: item?.mgt_charges
-                                        }}
+                                        initialValues={initialFormState(loanId)}
                                         onSubmit={async(values) => {
-                                        await editProduct(values,item.id)
+                                        await payLoan(values)
                                     }}
                                     >          
                                         <Form style={{ display: 'flex', flexDirection: 'column' }}>
                                         <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="text" name="name" size='small'  />
+                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="text" name="amount" size='small'  />
 
                                         </div>
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Interest (%)</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="interest" size='small' />
 
-                                        </div>
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Management Charges (%)</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="mgt_charges" size='small' />
-
-                                        </div>
 
                                         {
                                         btnLoading ? 
@@ -262,7 +283,7 @@ export default function OptionModal({ history,loanId }) {
                                             : (
                                        
                                                 <Button type="submit" variant='contained' style={{ background: 'green', marginTop: 10, alignSelf: 'center' }}>
-                                                    Update
+                                                    Submit
                                                 </Button>
                                              )
                                         }
