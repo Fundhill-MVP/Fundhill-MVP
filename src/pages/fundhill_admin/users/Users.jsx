@@ -1,38 +1,155 @@
-import { Container, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import React, { Fragment } from 'react'
-import PageTitle from '../../../components/PageTitle/PageTitle'
-import Widget from '../../../components/Widget/Widget'
-import useStyles from '../styles';
-import ActionButton from './ActionButton';
-const Users = () => {
-    const classes = useStyles();
-    return (
-        <Fragment>
-            <PageTitle title="Users" />
-            <Container>
-                <Widget title="All Collections of Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                    <Table className="mb-0">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell> ID </TableCell>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell className="pl-3 fw-normal">1</TableCell>
-                                <TableCell>LegendarySayae</TableCell>
-                                <TableCell>
-                                    <ActionButton />
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+import { Fragment, useEffect, useState, useContext } from 'react'
+
+import { api } from '../../../services';
+import { Context } from "../../../context/Context";
+import { css } from "@emotion/react";
+import { BounceLoader } from "react-spinners";
+import PageTitle from "../../../components/PageTitle/PageTitle"
+import Widget from "../../../components/Widget/Widget";
+import useStyles from './styles';
+import {
+  Table,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Grid,
+} from "@material-ui/core";
+import { Button } from '@mui/material';
+import ActionButton from './Modal';
+import { on } from '../../../events';
+
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
+function PendingCustomer() {
+  const classes = useStyles();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [Loading, setLoading] = useState(false)
+  let [loading, setloading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
+  const [data, setData] = useState([]);
+  const { user } = useContext(Context);
+
+
+
+  const allPendingCustomer = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/accounts/fundhill-admin/", true);
+    // console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
+    }
+    setIsLoading(false);
+
+  }
+  useEffect(() => {
+    allPendingCustomer();
+  }, [])
+
+  on("reRenderAllPendingCustomer",allPendingCustomer);
+
+  const onDownload = () => {
+    const link = document.createElement("a");
+    link.download = `download.txt`;
+    link.href = "./download.txt";
+    link.click();
+  };
+
+  const downloadId = (url) => {
+    const link = document.createElement("a");
+    link.download = `download.txt`;
+    link.href = url;
+    link.click();
+  };
+
+  const downloadBill = (url) => {
+    const link = document.createElement("a");
+    link.download = `download.txt`;
+    link.href = url;
+    link.click();
+  };
+
+  return (
+    <Fragment>
+      <PageTitle title={`${user.data.organisation_name}`} />
+      {
+        isLoading ?
+          (
+
+
+            <div className={classes.sweet_loading}>
+              <BounceLoader color={color} loading={loading} css={override} size={150} />
+            </div>
+
+          ) :
+          (
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                <Widget title="All Customers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                  <Table className="mb-0">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell >Full Name </TableCell>
+                        <TableCell >Account Number </TableCell>
+                        <TableCell >Telephone </TableCell>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Marketer</TableCell>
+                        {/* <TableCell>Customer Id</TableCell>
+                        <TableCell>Utility Bill</TableCell> */}
+                        <TableCell>Status</TableCell>
+                        <TableCell>Action</TableCell>
+
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {data.map((customer) => (
+                        <TableRow key={customer?.id}>
+                          <TableCell className="pl-3 fw-normal">{customer?.id}</TableCell>
+                          <TableCell>{customer?.first_name} {customer?.last_name} </TableCell>
+                          <TableCell>{customer?.bank_account_number}</TableCell>
+                          <TableCell>{customer?.phone}</TableCell>
+                          <TableCell>{customer?.email}</TableCell>
+                          <TableCell>{customer?.agent.first_name} </TableCell>
+                          {/* <TableCell>
+                          <Button onClick={ downloadId(customer?.id_document)} variant="contained"color="#ffa726">
+                            Download
+                          </Button>
+                          </TableCell> */}
+                          {/* <TableCell>
+                          <Button onClick={onDownload} variant="contained" color="primary">
+                            Download
+                          </Button>
+                          </TableCell> */}
+                          <TableCell>
+                            <Button
+                              variant='contained'
+                              style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
+                              {customer?.status}
+                            </Button>
+                          </TableCell>
+                          <TableCell>
+                            <ActionButton customerId={customer?.id} />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                      }
+                    </TableBody>
+                  </Table>
                 </Widget>
-            </Container>
-        </Fragment>
-    )
+              </Grid>
+            </Grid>
+          )
+      }
+
+    </Fragment>
+  )
 }
 
-export default Users
+export default PendingCustomer

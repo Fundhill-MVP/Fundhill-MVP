@@ -1,3 +1,4 @@
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Divider, Grid, MenuItem } from "@material-ui/core";
 import { useTheme } from "@material-ui/styles";
 import { css } from "@emotion/react";
@@ -14,14 +15,13 @@ import {
     Chip
 } from "@material-ui/core";
 //   import useStyles from "./styles";
-import React, { Fragment, useState, useEffect, useContext } from "react";
 import PageTitle from "../../../components/PageTitle/PageTitle";
 import Widget from "../../../components/Widget/Widget";
 import { api } from '../../../services';
 import { Context } from "../../../context/Context";
 import { BounceLoader } from "react-spinners";
-
 import ActionButton from './ActionButton';
+import {on} from "../../../events";
 
 const style = {
     position: 'absolute',
@@ -114,7 +114,7 @@ function getStyles(name, personName, theme) {
                 : theme.typography.fontWeightMedium,
     };
 }
-const Allcustomer = () => {
+const AllActiveCustomer = () => {
 
     const classes = useStyles();
     const [isLoading, setIsLoading] = useState(false);
@@ -122,33 +122,23 @@ const Allcustomer = () => {
     let [color, setColor] = useState("#ADD8E6");
     const { user } = useContext(Context);
 
-    useEffect(() => {
-        try {
-            setIsLoading(true)
+    const activeCustomer = async () => {
+        setIsLoading(true)
 
-            const allCustomer = async () => {
-                const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-                console.log(res.data)
-                if (api.isSuccessful(res)) {
-                    setData(res.data.results)
-                }
-
-            }
-            setIsLoading(false);
-
-            allCustomer();
-        } catch (error) {
-            console.log(error);
-            setIsLoading(false);
-
+        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+            setData(res.data.results)
         }
+        setIsLoading(false);
+    }
+
+
+    useEffect(() => {
+        activeCustomer();
+
     }, [])
-
-
-
-
-
-
+    on("reRenderActiveCustomer",activeCustomer);
 
     return (
         <Fragment>
@@ -212,4 +202,4 @@ const Allcustomer = () => {
     )
 }
 
-export default Allcustomer
+export default AllActiveCustomer
