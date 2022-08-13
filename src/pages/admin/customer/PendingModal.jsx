@@ -11,6 +11,7 @@ import {CircularProgress} from "@material-ui/core";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import useStyles from './styles';
+import { trigger } from '../../../events';
 
 
 
@@ -37,12 +38,13 @@ export default function ActionButton({ del, customerId }) {
     const [delBtn,setDelBtn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [data,setData] = useState([]);
+    const PF = "https://fundhill-api.herokuapp.com/media/";
 
     useEffect(() => {
         setIsLoading(true)
         const allCustomer = async() => {
           const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING",true);
-          console.log(res.data)
+        //   console.log(res.data)
           if(api.isSuccessful(res)){
             setData(res.data.results)
           }
@@ -62,6 +64,7 @@ export default function ActionButton({ del, customerId }) {
             console.log(res.data)
             if(api.isSuccessful(res)){
                 setTimeout( () => {
+                    trigger("reRenderAllPendingCustomer");
                     setActiveBtn(false);
                     handleClose()
                     toast.success("Successfully activated customer!");
@@ -83,6 +86,7 @@ export default function ActionButton({ del, customerId }) {
             console.log(res.data)
             if(api.isSuccessful(res)){
                 setTimeout( () => {
+                    trigger("reRenderAllPendingCustomer");
                     setDeactiveBtn(false)
                     handleClose()
                     toast.success("Successfully deactivated customer!");
@@ -102,6 +106,7 @@ export default function ActionButton({ del, customerId }) {
                 console.log(res.data)
                 if(api.isSuccessful(res)){
                     setTimeout( () => {
+                        trigger("reRenderAllPendingCustomer");
                         setDelBtn(false);
                         handleClose()
                         toast.success("Successfully deleted customer!");
@@ -143,7 +148,7 @@ export default function ActionButton({ del, customerId }) {
                 <Fade in={open}>
                     <Box sx={style}>
                         <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-                            Customer ID: {user.id} {user?.first_name} {user?.last_name}
+                             FullName:{user?.first_name} {user?.last_name} Id:  {user.id} 
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -153,7 +158,8 @@ export default function ActionButton({ del, customerId }) {
                         </Box>
                         <Divider />
 
-                        <img className={classes.img} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMltxBUZCeJjJCrE18S0PZktyxZyhJMXyPuc9fc9zRU-Qi6sm9lv9UaStBK6m77lgsO7o&usqp=CAU" alt="" />
+                        {/* <img className={classes.img} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMltxBUZCeJjJCrE18S0PZktyxZyhJMXyPuc9fc9zRU-Qi6sm9lv9UaStBK6m77lgsO7o&usqp=CAU" alt="" /> */}
+                        <img className={classes.img} src={user.avatar} alt={user.first_name}  />
 
                         <Divider />
                         <div style={{ marginTop: 10, display: 'flex', justifyContent: 'flex-end' }}>

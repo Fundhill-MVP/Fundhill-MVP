@@ -17,6 +17,7 @@ import { DotLoader } from "react-spinners";
 import {TextField,Select} from "../../../../components/FormsUI";
 import useStyles from '../styles';
 import {Context} from "../../../../context/Context"
+import { trigger } from '../../../../events';
 
 
 // CONTEXT
@@ -207,9 +208,9 @@ export default function OptionModal({customerId}) {
         
             if (api.isSuccessful(response)) {
               setTimeout(() => {
+                trigger("reRenderLoanCustomer")
                 handleClose()
                 toast.success("Successfully assign loan!");
-                navigate("/admin/dashboard/loan/add_borrower", { replace: true });
               }, 0);
             }
             setLoader(false);

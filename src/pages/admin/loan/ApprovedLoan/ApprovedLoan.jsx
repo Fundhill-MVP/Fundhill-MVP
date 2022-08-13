@@ -22,6 +22,7 @@ import {
 import { Button } from '@mui/material';
 
 import ActionButton from './ApprovedButton';
+import { on } from '../../../../events';
 
 
 // CONTEXT
@@ -40,25 +41,23 @@ function ApprovedLoan() {
     const { user } = useContext(Context)
     const [data, setData] = useState([]);
   
-    useEffect(() => {
-      try {
-        setIsLoading(true)
-  
-        const allCustomer = async () => {
-          const res = await api.service().fetch("/dashboard/loan/?status=APPROVED", true);
-          console.log(res.data)
-          if (api.isSuccessful(res)) {
-            setData(res.data.results)
-          }
-          setIsLoading(false);
-  
-        }
-  
-        allCustomer();
-      } catch (error) {
-        console.log(error)
+
+    const ApprovedCustomerLoan = async () => {
+      setIsLoading(true)
+      const res = await api.service().fetch("/dashboard/loan/?status=APPROVED", true);
+      console.log(res.data)
+      if (api.isSuccessful(res)) {
+        setData(res.data.results)
       }
-    }, [])
+      setIsLoading(false);
+
+    }
+
+    useEffect(() => {
+      ApprovedCustomerLoan();
+
+    }, []);
+    on("reRenderApprovedCustomerLoan",ApprovedCustomerLoan)
   
 
   

@@ -19,6 +19,7 @@ import { Button } from '@mui/material';
 
 import ActionButton from './DisburedButton';
 import SearchButton from "./SearchButton";
+import { on } from '../../../../events';
 
 
 // CONTEXT
@@ -38,26 +39,24 @@ function DisburseLoan() {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
 
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/dashboard/loan/?is_disbursed=true", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
 
-      }
-
-      allCustomer();
-    } catch (error) {
-      console.log(error)
+  const DisbursedCustomerLoan = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/loan/?is_disbursed=true", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
-  }, [])
+    setIsLoading(false);
 
+  }
+
+  useEffect(() => {
+    DisbursedCustomerLoan();
+
+  }, [])
+  on("reRenderDisbursedCustomerLoan",DisbursedCustomerLoan)
 
 
 

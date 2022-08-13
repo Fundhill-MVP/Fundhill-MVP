@@ -37,6 +37,7 @@ const SavingsPlan = () => {
     let [color, setColor] = useState("#ADD8E6");
     const [marketers, setMarketers] = useState([]);
     const {user} = useContext(Context)
+    
     useEffect(() => {
         setIsLoading(true)
 

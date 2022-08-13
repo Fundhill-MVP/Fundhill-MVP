@@ -14,8 +14,8 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
-import CheckBox from './CheckBox';
 import OptionModal from './Modal';
+import { on } from '../../../../events';
 
 // CONTEXT
 const override = css`
@@ -33,32 +33,25 @@ function AddBorrower() {
   const [loading, setLoading] = useState(true);
   const [color, setColor] = useState("#ADD8E6");
   const { user } = useContext(Context)
-
   const [customers, setCustomers] = useState([]);
 
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
-
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setCustomers(res.data.results)
-        }
-
-      }
-      setIsLoading(false);
-
-      allCustomer();
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-
+  const loanCustomer = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setCustomers(res.data.results)
     }
-  }, [])
+    setIsLoading(false);
+  }
 
+
+  useEffect(() => {
+    loanCustomer();
+
+  }, [])
+  on("reRenderLoanCustomer",loanCustomer)
 
   return (
     <Fragment>

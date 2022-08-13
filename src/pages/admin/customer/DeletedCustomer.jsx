@@ -20,6 +20,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import ActionButton from './PendingModal';
+import { on } from '../../../events';
 
 // CONTEXT
 const override = css`
@@ -36,86 +37,22 @@ function DeletedCustomer() {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+
+
+  const allPendingCustomer = async () => {
     setIsLoading(true)
-
-    const allCustomer = async () => {
-      const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=DISABLED", true);
-      console.log(res.data)
-      if (api.isSuccessful(res)) {
-        setData(res.data.results)
-      }
-      setIsLoading(false);
-
+    const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=DISABLED", true);
+    // console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
+    setIsLoading(false);
 
-    allCustomer();
+  }
+  useEffect(() => {
+    allPendingCustomer();
   }, [])
-
-  const savingsFormState = (id) => ({
-    user: id,
-    frequency: null,
-    amount_per_cycle: null,
-    duration_in_months: null,
-    amount: null,
-    plan_type: null
-  });
-
-
-  const savingsValidationSchema = yupObject().shape({
-    user: yupNumber()
-      .required("User is required"),
-    frequency: yupString()
-      .required("frequency is required"),
-    amount_per_cycle: yupNumber()
-      .required("Amount cycle is required"),
-    duration_in_months: yupNumber()
-      .required("Duration is required"),
-    amount: yupNumber()
-      .required("Amount is required"),
-    plan_type: yupString()
-      .required("Select a savings plan."),
-  });
-
-
-  const savings = async (values) => {
-    setLoading(true);
-    console.log(values)
-
-    const response = await api
-      .service()
-      .push("/dashboard/savings-plan/add/", values, true)
-
-    if (api.isSuccessful(response)) {
-      setTimeout(() => {
-        toast.success("Savings Plan successfully added!");
-        // navigate("/admin/allbranch",{replace: true})
-      }, 0);
-    }
-    setLoading(false);
-  }
-
-
-  const activateCustomer = async (id) => {
-    const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/activate/`, true);
-    console.log(res.data)
-    if (api.isSuccessful(res)) {
-      setTimeout(() => {
-        toast.success("Successfully activated customer!");
-      }, 0);
-    }
-
-  }
-  const deactivateCustomer = async (id) => {
-    const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/deactivate/`, true);
-    console.log(res.data)
-    if (api.isSuccessful(res)) {
-      setTimeout(() => {
-        toast.success("Successfully deactivated customer!");
-      }, 0);
-    }
-
-  }
+  on("reRenderPendingCustomer",allPendingCustomer)
 
   return (
     <Fragment>

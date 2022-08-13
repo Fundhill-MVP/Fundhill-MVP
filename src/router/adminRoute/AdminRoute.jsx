@@ -73,6 +73,7 @@ import {
   DeniedGroupLoan,
   DisburseGroupLoan,
   OngoingGroupLoan,
+  GroupPlan
 } from "../../pages/admin"
 
 // context
@@ -145,11 +146,7 @@ function AdminRoute() {
       {/* <Route path="dashboard/marketer/marketer_account" element={<MarketerAccount />} /> */}
 
 
-      {/* Esusu Management */}
-      {/* <Route path="dashboard/esusu_perform" element={<EsusPerform />} />
-        <Route path="dashboard/esusu_withdraw_receipt" element={<EsusuWReciept />} />
-        <Route path="dashboard/esusu_deposit_receipt" element={<EsusuDReciept />} />
-        <Route path="dashboard/esusu_transaction" element={<EsusuTransaction />} /> */}
+
 
       {/* Loan Management */}
       <Route path="dashboard/loan/new_product" element={<NewProduct />} />
@@ -177,17 +174,14 @@ function AdminRoute() {
       <Route path="dashboard/group/denied_loan" element={<DeniedGroupLoan />} />
       <Route path="dashboard/group/ongoing_loan" element={<DeniedGroupLoan />} />
       <Route path="dashboard/group/disbursed_loan" element={<DeniedGroupLoan />} />
+      <Route path="dashboard/group/group_plan" element={<GroupPlan />} />
+
 
       {/* Reports */}
       <Route path="dashboard/tranxs/total_deposits" element={<TotalDeposits />} />
       <Route path="dashboard/tranxs/total_withdrawals" element={<TotalWithdrawals />} />
 
-        {/* <Route path="dashboard/regular_savings_report" element={<RegularReport />} />
-        <Route path="dashboard/targeted_savings_report" element={<TargetedReport />} />
-        <Route path="dashboard/fixed_savings_report" element={<FixedReport />} />
-        <Route path="dashboard/withdrawal_report" element={<WithdrawalReport />} />
-        <Route path="dashboard/deposit_report" element={<DepositReport />} />
-        <Route path="dashboard/loan_report" element={<LoanReport />} /> */}
+  
 
 
 

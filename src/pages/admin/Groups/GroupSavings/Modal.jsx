@@ -10,6 +10,7 @@ import {toast} from "react-toastify"
 import {TextField} from "../../../../components/FormsUI"
 import CloseIcon from '@mui/icons-material/Close';
 import useStyles from '../styles';
+import SearchGroup from "./SearchGroup";
 import {trigger} from "../../../../events";
 
 // CONTEXT
@@ -32,7 +33,7 @@ const style = {
 };
 
 
-const AllModal = ({ updates,setCurrentId }) => {
+const AllModal = ({ updates,groupId }) => {
 
     const [lock, setUnlock] = useState(false);
     const handleUnlock = () => setUnlock(true);
@@ -59,8 +60,8 @@ const AllModal = ({ updates,setCurrentId }) => {
   useEffect(() => {
     setIsLoading(true)
 
-    const allBranch = async () => {
-      const res = await api.service().fetch("/dashboard/branches/", true);
+    const allGroup = async () => {
+      const res = await api.service().fetch("/accounts/group/", true);
       console.log(res.data)
       if (api.isSuccessful(res)) {
         setData(res.data.results)
@@ -70,45 +71,46 @@ const AllModal = ({ updates,setCurrentId }) => {
 
     }
 
-    allBranch();
+    allGroup();
   }, [])
 
 
-  const branches = (id) => {
-    const branch = data.filter((item) => item.id === id);
+  const groups = (id) => {
+    const group = data.filter((item) => item.id === id);
     // console.log(branch);
-    setItem(branch[0]);
+    setItem(group[0]);
     console.log(item);
     // return branch
   }
 
   const handleProps = () => {
-    // console.log(setCurrentId);
-    branches(setCurrentId);
-    // setItem(branches(setCurrentId));
+    // console.log(groupId);
+    groups(groupId);
+    // setItem(groups(groupId));
     return setUnlock(true);
   }
 
 
 
+
   const initialFormState = () => ({
     name: `${item.name}`,
-    branch_head_id: `${item.branch_head.id}`,
-    branch_address: `${item.branch_address}`,
-  });
+    members: [item.members],
+    description: `${item.description}`,
+});
 
 
 
 
-  const deleteBranch = async (id) => {
+  const deleteGroup = async (id) => {
         try {
             setDelBtn(true)
-            const res = await api.service().remove(`/dashboard/branches/${id}/`, true);
+            const res = await api.service().remove(`/accounts/group/${id}/`, true);
             console.log(res.data)
             if (api.isSuccessful(res)) {
               setTimeout(() => {
-                toast.success("Successfully deleted branch!");
-                trigger("reRenderBranch")
+                toast.success("Successfully deleted Group!");
+                trigger("reRenderAllGroup")
                 handleLock()
                 setDelBtn(false)
 
@@ -120,21 +122,21 @@ const AllModal = ({ updates,setCurrentId }) => {
 
   }
 
-  const edit_branch = async (values, id) => {
+  const editGroup = async (values, id) => {
     try {
         setBtnLoading(true);
         console.log(values)
     
         const response = await api
           .service()
-          .update(`/dashboard/branches/${id}/`, values, true)
+          .update(`/accounts/group/${id}/`, values, true)
     
         if (api.isSuccessful(response)) {
           setTimeout(() => {
-            toast.success("branch successfully updated!!");
+            trigger("reRenderAllGroup")
+            toast.success("Group successfully updated!!");
             handleLock()
-            trigger("reRenderBranch")
-            // allBranch();
+            // allGroup();
           }, 0);
         }
         setBtnLoading(false);
@@ -144,22 +146,8 @@ const AllModal = ({ updates,setCurrentId }) => {
   }
 
 
-  const allMarketer = async () => {
-    try {
-        const res = await api.service().fetch("/accounts/manage/?is_staff=True", true);
-        if (api.isSuccessful(res)) {
-          setMarketers(res.data.results)
-        }
-  
-    } catch (error) {
-        console.log(error);
-    }
-}
 
-  useEffect(() => {
 
-    allMarketer();
-  }, []);
 
     return (
         <div>
@@ -179,7 +167,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                 <Fade in={lock}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {updates ? 'Confirm Delete of Leasson Teacher' : 'branch ID'}
+                            {updates ? 'Confirm Delete of Group' : 'Group ID'}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -190,7 +178,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                         <Divider style={{ marginTop: 40 }} />
                         {updates ? (
                             <>
-                                <Typography style={{ fontWeight: 500, marginTop: 10, marginBottom: 10, marginLeft: 10, textAlign: 'center' }}>Are you sure you want to delete this branch?</Typography>
+                                <Typography style={{ fontWeight: 500, marginTop: 10, marginBottom: 10, marginLeft: 10, textAlign: 'center' }}>Are you sure you want to delete this Group?</Typography>
 
                                 <Divider style={{ marginTop: 40 }} />
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
@@ -200,7 +188,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                                         )
                                         :
                                         (
-                                            <Button onClick={() => deleteBranch(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                            <Button onClick={() => deleteGroup(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
                                         )
                                         }
 
@@ -210,46 +198,36 @@ const AllModal = ({ updates,setCurrentId }) => {
                             item && (
                                 
                                 <>
-                                <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit branch Profile</Typography>
+                                <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit Group Profile</Typography>
                                 <Formik 
                                     initialValues={initialFormState()}
                                     onSubmit={async(values) => {
-                                        await edit_branch(values,item.id)
+                                        await editGroup(values,item.id)
                                     }}
                                 >
-                                    <Form>
+                                    {(prop) => (
+                                        <Form>
                                     <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Branch Name </Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text"  name="name" size='small'  required />
+                                        <div className={classes.divTypo}><Typography>Group Name </Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text"  name="name" size='small' />
 
                                     </div>
 
                                     <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Branch Address</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="branch_address"  size='small'  required />
-
+                                        <div className={classes.divTypo}><Typography>Members</Typography></div>
+                                                <SearchGroup
+                                            setSelectedOption = {(value) => {
+                                                prop.setFieldValue("members",value)
+                                            }}
+                                        />
                                     </div>
 
                                     <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Marketer</Typography></div>
-                                        <TextField
-                                        select={true} 
-                                        className={classes.input}
-                                        name="branch_head_id"  
-                                        variant='outlined'
-                                        fullWidth={true}
-                                        // type="number"
-                                    >
-                                        {marketers.map((marketer) => {
-                                            return (
-                                                <MenuItem key={marketer.id} value={marketer.id}>
-                                                    {marketer.first_name}
-                                                </MenuItem>      
-   
-                                            )
-                                        })}
-                                        </TextField>
-                                    </div>                                                    {
+                                        <div className={classes.divTypo}><Typography> Description </Typography></div>
+                                        <TextField fullWidth variant='outlined' type="text"  name="description" size='small' />
+
+                                    </div>
+                                                   {
                                             btnLoading ? 
                                             ( <div className="sweet-loading">
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
@@ -262,6 +240,7 @@ const AllModal = ({ updates,setCurrentId }) => {
                                         }
                                             
                                     </Form>
+                                    )}
                                 </Formik>
                               
                             

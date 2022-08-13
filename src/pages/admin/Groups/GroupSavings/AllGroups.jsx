@@ -73,7 +73,7 @@ function AllGroups() {
   useEffect(() => {
     allGroup();
   }, [])
-  on("reRenderBranch",allGroup)
+  on("reRenderAllGroup",allGroup)
 
 
 
@@ -101,7 +101,7 @@ function AllGroups() {
             :
             (
               <Grid item xs={12}>
-                <Widget title="All Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                <Widget title="All Groups" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>

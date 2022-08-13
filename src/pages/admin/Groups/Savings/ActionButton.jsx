@@ -1,9 +1,8 @@
-import { Button, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled, alpha } from '@mui/material/styles';
-import Menu from '@mui/material/Menu';
-import React, { useState } from 'react';
-import AllModal from './Modal';
+import SavingsModal from './Modal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -47,9 +46,8 @@ const StyledMenu = styled((props) => (
 }));
 
 
-export default function ActionButton({groupId}) {
+const ActionButton = ({groupId}) => {
     const [anchorEl, setAnchorEl] = useState(null);
-    // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -57,7 +55,6 @@ export default function ActionButton({groupId}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
 
     return (
         <div>
@@ -83,14 +80,19 @@ export default function ActionButton({groupId}) {
                 open={open}
                 onClose={handleClose}
             >
+
                 <MenuItem disableRipple>
-                    <AllModal groupId={groupId} />
+                    <SavingsModal groupId={groupId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <AllModal groupId={groupId} updates />
+                    <SavingsModal groupId={groupId} activate />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <SavingsModal groupId={groupId} deactivate />
                 </MenuItem>
             </StyledMenu>
         </div>
     )
-
 }
+
+export default ActionButton
