@@ -4,31 +4,25 @@ import PageTitle from '../../../components/PageTitle/PageTitle'
 import Widget from '../../../components/Widget/Widget'
 import useStyles from '../styles';
 import ActionButton from './ActionButton';
-const Organisation = () => {
+const Users = () => {
     const classes = useStyles();
     return (
         <Fragment>
-            <PageTitle title="Organisations" />
+            <PageTitle title="Users" />
             <Container>
                 <Widget title="All Collections of Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                     <Table className="mb-0">
                         <TableHead>
                             <TableRow>
-                                <TableCell > ID </TableCell>
-                                <TableCell >Name</TableCell>
-                                <TableCell >Transactions</TableCell>
-                                <TableCell>Date</TableCell>
-                                <TableCell>Branches</TableCell>
+                                <TableCell> ID </TableCell>
+                                <TableCell>Name</TableCell>
                                 <TableCell>Action</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             <TableRow>
                                 <TableCell className="pl-3 fw-normal">1</TableCell>
-                                <TableCell>	Legendary</TableCell>
-                                <TableCell>null</TableCell>
-                                <TableCell>8 AUG 2022</TableCell>
-                                <TableCell>A Branch</TableCell>
+                                <TableCell>LegendarySayae</TableCell>
                                 <TableCell>
                                     <ActionButton />
                                 </TableCell>
@@ -41,4 +35,4 @@ const Organisation = () => {
     )
 }
 
-export default Organisation
+export default Users

@@ -1,5 +1,5 @@
-import React, { useState,useContext } from "react";
-import {Link,useNavigate} from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
@@ -37,7 +37,7 @@ import {
   toggleSidebar,
 } from "../../context/LayoutContext";
 import { useUserDispatch, signOut } from "../../context/UserContext";
-import {Context} from "../../context/Context";
+import { Context } from "../../context/Context";
 const messages = [
   {
     id: 0,
@@ -160,10 +160,10 @@ export default function Header(props) {
           aria-controls="profile-menu"
           onClick={e => setProfileMenu(e.currentTarget)}
         >
-          {user.data.avatar ? 
+          {user.data.avatar ?
             (
-              <Avatar src={PF + user.avatar} alt="profile"  />
-            ):
+              <Avatar src={PF + user.avatar} alt="profile" />
+            ) :
             (
               <Avatar src="" alt="profile" classes={{ root: classes.headerIcon }} />
             )
@@ -194,7 +194,7 @@ export default function Header(props) {
             )}
             onClick={() => navigate("/admin/dashboard/profile/update_profile")}
           >
-            <AccountIcon  className={classes.profileMenuIcon} /> Profile
+            <AccountIcon className={classes.profileMenuIcon} /> Profile
           </MenuItem>
           <MenuItem
             className={classNames(
@@ -209,7 +209,7 @@ export default function Header(props) {
             <Typography
               className={classes.profileMenuLink}
               color="primary"
-              // onClick={() => signOut(userDispatch, props.history)}
+            // onClick={() => signOut(userDispatch, props.history)}
             >
               <Link className={classes.profileMenuLink} color="primary" onClick={handleLogout} to="/auth/login">Sign Out</Link>
             </Typography>
