@@ -164,7 +164,6 @@ export default function Reciept(props) {
                                     </div>
                                 </div>
 
-
                                 {/* <div className={classes.grid}>
                             <div className={classes.gridItems}>
                                 <div className={classes.innerGrid}>
