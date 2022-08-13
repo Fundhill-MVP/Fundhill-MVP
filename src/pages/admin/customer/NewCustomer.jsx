@@ -1,23 +1,13 @@
 import {Fragment,useEffect,useContext,useState} from 'react'
 import { useNavigate } from "react-router-dom";
-// import "./Dashboard.css"
-import { Formik, Form, Field } from "formik";
-import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {BounceLoaderk,DotLoader} from "react-spinners";
+import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 import PageTitle from "../../../components/PageTitle"
-import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
 import {
-  Table,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  Grid,
   Typography,
   TextField,
   Box,
@@ -25,8 +15,7 @@ import {
   MenuItem,
   Button
 } from "@material-ui/core";
-import ActionButton from './ActionButton';
-// import {DateTimePicker,Select} from "../../../components/FormsUI"
+// import {TextField} from "../../../components/FormsUI"
 
 
 // CONTEXT
@@ -68,7 +57,6 @@ function NewCustomer() {
   const [id_document, setIdDocument] = useState("");
   const [utility_bill, setUtilityBill] = useState("");
  
-  const [bvn, setBvn] = useState("");
 
     const gender = {
         male: "M",
@@ -118,12 +106,19 @@ function NewCustomer() {
         setIsLoading(true)
         // setLoading(false)
         let data = new FormData(e.target);
+        // let tel = data.phone.toString();
+        // tel = tel.substr(1)
+        // let newPhone = "234"+tel;
+        // let phone = new Number(newPhone)
+        // console.log(phone)
+
         data.append("user_role","CUSTOMER");
         data.append("password",genPassword());
         data.append("avatar",avatar);
         data.append("id_document",id_document);
         data.append("utility_bill",utility_bill);
         data.append("country","Nigeria");
+        // data.append("phone",phone)
         console.log(data)
 
 
@@ -171,6 +166,7 @@ function NewCustomer() {
                     size='small'
                     name='title'
                     type='text'
+                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -183,6 +179,7 @@ function NewCustomer() {
                     size='small'
                     name='first_name'
                     type='text'
+                    required
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -215,17 +212,15 @@ function NewCustomer() {
                     <Typography >Gender</Typography>
                 </div>
                 <Select
-                    select={true}
                     className={classes.input}
                     variant="outlined"
                     size='small'
                     name='gender'
                     type='text'
-                    options={gender}
                 >   
-                 <MenuItem>Select One</MenuItem>
+                    <MenuItem>Select One</MenuItem>
                     <MenuItem value={"M"} >Male</MenuItem>
-                 <MenuItem value={"F"}>Female</MenuItem>
+                    <MenuItem value={"F"}>Female</MenuItem>
                 </Select>
             </div>
             <div className={classes.inputDiv}>
@@ -292,13 +287,11 @@ function NewCustomer() {
                     <Typography >Currency</Typography>
                 </div>
                 <Select
-                    select={true}
                     className={classes.input}
                     variant="outlined"
                     size='small'
                     name='currency'
                     type='text'
-                    options={currency}
                 >   
                     <MenuItem>Select One</MenuItem>
                     <MenuItem value={"NGN"} >NGN</MenuItem>
@@ -350,7 +343,7 @@ function NewCustomer() {
                     variant="outlined"
                     size='small'
                     name='phone'
-                    type='text'
+                    type='number'
                 />
             </div>
             <div className={classes.inputDiv}>
@@ -383,11 +376,10 @@ function NewCustomer() {
                             <Typography >Marketer</Typography>
                         </div>
                     <Select
-                        select={true} 
                         className={classes.input}
                         name="agent_id"  
                         variant='outlined'
-                        fullWidth={true}
+                        fullWidth
                     >
                         {marketers.map((marketer) => {
                             return (

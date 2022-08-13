@@ -25,7 +25,7 @@ import {
 } from "@material-ui/core";
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { api } from "../../../../services";
 ;
@@ -217,16 +217,18 @@ function Login(props) {
                         constiant="contained"
                         color="primary"
                         size="large"
+                        type="submit"
                       >
                         Login
                       </Button>
                     )}
-                    <button
+                    <Link
                       className={classes.forgetButton}
-                      onClick={() => { navigate('/auth/forgot_password') }}
+                      // onClick={() => { navigate('/auth/forgot_password') }}
+                      to="/auth/forgot_password"
                     >
                       Forget Password
-                    </button>
+                    </Link>
                   </div>
                 </Form>
               </Formik>

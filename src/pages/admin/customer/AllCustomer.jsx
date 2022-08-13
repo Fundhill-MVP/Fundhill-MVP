@@ -90,16 +90,7 @@ const StyledMenu = styled((props) => (
 }));
 
 
-// table
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData(1, '2022-05-2', 15000, 'Cash', 'For Loan'),
-    // createData('Ice cream sandwich', 237, 9.0, 37,),
-
-];
 
 // select input
 const ITEM_HEIGHT = 48;
@@ -113,18 +104,7 @@ const MenuProps = {
     },
 };
 
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
+
 
 function getStyles(name, personName, theme) {
     return {

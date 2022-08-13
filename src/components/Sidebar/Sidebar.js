@@ -12,7 +12,6 @@ import SavingsOutlinedIcon from '@mui/icons-material/SavingsOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
-import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import CreditScoreOutlinedIcon from '@mui/icons-material/CreditScoreOutlined';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
@@ -34,7 +33,7 @@ const structure = [
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
   {
-    id: 10, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
+    id: 11, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
     children: [
       { label: "Organisations", links: "/admin/fundhill/organisation" },
       { label: "Users", links: "/admin/fundhill/users" },
@@ -133,13 +132,14 @@ const structure = [
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
       { label: "All Groups", links: "/admin/dashboard/group/all_group" },
+      { label: "Group Plan", links: "/admin/dashboard/group/group_plan" },
       { label: "Group Loan", links: "/admin/dashboard/group/group_loan" },
       { label: "Approve Loan", links: "/admin/dashboard/group/approved_loan" },
       { label: "Denied Loan", links: "/admin/dashboard/group/denied_loan" },
       { label: "Ongoing Loan", links: "/admin/dashboard/group/ongoing_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/group/disbursed_loan" },
       { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
-
+     
     ],
   },
 

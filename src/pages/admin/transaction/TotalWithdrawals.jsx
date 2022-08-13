@@ -71,9 +71,7 @@ const TotalWithdrawals = () => {
             <PageTitle title="All Withdrawals made today" />
             <Grid container spacing={4}>
 
-                <div className={classes.sweet_loading}>
-                    <BounceLoader color={color} l css={override} size={150} />
-                </div>
+
                 {
                     isLoading ?
             (

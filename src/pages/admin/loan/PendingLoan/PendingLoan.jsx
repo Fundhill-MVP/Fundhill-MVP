@@ -21,6 +21,7 @@ import {
 import { Button } from '@mui/material';
 
 import ActionButton from './PendingButton';
+import { on } from '../../../../events';
 
 
 // CONTEXT
@@ -40,26 +41,24 @@ function PendingLoan() {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    try {
-      setIsLoading(true)
 
-      const allCustomer = async () => {
-        const res = await api.service().fetch("/dashboard/loan/?status=PENDING", true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
 
-      }
-
-      allCustomer();
-    } catch (error) {
-      console.log(error)
+  const PendingCustomerLoan = async () => {
+    setIsLoading(true)
+    const res = await api.service().fetch("/dashboard/loan/?status=PENDING", true);
+    console.log(res.data)
+    if (api.isSuccessful(res)) {
+      setData(res.data.results)
     }
-  }, [])
+    setIsLoading(false);
 
+  }
+
+  useEffect(() => {
+    PendingCustomerLoan();
+
+  }, [])
+  on("reRenderPendingCustomerLoan",PendingCustomerLoan)
 
 
 

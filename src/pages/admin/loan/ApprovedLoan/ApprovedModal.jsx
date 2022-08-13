@@ -17,6 +17,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
+import { trigger } from '../../../../events';
 
 
 
@@ -107,6 +108,7 @@ export default function OptionModal({ del,loanId }) {
             console.log(res.data)
             if (api.isSuccessful(res)) {
               setTimeout(() => {
+                trigger("reRenderApprovedCustomerLoan")
                 handleClose()
                 toast.success("Successfully Disbursed Loan!");
         
@@ -130,6 +132,7 @@ export default function OptionModal({ del,loanId }) {
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderApprovedCustomerLoan")
             handleClose()
             toast.success("Successfully denied Loan!");
     

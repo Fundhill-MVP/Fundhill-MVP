@@ -235,7 +235,7 @@ export default function Dashboard(props) {
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
                   <Typography size="xl" weight="bold" noWrap>
-                    <span>#{data.loans};</span>
+                    <span>#{data.loans}</span>
                   </Typography>
                 </Grid>
               </Grid>
@@ -252,7 +252,7 @@ export default function Dashboard(props) {
                   0%
                 </Typography>
                 <Button className={classes.btnSeeMore} onClick={() => {
-                  navigate('ongoin_loan')
+                  navigate('/admin/dashboard/loan/ongoing_loan')
                 }}>See more</Button>
               </Grid>
             </Grid>
@@ -288,18 +288,19 @@ export default function Dashboard(props) {
                 <Typography className={classes.percent} color="text" colorBrightness="secondary">
                   +89%
                 </Typography>
-                {/* <Button className={classes.btnSeeMore}>See more</Button> */}
+                <Button className={classes.btnSeeMore} onClick={() => {
+                  navigate('/admin/dashboard/expense/all_expenses')
+                }}>See more</Button>
               </Grid>
             </Grid>
           </Widget>
         </Grid>
 
-      
        
 
         <Grid item lg={3} md={4} sm={6} xs={12}>
           <Widget
-            title="TOTAL FIXED SAVINGS"
+            title="All Groups"
             upperTitle
             bodyClass={classes.fullHeightBody}
             className={classes.card}
@@ -324,7 +325,7 @@ export default function Dashboard(props) {
                 <Typography className={classes.percent} color="text" colorBrightness="secondary">
                   +89%
                 </Typography>
-                <Button className={classes.btnSeeMore} onClick={() => { navigate('fixed_savings_rep') }}>See more</Button>
+                <Button className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/group/all_group') }}>See more</Button>
               </Grid>
             </Grid>
           </Widget>
