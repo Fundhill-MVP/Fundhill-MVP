@@ -45,7 +45,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const ActionButton = () => {
+const ActionButton = ({orgId}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -79,10 +79,10 @@ const ActionButton = () => {
                 onClose={handleClose}
             >
                 <MenuItem disableRipple>
-                    <OrganisationModal activate />
+                    <OrganisationModal orgId={orgId} activate />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <OrganisationModal />
+                    <OrganisationModal orgId={orgId} />
                 </MenuItem>
             </StyledMenu>
         </div>
