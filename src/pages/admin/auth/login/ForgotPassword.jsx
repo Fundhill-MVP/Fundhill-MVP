@@ -88,7 +88,7 @@ const ForgotPassword = () => {
         console.log(values);
         const response = await api
           .service()
-          .push('/accounts/manage/request-password-reset', values, true);
+          .push('/accounts/manage/request-password-reset/', values, true);
     
         if (api.isSuccessful(response)) {
           setTimeout(() => {
