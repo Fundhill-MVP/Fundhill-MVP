@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/styles'
-import {  FilledInput, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography,Button } from '@mui/material';
+import {   FormControl, IconButton, InputAdornment, OutlinedInput, Typography,Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -9,7 +9,7 @@ import React, { useState, useContext } from "react";
 
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { api } from "../../../../services";
 import { Context } from "../../../../context/Context";
@@ -85,19 +85,23 @@ const ResetPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
-    const {userid,token} = useParams();
 
-    // const initialFormState = () => ({
-    //     uidb64: `${userid}`,
-    //     token: `${token}`,
-    //     password:""
-    // });
-      
+    const queryParams = new URLSearchParams(window.location.search)
+    const userid = queryParams.get("uidb64")
+    const token = queryParams.get("token")
+    console.log(userid,token);
+    
     const initialFormState = () => ({
-        uidb64: `${9}`,
-        token: `${1234567}`,
+        uidb64: `${userid}`,
+        token: `${token}`,
         password:""
-    });  
+    });
+      
+    // const initialFormState = () => ({
+    //     uidb64: `${9}`,
+    //     token: `${1234567}`,
+    //     password:""
+    // });  
       
       const formValidation = Yup.object().shape({
         password: Yup.string()

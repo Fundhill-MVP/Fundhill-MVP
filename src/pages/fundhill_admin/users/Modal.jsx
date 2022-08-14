@@ -38,7 +38,6 @@ export default function ActionButton({ del, customerId }) {
     const [delBtn,setDelBtn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [data,setData] = useState([]);
-    const PF = "https://fundhill-api.herokuapp.com/media/";
 
     useEffect(() => {
         setIsLoading(true)
