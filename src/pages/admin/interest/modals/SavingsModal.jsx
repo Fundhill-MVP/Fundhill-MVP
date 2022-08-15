@@ -72,19 +72,13 @@ const fixedAmount = {
 };
 
 
-const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
+const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const classes = useStyles();
 
     // modal
     const [locks, setUnlocks] = useState(false);
     const handleUnlocks = () => setUnlocks(true);
     const handleLocks = () => setUnlocks(false);
-
-    // modal
-    const [lock, setUnlock] = useState(false);
-    const handleUnlock = () => setUnlock(true);
-    const handleLock = () => setUnlock(false);
-
 
     // select input
 
@@ -400,7 +394,7 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
 
             {!activate && !deactivate ? (
                 // <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Add Plan</Button>
-                <AddPlanActionButton handleUnlocks={targeted ? handleUnlock : handleUnlocks} />
+                <AddPlanActionButton handleUnlocks={handleUnlocks} />
             ) : ''}
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -676,6 +670,7 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
                     </Box>
                 </Fade>
             </Modal>
+<<<<<<< HEAD
 
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -829,6 +824,8 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
                     </Box>
                 </Fade>
             </Modal>
+=======
+>>>>>>> d5a40985d817f5b50b97b71efa2a2cfb2f371ad6
         </div>
     )
 }

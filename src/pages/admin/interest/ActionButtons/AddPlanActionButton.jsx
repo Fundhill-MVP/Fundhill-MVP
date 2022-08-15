@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import TargetedSavingsModal from '../modals/TargetedSavingsModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -81,8 +82,8 @@ const AddPlanActionButton = ({ handleUnlocks }) => {
                 <MenuItem onClick={handleUnlocks} disableRipple>
                     Fixed Savings
                 </MenuItem>
-                <MenuItem onClick={handleUnlocks} targeted disableRipple>
-                    Targeted Savings
+                <MenuItem disableRipple>
+                    <TargetedSavingsModal />
                 </MenuItem>
             </StyledMenu>
         </div>
