@@ -71,6 +71,10 @@ const collect = {
     "false": "False"
 };
 
+const fixedAmount = {
+    "true": "True",
+    "false": "False"
+};
 
 const SavingsModal = ({ activate, deactivate,groupId }) => {
     const classes = useStyles();
@@ -115,27 +119,56 @@ const SavingsModal = ({ activate, deactivate,groupId }) => {
     const navigate = useNavigate();
 
     const allGroup = async () => {
-        setIsLoading(true)
         const res = await api.service().fetch("/accounts/group/", true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setData(res.data.results)
         }
     
-        setIsLoading(false);
+    
+      }
+
+      const allfee = async() => {
+        const res = await api.service().fetch("/dashboard/fees/",true);
+        console.log(res.data.results)
+        if(api.isSuccessful(res)){
+          setfees(res.data.results)
+        }
+  
+    }
+
+    const interestRate = async () => {
+        setIsLoading(true)
+        const interests = await api
+        .service()
+        .fetch("/dashboard/interest-rates/", true);
+      console.log(interests.data.results)
+    
+      if ((api.isSuccessful(interests))) {
+        setInterest(interests.data.results);
+        setIsLoading(false)
+      } else {
+        setIsLoading(true)
+      }
     
       }
       useEffect(() => {
         allGroup();
+        allfee();
+        interestRate();
       }, []);
 
-      const savingsFormState = (id) => ({
-        group: "",
+
+
+      const savingsFormState = () => ({
+        group: groupId,
         name: "",
         collection_frequency: "",
         amount_per_cycle: 0,
         auto_collect: true,
         auto_disburse:true,
+        fee: '',
+        fixed_amount: true,
       });
     
     
@@ -343,25 +376,7 @@ const deactivatePlan = async(value) => {
                                 }}
                             >
                                 <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Group</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            label="Select One"
-                                            name="group"
-                                            fullWidth
-                                            variant='outlined'
-                                        >
-                                        {
-                                         data.map((group) => {
-                                            return(
-                                            <MenuItem key={group.id} value={group.id} > {group.name} </MenuItem>
-                                            )
-                                         })
-                                         }
-                                        </TextField>
-
-                                    </div>
+                     
                                 <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Name</Typography></div>
                                         <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
@@ -409,6 +424,54 @@ const deactivatePlan = async(value) => {
                                             options={collect}
                                         />
 
+                                    </div>
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Interest Rates</Typography></div>
+                                        <TextField
+                                            select={true}
+                                            fullWidth
+                                            name="interest_rate"
+                                            variant='outlined'
+                                            label="Select One"
+                                        >
+                                            {
+                                            interests.map((interest) => {
+                                                return(
+                                                <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                            )
+                                            })
+                                            }
+                                        </TextField>
+
+                                    </div>
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
+                                        <TextField
+                                            select={true}
+                                            fullWidth
+                                            name="fee"
+                                            variant='outlined'
+                                            label="Select One"
+                                        >
+                                            {
+                                            fees.map((fee) => {
+                                                return(
+                                                <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                            )
+                                            })
+                                            }
+                                        </TextField>
+
+                                    </div>
+                                    <div className={classes.formDiv}>
+                                        <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
+                                        <Select
+                                            size='small'
+                                            fullWidth
+                                            name="fixed_amount"
+                                            options={fixedAmount}
+                                            label="Choose One"
+                                        />
                                     </div>
 
 
@@ -462,6 +525,8 @@ const deactivatePlan = async(value) => {
                                              })
                                              }
                                         </TextField>
+
+                                        
 
                                     </div>
 

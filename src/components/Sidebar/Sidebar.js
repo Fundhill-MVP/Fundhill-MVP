@@ -90,11 +90,8 @@ const structure = [
   {
     id: 6, label: "Transaction", links: "#", icon: <ReceiptLongOutlinedIcon />,
     children: [
-      { label: "Deposit And WithDrawal", links: "/admin/dashboard/customer/tranx" },
-      // { label: "Deposit And WithDrawal", links: "/admin/dashboard/transaction/savings" },
-      // { label: "Receipt", links: "/admin/dashboard/transaction/deposit_receipt" },
-      // { label: "Statement of Account", links: "/admin/dashboard/transaction/statement_of_account" },
-      // { label: "Account History", links: "/admin/dashboard/transaction/acount_history" },
+      { label: "Customer Transaction", links: "/admin/dashboard/customer/tranx" },
+      { label: "Group Transaction", links: "/admin/dashboard/group/group_trans" },
 
     ],
   },

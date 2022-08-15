@@ -41,7 +41,7 @@ function PendingCustomer() {
   const allPendingCustomer = async () => {
     setIsLoading(true)
     const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING", true);
-    // console.log(res.data)
+    // console.log(res.data.results)
     if (api.isSuccessful(res)) {
       setData(res.data.results)
     }
@@ -54,17 +54,12 @@ function PendingCustomer() {
 
   on("reRenderAllPendingCustomer",allPendingCustomer);
 
-  const onDownload = () => {
-    const link = document.createElement("a");
-    link.download = `download.txt`;
-    link.href = "./download.txt";
-    link.click();
-  };
 
   const downloadId = (url) => {
     const link = document.createElement("a");
     link.download = `download.txt`;
     link.href = url;
+    link.target="_blank"
     link.click();
   };
 
@@ -72,6 +67,7 @@ function PendingCustomer() {
     const link = document.createElement("a");
     link.download = `download.txt`;
     link.href = url;
+    link.target="_blank"
     link.click();
   };
 
@@ -101,8 +97,8 @@ function PendingCustomer() {
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell>Marketer</TableCell>
-                        {/* <TableCell>Customer Id</TableCell>
-                        <TableCell>Utility Bill</TableCell> */}
+                        <TableCell>Customer Id Document</TableCell>
+                        <TableCell>Utility Bill</TableCell>
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 
@@ -117,16 +113,16 @@ function PendingCustomer() {
                           <TableCell>{customer?.phone}</TableCell>
                           <TableCell>{customer?.email}</TableCell>
                           <TableCell>{customer?.agent.first_name} </TableCell>
-                          {/* <TableCell>
-                          <Button onClick={ downloadId(customer?.id_document)} variant="contained"color="#ffa726">
+                          <TableCell>
+                          <Button onClick={() => downloadId(customer?.id_document)} >
                             Download
                           </Button>
-                          </TableCell> */}
-                          {/* <TableCell>
-                          <Button onClick={onDownload} variant="contained" color="primary">
+                          </TableCell>
+                          <TableCell>
+                          <Button onClick={() => downloadBill(customer?.id_document)} >
                             Download
                           </Button>
-                          </TableCell> */}
+                          </TableCell>
                           <TableCell>
                             <Button
                               variant='contained'
