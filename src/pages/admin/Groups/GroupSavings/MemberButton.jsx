@@ -71,7 +71,7 @@ const ActionButton = ({groupId}) => {
                 endIcon={<KeyboardArrowDownIcon />}
                 style={{ textTransform: 'none' }}
             >
-                Action
+                Members
             </Button>
             <StyledMenu
                 id="demo-customized-menu"

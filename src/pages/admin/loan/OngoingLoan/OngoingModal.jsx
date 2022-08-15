@@ -71,6 +71,7 @@ export default function OptionModal({ history,loanId }) {
     
 
     const loanHistory = async () => {
+        setIsLoading(true)
         const loans = await api
           .service()
           .fetch(`/dashboard/transactions/?loan=${loanId}`, true);
@@ -79,9 +80,9 @@ export default function OptionModal({ history,loanId }) {
         if ((api.isSuccessful(loans))) {
             setLoanHist(loans.data.results);
           setIsLoading(false)
-        } else {
-          setIsLoading(true)
-        }
+        } 
+        setIsLoading(false)
+
       }
 
     useEffect(() => {
