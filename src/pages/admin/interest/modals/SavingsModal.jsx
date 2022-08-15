@@ -72,19 +72,13 @@ const fixedAmount = {
 };
 
 
-const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
+const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const classes = useStyles();
 
     // modal
     const [locks, setUnlocks] = useState(false);
     const handleUnlocks = () => setUnlocks(true);
     const handleLocks = () => setUnlocks(false);
-
-    // modal
-    const [lock, setUnlock] = useState(false);
-    const handleUnlock = () => setUnlock(true);
-    const handleLock = () => setUnlock(false);
-
 
     // select input
 
@@ -377,7 +371,7 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
 
             {!activate && !deactivate ? (
                 // <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Add Plan</Button>
-                <AddPlanActionButton handleUnlocks={targeted ? handleUnlock : handleUnlocks} />
+                <AddPlanActionButton handleUnlocks={handleUnlocks} />
             ) : ''}
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -649,159 +643,6 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
                         <Divider style={{ marginTop: 40 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                             <Button onClick={handleLocks} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                        </Box>
-                    </Box>
-                </Fade>
-            </Modal>
-
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={lock}
-                onClose={handleLock}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={lock}>
-                    <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {activate ? `Activate ${user.first_name} Plan ` : `Customer Id: ${user.id} `}
-                        </Typography>
-
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-                            <IconButton onClick={handleLock}>
-                                <CloseIcon fontSize="small" />
-                            </IconButton>
-                        </Box>
-                        <Divider style={{ marginTop: 40 }} />
-
-                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Targeted Savings Plan</Typography>
-
-
-                        <Formik
-                            initialValues={savingsFormState(customerId)}
-                            validationSchema={savingsValidationSchema}
-                            onSubmit={async (values, actions) => {
-                                await savings(values)
-                            }}
-                        >
-                            <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                    <Select
-                                        size="small"
-                                        fullWidth
-                                        label="Select One"
-                                        name="frequency"
-                                        options={frequency}
-                                    />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                    <Select
-                                        size='small'
-                                        fullWidth
-                                        label="Select One"
-                                        name="plan_type"
-                                        options={savingsPlan}
-                                    />
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                    <TextField
-                                        select={true}
-                                        label="Select One"
-                                        name="interest_rate"
-                                        fullWidth
-                                        variant='outlined'
-                                    >
-                                        {
-                                            interests.map((interest) => {
-                                                return (
-                                                    <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
-                                                )
-                                            })
-                                        }
-                                    </TextField>
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                    <TextField
-                                        select={true}
-                                        fullWidth
-                                        name="fee"
-                                        variant='outlined'
-                                        label="Select One"
-                                    >
-                                        {
-                                            fees.map((fee) => {
-                                                return (
-                                                    <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
-                                                )
-                                            })
-                                        }
-                                    </TextField>
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
-                                    <Select
-                                        size='small'
-                                        fullWidth
-                                        name="fixed_amount"
-                                        options={fixedAmount}
-                                        label="Choose One"
-                                    />
-                                </div>
-
-                                {
-                                    planBtn ?
-                                        (<div className="sweet-loading">
-                                            <DotLoader color={color} loading={loading} css={override} size={80} />
-                                        </div>)
-                                        : (
-                                            <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                Submit
-                                            </Button>
-                                        )
-                                }
-
-                            </Form>
-                        </Formik>
-
-                        <Divider style={{ marginTop: 40 }} />
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                            <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
                         </Box>
                     </Box>
                 </Fade>
