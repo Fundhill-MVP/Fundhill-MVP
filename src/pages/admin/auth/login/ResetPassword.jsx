@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/styles'
-import {   FormControl, IconButton, InputAdornment, OutlinedInput, Typography,Button } from '@mui/material';
+import { FormControl, IconButton, InputAdornment, OutlinedInput, Typography, Button } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import { TextField} from "../../../../components/FormsUI"
+import { TextField } from "../../../../components/FormsUI"
 import { css } from "@emotion/react";
 import React, { useState, useContext } from "react";
 
@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { api } from "../../../../services";
 import { Context } from "../../../../context/Context";
-import {DotLoader} from "react-spinners";
+import { DotLoader } from "react-spinners";
 
 // CONTEXT
 const override = css`
@@ -89,87 +89,87 @@ const ResetPassword = () => {
     const queryParams = new URLSearchParams(window.location.search)
     const userid = queryParams.get("uidb64")
     const token = queryParams.get("token")
-    console.log(userid,token);
-    
+    console.log(userid, token);
+
     const initialFormState = () => ({
         uidb64: `${userid}`,
         token: `${token}`,
-        password:""
+        password: ""
     });
-      
+
     // const initialFormState = () => ({
     //     uidb64: `${9}`,
     //     token: `${1234567}`,
     //     password:""
     // });  
-      
-      const formValidation = Yup.object().shape({
+
+    const formValidation = Yup.object().shape({
         password: Yup.string()
-          .required('Required'),
-      });
+            .required('Required'),
+    });
 
     const submitResetPassword = async (values) => {
         setIsLoading(true);
         console.log(values);
         const response = await api
-          .service()
-          .push('/accounts/manage/complete-password-reset/', values, true);
-    
+            .service()
+            .push('/accounts/manage/complete-password-reset/', values, true);
+
         if (api.isSuccessful(response)) {
-          setTimeout(() => {
-            toast.success('Token Verified  successfully.');
-            navigate('/auth/login')
-          }, 0);
+            setTimeout(() => {
+                toast.success('Token Verified  successfully.');
+                navigate('/auth/login')
+            }, 0);
         }
-    
+
         setIsLoading(false);
-      }
+    }
     return (
         <div className={classes.container}>
             <div className={classes.formContainer}>
-            <Formik
-                initialValues={initialFormState()}
-                validationSchema={formValidation}
-                onSubmit={async (values) => {
-                  await submitResetPassword(values)
-                }}
-            >
-                <Form className={classes.form}>
-                <Typography variant='h5' gutterBottom className={classes.title}>Reset Password?</Typography>
-                    <TextField className={classes.input} variant='outlined' name="password" fullWidth type='password' placeholder='Insert New Password' />
-                    <FormControl className={classes.input} fullWidth variant="outlined">
-                        <OutlinedInput
-                            placeholder="Confirm password"
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                    {/* <Button className={classes.btn} variant='contained' fullWidth>Submit</Button> */}
-                    {
-                            isLoading ? 
-                            ( <div className="sweet-loading">
-                                <DotLoader color={color} loading={loading} css={override}  size={80} />
-                              </div>)
-                            : (
-                                <Button type="submit" className={classes.btn} variant='contained' fullWidth>Submit</Button>
-                             )
-                         }
-                </Form>
-            </Formik>
+                <Formik
+                    initialValues={initialFormState()}
+                    validationSchema={formValidation}
+                    onSubmit={async (values) => {
+                        await submitResetPassword(values)
+                    }}
+                >
+                    <Form className={classes.form}>
+                        <Typography variant='h5' gutterBottom className={classes.title}>Reset Password?</Typography>
+                        <TextField className={classes.input} variant='outlined' name="password" fullWidth type='password' placeholder='Insert New Password' />
+                        <FormControl className={classes.input} fullWidth variant="outlined">
+                            <OutlinedInput
+                                placeholder="Confirm password"
+                                id="outlined-adornment-password"
+                                type={values.showPassword ? 'text' : 'password'}
+                                value={values.password}
+                                onChange={handleChange('password')}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            edge="end"
+                                        >
+                                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        {/* <Button className={classes.btn} variant='contained' fullWidth>Submit</Button> */}
+                        {
+                            isLoading ?
+                                (<div className="sweet-loading">
+                                    <DotLoader color={color} loading={loading} css={override} size={80} />
+                                </div>)
+                                : (
+                                    <Button type="submit" className={classes.btn} variant='contained' fullWidth>Submit</Button>
+                                )
+                        }
+                    </Form>
+                </Formik>
             </div>
         </div>
     )

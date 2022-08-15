@@ -1,8 +1,8 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
-import {Formik,Form} from "formik";
-import {object as yupObject, string as yupString,number as yupNumber} from "yup";
-import {CircularProgress} from "@material-ui/core";
+import { Formik, Form } from "formik";
+import { object as yupObject, string as yupString, number as yupNumber } from "yup";
+import { CircularProgress } from "@material-ui/core";
 import { Box, Button, Divider, IconButton, MenuItem, Modal, OutlinedInput, Typography } from '@mui/material';
 import useStyles from '../styles';
 import Fade from '@mui/material/Fade';
@@ -12,9 +12,10 @@ import { useTheme } from '@material-ui/styles';
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners";
-import { api  } from "../../../../services";
-import {TextField,Select} from "../../../../components/FormsUI";
+import { DotLoader } from "react-spinners";
+import { api } from "../../../../services";
+import { TextField, Select } from "../../../../components/FormsUI";
+import AddPlanActionButton from '../ActionButtons/AddPlanActionButton';
 
 
 const override = css`
@@ -71,13 +72,18 @@ const fixedAmount = {
 };
 
 
-const SavingsModal = ({ activate, deactivate,customerId }) => {
+const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
     const classes = useStyles();
 
     // modal
     const [locks, setUnlocks] = useState(false);
     const handleUnlocks = () => setUnlocks(true);
     const handleLocks = () => setUnlocks(false);
+
+    // modal
+    const [lock, setUnlock] = useState(false);
+    const handleUnlock = () => setUnlock(true);
+    const handleLock = () => setUnlock(false);
 
 
     // select input
@@ -95,43 +101,43 @@ const SavingsModal = ({ activate, deactivate,customerId }) => {
         );
     };
 
-    const [planBtn,setPlanBtn] = useState(false);
-    const [deactivateBtn,setDeactivatePlan] = useState(false);
-    const [activateBtn,setActivateBtn] = useState(false)
+    const [planBtn, setPlanBtn] = useState(false);
+    const [deactivateBtn, setDeactivatePlan] = useState(false);
+    const [activateBtn, setActivateBtn] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
     const [Loading, setLoading] = useState(false)
     let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
-    const [data,setData] = useState([]);
-    const [interests,setInterest] = useState([]);
-    const [fees,setfees] = useState([]);
-    const [customers,setCustomers] = useState([]);
-    const [decustomer,setDeactivateCustomer] = useState([]);
-    const [user,setUser] = useState("");
-    const [item,setItem] = useState("");
+    const [data, setData] = useState([]);
+    const [interests, setInterest] = useState([]);
+    const [fees, setfees] = useState([]);
+    const [customers, setCustomers] = useState([]);
+    const [decustomer, setDeactivateCustomer] = useState([]);
+    const [user, setUser] = useState("");
+    const [item, setItem] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true)
 
-        const allCustomer = async() => {
-        try {
-            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-            console.log(res.data.results)
-            if(api.isSuccessful(res)){
-              setData(res.data.results)
+        const allCustomer = async () => {
+            try {
+                const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+                console.log(res.data.results)
+                if (api.isSuccessful(res)) {
+                    setData(res.data.results)
+                }
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
             }
-          setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-        }
-    
+
         }
 
         allCustomer();
-      },[])
+    }, [])
 
-      const savingsFormState = (id) => ({
+    const savingsFormState = (id) => ({
         user: id,
         name: "",
         frequency: "",
@@ -142,247 +148,236 @@ const SavingsModal = ({ activate, deactivate,customerId }) => {
         interest_rate: 0,
         fee: 1,
         fixed_amount: true
-      });
-    
-    
-      const savingsValidationSchema = yupObject().shape({
+    });
+
+
+    const savingsValidationSchema = yupObject().shape({
         user: yupNumber()
-        .required("User is required"),
+            .required("User is required"),
         name: yupString()
-        .required("name is required"),
+            .required("name is required"),
         frequency: yupString()
-        .required("frequency is required"),
+            .required("frequency is required"),
         amount_per_cycle: yupNumber()
-        .required("Amount cycle is required"),
+            .required("Amount cycle is required"),
         duration_in_months: yupNumber()
-        .required("Duration is required"),
+            .required("Duration is required"),
         amount: yupNumber()
-        .required("Amount is required"),
+            .required("Amount is required"),
         plan_type: yupString()
-        .required("Select a savings plan."),
+            .required("Select a savings plan."),
         interest_rate: yupNumber()
-        .required("Select an interest rate"),
+            .required("Select an interest rate"),
         fee: yupNumber()
-        .required("Select fee"),
+            .required("Select fee"),
         fixed_amount: yupString()
-        .required("Select an option")
-      });
+            .required("Select an option")
+    });
 
 
-      const savings = async(values) => {
+    const savings = async (values) => {
         setPlanBtn(true);
         console.log(values)
 
         const response = await api
             .service()
-            .push("/dashboard/savings-plan/add/",values,true)
+            .push("/dashboard/savings-plan/add/", values, true)
 
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            handleLocks()
-            toast.success("Savings Plan successfully added!");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
+        if (api.isSuccessful(response)) {
+            setTimeout(() => {
+                handleLocks()
+                toast.success("Savings Plan successfully added!");
+                // navigate("/admin/allbranch",{replace: true})
+            }, 0);
         }
         setPlanBtn(false);
     }
 
     useEffect(() => {
         setIsLoading(true)
-    
-        const allSavingsPlan = async() => {
-                    try {
-                        const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`,true);
-                        console.log(res.data.results)
-                        if(api.isSuccessful(res)){
-                          //   console.log(res)
-                          setCustomers(res.data.results)
-                        }
-                  
-                        setIsLoading(false);
-                    } catch (error) {
-                        console.log(error);
-                    }  
-        }
 
-        const allDeactivedSavingsPlan = async() => {
+        const allSavingsPlan = async () => {
             try {
-                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}&status=DEACTIVATED`,true);
+                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`, true);
                 console.log(res.data.results)
-                if(api.isSuccessful(res)){
-                  //   console.log(res)
-                  setDeactivateCustomer(res.data.results)
+                if (api.isSuccessful(res)) {
+                    //   console.log(res)
+                    setCustomers(res.data.results)
                 }
-          
+
                 setIsLoading(false);
             } catch (error) {
                 console.log(error);
-            }  
-}
+            }
+        }
 
-    
+        const allDeactivedSavingsPlan = async () => {
+            try {
+                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}&status=DEACTIVATED`, true);
+                console.log(res.data.results)
+                if (api.isSuccessful(res)) {
+                    //   console.log(res)
+                    setDeactivateCustomer(res.data.results)
+                }
+
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+
         allSavingsPlan();
         allDeactivedSavingsPlan();
 
-      },[]);
+    }, []);
 
+    const activatePlan = async (value) => {
+        try {
+            setActivateBtn(true);
+            console.log(value)
 
-
-
-
-
-
-const activatePlan = async(value) => {
-    try {
-        setActivateBtn(true);
-        console.log(value)
-
-        const response = await api
-        .service()
-        .fetch(`/dashboard/savings-plan/${value.id}/activate/`,true)
-
-        if(api.isSuccessful(response)){
-            setTimeout( () => {
-                console.log(response.data)
-                handleLocks()
-                toast.success("Savings plan activated successfully");
-            // navigate("/dashboard/loan-product",{replace: true});
-            },0);
-        }
-        setActivateBtn(false);
-    } catch (error) {
-        setActivateBtn(false);
-        console.log(error)
-    }
-}
-
-
-const deactivatePlan = async(value) => {
-    try {
-        setDeactivatePlan(true);
-        console.log(value)
-
-        const response = await api
-        .service()
-        .fetch(`/dashboard/savings-plan/${value.id}/deactivate/`,true)
-
-  if(api.isSuccessful(response)){
-    setTimeout( () => {
-        console.log(response.data)
-        handleLocks()
-      toast.success("Savings deactivated successfully!!!");
-      // navigate("/dashboard/loan-product",{replace: true});
-    },0);
-  }
-        setDeactivatePlan(false);
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-
-      useEffect(() => {
-        setIsLoading(true)
-    
-        const allinterest = async() => {
-            try {
-                const res = await api
+            const response = await api
                 .service()
-                .fetch("/dashboard/interest-rates/",true);
-                console.log(res.data.results)
-                
-            if((api.isSuccessful(res))){
-                setInterest(res.data.results);
-                setIsLoading(false)
-            }else{
-                setIsLoading(true)
-            }
-         } catch (error) {
-            console.log(error.message)
-         }
-        }
-    
-        allinterest();
+                .fetch(`/dashboard/savings-plan/${value.id}/activate/`, true)
 
-        const customerPlan = async() => {
-            try {
-                const res = await api
-                .service()
-                .fetch("/dashboard/savings-plan/",true);
-                console.log(res.data.results)
-                
-            if((api.isSuccessful(res))){
-                setCustomers(res.data.results);
-                setIsLoading(false)
-            }else{
-                setIsLoading(true)
+            if (api.isSuccessful(response)) {
+                setTimeout(() => {
+                    console.log(response.data)
+                    handleLocks()
+                    toast.success("Savings plan activated successfully");
+                    // navigate("/dashboard/loan-product",{replace: true});
+                }, 0);
             }
-         } catch (error) {
-            console.log(error.message)
-         }
+            setActivateBtn(false);
+        } catch (error) {
+            setActivateBtn(false);
+            console.log(error)
         }
-      },[]);
+    }
+
+
+    const deactivatePlan = async (value) => {
+        try {
+            setDeactivatePlan(true);
+            console.log(value)
+
+            const response = await api
+                .service()
+                .fetch(`/dashboard/savings-plan/${value.id}/deactivate/`, true)
+
+            if (api.isSuccessful(response)) {
+                setTimeout(() => {
+                    console.log(response.data)
+                    handleLocks()
+                    toast.success("Savings deactivated successfully!!!");
+                    // navigate("/dashboard/loan-product",{replace: true});
+                }, 0);
+            }
+            setDeactivatePlan(false);
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     useEffect(() => {
         setIsLoading(true)
-    
-        const allfee = async() => {
-                    try {
-                        const res = await api.service().fetch("/dashboard/fees/",true);
-                        console.log(res.data.results)
-                        if(api.isSuccessful(res)){
-                          //   console.log(res)
-                          setfees(res.data.results)
-                        }
-                  
-                        setIsLoading(false);
-                    } catch (error) {
-                        console.log(error);
-                    }  
-        }
-    
-        allfee();
-      },[]);
 
-//       console.log(customers);
+        const allinterest = async () => {
+            try {
+                const res = await api
+                    .service()
+                    .fetch("/dashboard/interest-rates/", true);
+                console.log(res.data.results)
 
-//       const activatedPlan = (id)=> {
-//             return customers.filter(customer => customer.user.id === id)
-//       }
-
-
-//   const deactivatedPlan = (id)=> {
-//     return decustomer.filter(customer => customer.user.id === id)
-// }
-
-
-
-
-
-
-      const getCustomer = (id)  => {
-            let item = data.filter((customer) => customer.id === id);
-            if(item.length !== 0){
-                setUser(item[0]);
+                if ((api.isSuccessful(res))) {
+                    setInterest(res.data.results);
+                    setIsLoading(false)
+                } else {
+                    setIsLoading(true)
+                }
+            } catch (error) {
+                console.log(error.message)
             }
+        }
 
-      }
-   
+        allinterest();
+
+        const customerPlan = async () => {
+            try {
+                const res = await api
+                    .service()
+                    .fetch("/dashboard/savings-plan/", true);
+                console.log(res.data.results)
+
+                if ((api.isSuccessful(res))) {
+                    setCustomers(res.data.results);
+                    setIsLoading(false)
+                } else {
+                    setIsLoading(true)
+                }
+            } catch (error) {
+                console.log(error.message)
+            }
+        }
+    }, []);
+
+
+    useEffect(() => {
+        setIsLoading(true)
+
+        const allfee = async () => {
+            try {
+                const res = await api.service().fetch("/dashboard/fees/", true);
+                console.log(res.data.results)
+                if (api.isSuccessful(res)) {
+                    //   console.log(res)
+                    setfees(res.data.results)
+                }
+
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        allfee();
+    }, []);
+
+    //       console.log(customers);
+
+    //       const activatedPlan = (id)=> {
+    //             return customers.filter(customer => customer.user.id === id)
+    //       }
+
+
+    //   const deactivatedPlan = (id)=> {
+    //     return decustomer.filter(customer => customer.user.id === id)
+    // }
+
+    const getCustomer = (id) => {
+        let item = data.filter((customer) => customer.id === id);
+        if (item.length !== 0) {
+            setUser(item[0]);
+        }
+
+    }
+
     return (
         <div>
 
             {activate && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Activate Plan</Button>
+                <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Activate Plan</Button>
             )}
 
             {deactivate && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Deactivate Plan</Button>
+                <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Deactivate Plan</Button>
             )}
 
             {!activate && !deactivate ? (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Add Plan</Button>
-
+                // <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Add Plan</Button>
+                <AddPlanActionButton handleUnlocks={targeted ? handleUnlock : handleUnlocks} />
             ) : ''}
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -416,129 +411,129 @@ const deactivatePlan = async(value) => {
                         )}
 
                         {!activate && !deactivate ? (
-                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Plan</Typography>
+                            <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Fixed Savings Plan</Typography>
                         ) : ''}
 
                         {!activate && !deactivate ? (
                             <>
 
-                            <Formik
-                                initialValues={savingsFormState(customerId)}
-                                validationSchema= {savingsValidationSchema}
-                                onSubmit = { async (values,actions) => {
-                                await savings(values)
-                                }}
-                            >
-                                <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+                                <Formik
+                                    initialValues={savingsFormState(customerId)}
+                                    validationSchema={savingsValidationSchema}
+                                    onSubmit={async (values, actions) => {
+                                        await savings(values)
+                                    }}
+                                >
+                                    <Form style={{ display: 'flex', flexDirection: 'column' }} >
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                                    </div>
-                                <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                        <Select
-                                            size="small"
-                                            fullWidth
-                                            label="Select One"
-                                            name="frequency"
-                                            options={frequency}
-                                        />
+                                        </div>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Frequency</Typography></div>
+                                            <Select
+                                                size="small"
+                                                fullWidth
+                                                label="Select One"
+                                                name="frequency"
+                                                options={frequency}
+                                            />
 
-                                    </div>
+                                        </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
 
-                                    </div>
+                                        </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
 
-                                    </div>
+                                        </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
+                                            <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
 
-                                    </div>
+                                        </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <Select
-                                            size='small'
-                                            fullWidth
-                                            label="Select One"
-                                            name="plan_type"
-                                            options={savingsPlan}
-                                        />
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                            <Select
+                                                size='small'
+                                                fullWidth
+                                                label="Select One"
+                                                name="plan_type"
+                                                options={savingsPlan}
+                                            />
 
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            label="Select One"
-                                            name="interest_rate"
-                                            fullWidth
-                                            variant='outlined'
-                                        >
+                                        </div>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
+                                            <TextField
+                                                select={true}
+                                                label="Select One"
+                                                name="interest_rate"
+                                                fullWidth
+                                                variant='outlined'
+                                            >
+                                                {
+                                                    interests.map((interest) => {
+                                                        return (
+                                                            <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </TextField>
+
+                                        </div>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
+                                            <TextField
+                                                select={true}
+                                                fullWidth
+                                                name="fee"
+                                                variant='outlined'
+                                                label="Select One"
+                                            >
+                                                {
+                                                    fees.map((fee) => {
+                                                        return (
+                                                            <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </TextField>
+
+                                        </div>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
+                                            <Select
+                                                size='small'
+                                                fullWidth
+                                                name="fixed_amount"
+                                                options={fixedAmount}
+                                                label="Choose One"
+                                            />
+                                        </div>
+
                                         {
-                                         interests.map((interest) => {
-                                            return(
-                                            <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
-                                            )
-                                         })
-                                         }
-                                        </TextField>
-
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            fullWidth
-                                            name="fee"
-                                            variant='outlined'
-                                            label="Select One"
-                                        >
-                                            {
-                                            fees.map((fee) => {
-                                                return(
-                                                <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
-                                            )
-                                            })
-                                            }
-                                        </TextField>
-
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
-                                        <Select
-                                            size='small'
-                                            fullWidth
-                                            name="fixed_amount"
-                                            options={fixedAmount}
-                                            label="Choose One"
-                                        />
-                                    </div>
-
-                                    {
-                                            planBtn ? 
-                                            ( <div className="sweet-loading">
-                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                            planBtn ?
+                                                (<div className="sweet-loading">
+                                                    <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
-                                            : (
-                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                    Submit
-                                                </Button>  
-                                              )
+                                                : (
+                                                    <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                        Submit
+                                                    </Button>
+                                                )
                                         }
-             
-                                </Form>
-                            </Formik>
+
+                                    </Form>
+                                </Formik>
                             </>
                         ) : ''}
 
@@ -549,46 +544,46 @@ const deactivatePlan = async(value) => {
                                     initialValues={{
                                         id: 0
                                     }}
-                                     // validationSchema= {validationSchema}
-                                     onSubmit = { async (value) => {
+                                    // validationSchema= {validationSchema}
+                                    onSubmit={async (value) => {
                                         await deactivatePlan(value)
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }} >
-  
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            fullWidth
-                                            name="id"
-                                            variant='outlined'
-                                            label = "Select One"
 
-                                        >
-                                             <MenuItem>Select One</MenuItem>
-                                             {
-                                             customers.map((plan) => {
-                                                return (
-                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
-                                            )
-                                             })
-                                             }
-                                        </TextField>
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                            <TextField
+                                                select={true}
+                                                fullWidth
+                                                name="id"
+                                                variant='outlined'
+                                                label="Select One"
 
-                                    </div>
+                                            >
+                                                <MenuItem>Select One</MenuItem>
+                                                {
+                                                    customers.map((plan) => {
+                                                        return (
+                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </TextField>
+
+                                        </div>
 
 
                                         {
-                                            deactivateBtn ? 
-                                            ( <div className="sweet-loading">
-                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                            deactivateBtn ?
+                                                (<div className="sweet-loading">
+                                                    <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
-                                            : (
-                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                    deactivate
-                                                </Button> 
-                                              )
+                                                : (
+                                                    <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                        deactivate
+                                                    </Button>
+                                                )
                                         }
 
                                     </Form>
@@ -604,45 +599,45 @@ const deactivatePlan = async(value) => {
                                         id: 0
                                     }}
                                     // validationSchema= {savingsValidationSchema}
-                                    onSubmit = { async (value,actions) => {
+                                    onSubmit={async (value, actions) => {
                                         await activatePlan(value)
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }}>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            fullWidth
-                                            name="id"
-                                            variant='outlined'
-                                            label = "Select One"
+                                        <div className={classes.formDiv}>
+                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                            <TextField
+                                                select={true}
+                                                fullWidth
+                                                name="id"
+                                                variant='outlined'
+                                                label="Select One"
 
-                                        >
-                                             <MenuItem>Select One</MenuItem>
-                                             {
-                                             decustomer.map((plan) => {
-                                                return (
-                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
-                                            )
-                                             })
-                                             }
-                                        </TextField>
+                                            >
+                                                <MenuItem>Select One</MenuItem>
+                                                {
+                                                    decustomer.map((plan) => {
+                                                        return (
+                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </TextField>
 
-                                    </div>
-                                    
+                                        </div>
 
-                                    {
-                                            activateBtn ? 
-                                            ( <div className="sweet-loading">
-                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
+
+                                        {
+                                            activateBtn ?
+                                                (<div className="sweet-loading">
+                                                    <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
-                                            : (
-                                                <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                    activate
-                                                </Button>
-                                              )
+                                                : (
+                                                    <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                        activate
+                                                    </Button>
+                                                )
                                         }
 
                                     </Form>
@@ -654,6 +649,159 @@ const deactivatePlan = async(value) => {
                         <Divider style={{ marginTop: 40 }} />
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                             <Button onClick={handleLocks} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
+                        </Box>
+                    </Box>
+                </Fade>
+            </Modal>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={lock}
+                onClose={handleLock}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={lock}>
+                    <Box sx={style}>
+                        <Typography id="transition-modal-title" variant="h6" component="h2">
+                            {activate ? `Activate ${user.first_name} Plan ` : `Customer Id: ${user.id} `}
+                        </Typography>
+
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                            <IconButton onClick={handleLock}>
+                                <CloseIcon fontSize="small" />
+                            </IconButton>
+                        </Box>
+                        <Divider style={{ marginTop: 40 }} />
+
+                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Targeted Savings Plan</Typography>
+
+
+                        <Formik
+                            initialValues={savingsFormState(customerId)}
+                            validationSchema={savingsValidationSchema}
+                            onSubmit={async (values, actions) => {
+                                await savings(values)
+                            }}
+                        >
+                            <Form style={{ display: 'flex', flexDirection: 'column' }} >
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                    <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+
+                                </div>
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Frequency</Typography></div>
+                                    <Select
+                                        size="small"
+                                        fullWidth
+                                        label="Select One"
+                                        name="frequency"
+                                        options={frequency}
+                                    />
+
+                                </div>
+
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Amount</Typography></div>
+                                    <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
+
+                                </div>
+
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
+                                    <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
+
+                                </div>
+
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
+                                    <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
+
+                                </div>
+
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                    <Select
+                                        size='small'
+                                        fullWidth
+                                        label="Select One"
+                                        name="plan_type"
+                                        options={savingsPlan}
+                                    />
+
+                                </div>
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
+                                    <TextField
+                                        select={true}
+                                        label="Select One"
+                                        name="interest_rate"
+                                        fullWidth
+                                        variant='outlined'
+                                    >
+                                        {
+                                            interests.map((interest) => {
+                                                return (
+                                                    <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </TextField>
+
+                                </div>
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
+                                    <TextField
+                                        select={true}
+                                        fullWidth
+                                        name="fee"
+                                        variant='outlined'
+                                        label="Select One"
+                                    >
+                                        {
+                                            fees.map((fee) => {
+                                                return (
+                                                    <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </TextField>
+
+                                </div>
+                                <div className={classes.formDiv}>
+                                    <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
+                                    <Select
+                                        size='small'
+                                        fullWidth
+                                        name="fixed_amount"
+                                        options={fixedAmount}
+                                        label="Choose One"
+                                    />
+                                </div>
+
+                                {
+                                    planBtn ?
+                                        (<div className="sweet-loading">
+                                            <DotLoader color={color} loading={loading} css={override} size={80} />
+                                        </div>)
+                                        : (
+                                            <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                Submit
+                                            </Button>
+                                        )
+                                }
+
+                            </Form>
+                        </Formik>
+
+                        <Divider style={{ marginTop: 40 }} />
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
+                            <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
                         </Box>
                     </Box>
                 </Fade>
