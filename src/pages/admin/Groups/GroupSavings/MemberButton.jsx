@@ -1,10 +1,12 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import { Button } from '@mui/material';
+import React, { useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import TargetedSavingsModal from '../modals/TargetedSavingsModal';
+import Menu from '@mui/material/Menu';
+import { styled, alpha } from '@mui/material/styles';
+import OngingModal from './Members';
+
+
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -47,8 +49,8 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+const ActionButton = ({groupId}) => {
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -63,12 +65,13 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="text"
+                variant="contained"
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
             >
-                Add Plan
+                Members
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -79,15 +82,12 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleUnlocks} disableRipple>
-                    Fixed Savings
-                </MenuItem>
                 <MenuItem disableRipple>
-                    <TargetedSavingsModal customerId={customerId} />
+                    <OngingModal groupId={groupId} history />
                 </MenuItem>
             </StyledMenu>
         </div>
     )
 }
 
-export default AddPlanActionButton
+export default ActionButton

@@ -22,6 +22,8 @@ import Widget from "../../../../components/Widget/Widget";
 import { Context } from "../../../../context/Context"
 import ActionButton from './ActionButton';
 import {on} from "../../../../events"
+import MemberButton from './MemberButton';
+
 
 
 const override = css`
@@ -108,7 +110,7 @@ function AllGroups() {
                         <TableCell >Group ID </TableCell>
                         <TableCell >Group Name </TableCell>
                         <TableCell >Group Description </TableCell>
-                        {/* <TableCell>Head of group</TableCell> */}
+                        <TableCell>Group Members</TableCell>
                         <TableCell>Action</TableCell>
 
                       </TableRow>
@@ -119,7 +121,9 @@ function AllGroups() {
                           <TableCell className="pl-3 fw-normal">{group?.id}</TableCell>
                           <TableCell>{group?.name}</TableCell>
                           <TableCell>{group?.description}</TableCell>
-                          {/* <TableCell>{group?.branch_head.first_name} {group?.branch_head.last_name}</TableCell> */}
+                          <TableCell>
+                            <MemberButton groupId={group?.id}  />
+                          </TableCell>
                           <TableCell>
                             <ActionButton groupId={group?.id}  />
                           </TableCell>

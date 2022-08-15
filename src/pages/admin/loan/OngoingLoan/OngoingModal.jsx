@@ -65,59 +65,47 @@ export default function OptionModal({ history,loanId }) {
     const [data, setData] = useState([]);
     const [item, setItem] = useState("");
     const  navigate = useNavigate();
-    const [loanHistory,setLoanHistory] = useState([]);
+    const [loanHist,setLoanHist] = useState([]);
 
 
+    
 
+    const loanHistory = async () => {
+        setIsLoading(true)
+        const loans = await api
+          .service()
+          .fetch(`/dashboard/transactions/?loan=${loanId}`, true);
+        console.log(loans.data)
+
+        if ((api.isSuccessful(loans))) {
+            setLoanHist(loans.data.results);
+          setIsLoading(false)
+        } 
+        setIsLoading(false)
+
+      }
 
     useEffect(() => {
-        try {
-          setIsLoading(true)
-    
-          const loanHistory = async () => {
-            const loans = await api
-              .service()
-              .fetch("/dashboard/loan-product", true);
-            console.log(loans.data.results)
-    
-            if ((api.isSuccessful(loans))) {
-              setData(loans.data.results);
-              setIsLoading(false)
-            } else {
-              setIsLoading(true)
-            }
-          }
-          loanHistory();
-        } catch (error) {
-          console.log(error)
-        }
+        loanHistory();
     
       }, [])
 
 
-    const getProducts = (id) => {
-        const product = data.filter((item) => item.id === id);
-        // console.log(fee);
-        setItem(product[0]);
-        console.log(item);
-      }
-    
+
+
       const handleProps = () => {
-        // console.log(loanId);
-        getProducts(loanId);
-        // setItem(getProducts(loanId));
         return setOpen(true);
       }
     
 
 
       const initialFormState = (id) => ({
-        name: id,
+        user_id: id,
         amount: 0,
       });
 
       const validationSchema = yupObject().shape({
-        name: yupString()
+        user_id: yupString()
         .required("user id is required"),
         amount: yupNumber()
         .required("Enter a percentage"),
@@ -126,51 +114,33 @@ export default function OptionModal({ history,loanId }) {
 
     const payLoan = async(values) => {
         setBtnLoading(true);
-
-        try {
-            console.log(values)
-            const response = await api
-                  .service()
-                  .push(`/dashboard/loan/${loanId}/repay`,values,true)
-    
-            if(api.isSuccessful(response)){
-              setTimeout( () => {
-                trigger("reRenderOngoingCustomerLoan")
-                handleClose()
-                toast.success("Transaction was successfully.");
-              },0);
-            }
-            setBtnLoading(false);
-        } catch (error) {
-            console.log(error.message)
-            setBtnLoading(false);
-
-        }
-   
-  }
-
-  const paymentHistory = async (id) => {
-    try {
-        const loanHistory = async () => {
-            const loans = await api
+        console.log(values)
+        const response = await api
               .service()
-              .fetch("/dashboard/loan", true);
-            console.log(loans.data.results)
-    
-            if ((api.isSuccessful(loans))) {
-                setLoanHistory(loans.data.results);
-              setIsLoading(false)
-            } else {
-              setIsLoading(true)
-            }
-          }
-          loanHistory();
-    } catch (error) {
-        console.log(error);
-        setDelBtn(false)
-    }
+              .push(`/dashboard/loan/${loanId}/repay/`,values,true)
+
+        if(api.isSuccessful(response)){
+          setTimeout( () => {
+            trigger("reRenderOngoingCustomerLoan")
+            handleClose()
+            toast.success("Transaction was successfully.");
+          },0);
+          setBtnLoading(false);
+        }
+        setBtnLoading(false);
 
   }
+
+//   const paymentHistory = async () => {
+//     try {
+
+//           loanHistory();
+//     } catch (error) {
+//         console.log(error);
+//         setDelBtn(false)
+//     }
+
+//   }
 
     return (
         <div>
@@ -212,26 +182,28 @@ export default function OptionModal({ history,loanId }) {
                                     <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell>#</TableCell>
+                                                <TableCell>ID</TableCell>
                                                 <TableCell align="right">Date</TableCell>
                                                 <TableCell align="right">Amount Paid</TableCell>
                                                 <TableCell align="right">Method</TableCell>
                                                 <TableCell align="right">Description</TableCell>
+                                                <TableCell align="right">Status</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {rows.map((row) => (
+                                            {loanHist.map((row) => (
                                                 <TableRow
-                                                    key={row.name}
+                                                    key={row.id}
                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                 >
                                                     <TableCell component="th" scope="row">
-                                                        {row.name}
+                                                        {row.id}
                                                     </TableCell>
-                                                    <TableCell align="right">{row.calories}</TableCell>
-                                                    <TableCell align="right">{row.fat}</TableCell>
-                                                    <TableCell align="right">{row.carbs}</TableCell>
-                                                    <TableCell align="right">{row.protein}</TableCell>
+                                                    <TableCell align="right">{row.created_date}</TableCell>
+                                                    <TableCell align="right">{row.amount}</TableCell>
+                                                    <TableCell align="right">{row.trx_type}</TableCell>
+                                                    <TableCell align="right">{row.description}</TableCell>
+                                                    <TableCell align="right">{row.status}</TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>

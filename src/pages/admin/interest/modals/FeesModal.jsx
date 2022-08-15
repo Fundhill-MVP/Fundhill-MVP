@@ -17,6 +17,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
+import { trigger } from '../../../../events';
 
 
 
@@ -127,7 +128,7 @@ export default function OptionModal({ del,setFeeId }) {
             if(api.isSuccessful(response)){
               setTimeout( () => {
                 toast.success("Fees created successfully!");
-                navigate("/admin/dashboard/customer/fees/",{replace: true});
+                trigger("reRenderFees")
               },0);
             }
             setBtnLoading(false);
@@ -144,8 +145,8 @@ export default function OptionModal({ del,setFeeId }) {
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderFees")
             toast.success("Successfully deleted fee!");
-    
             setDelBtn(false)
           }, 0);
         }

@@ -16,7 +16,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {TextField} from "../../../../components/FormsUI"
 import { api  } from "../../../../services";
-
+import { trigger } from '../../../../events';
 
 
 
@@ -117,8 +117,8 @@ function InterestRateModal({del,setInterestRateId}) {
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
+                trigger("reRenderInterestRates")
                 toast.success("interestRates edited successfully!");
-                navigate("/admin/dashboard/customer/interest_rate/",{replace: true});
               },0);
             }
             setBtnLoading(false);
@@ -135,6 +135,7 @@ function InterestRateModal({del,setInterestRateId}) {
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setTimeout(() => {
+            trigger("reRenderInterestRates")
             toast.success("Successfully deleted interestRate!");
             setDelBtn(false)
           }, 0);

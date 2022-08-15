@@ -11,6 +11,7 @@ import {DotLoader} from "react-spinners";
 import useStyles from '../styles';
 import {TextField} from "../../../../components/FormsUI";
 import { api  } from "../../../../services";
+import { trigger } from '../../../../events';
 
 
 
@@ -81,7 +82,7 @@ const AddNewInterest = () => {
               setTimeout( () => {
                     handleClose()
                 toast.success("Interest rate successfully created!");
-                navigate("/admin/dashboard/customer/interest_rate/");
+                trigger("reRenderInterestRates")
               },0);
             }
             setBtnLoading(false);

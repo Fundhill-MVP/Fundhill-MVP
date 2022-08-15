@@ -139,7 +139,7 @@ function Login(props) {
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      setIsLoading(true);
+      setIsLoading(false);
     }
   }
   return (
@@ -199,7 +199,6 @@ function Login(props) {
                     id="password"
                     InputProps={{
                       classes: {
-                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -207,7 +206,6 @@ function Login(props) {
                     placeholder="Password"
                     type="password"
                     fullWidth
-                    autocomplete="off"
                   />
                   <div className={classes.formButtons}>
                     {isLoading ? (

@@ -1,10 +1,8 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Button, Menu, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import TargetedSavingsModal from '../modals/TargetedSavingsModal';
+import { styled, alpha } from '@mui/material/styles';
+import Modal from './Modal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -47,8 +45,9 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+
+const ActionButton = ({groupId}) => {
+    const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -56,6 +55,7 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <div>
             <Button
@@ -63,12 +63,13 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="text"
+                variant="contained"
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
             >
-                Add Plan
+                Action
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -79,15 +80,17 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleUnlocks} disableRipple>
-                    Fixed Savings
+
+       
+                <MenuItem disableRipple>
+                    <Modal groupId={groupId} fund />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <TargetedSavingsModal customerId={customerId} />
+                    <Modal groupId={groupId} widthdraw />
                 </MenuItem>
             </StyledMenu>
         </div>
     )
 }
 
-export default AddPlanActionButton
+export default ActionButton
