@@ -126,7 +126,7 @@ function TransactionModal({ fund, widthdraw,groupId }) {
     const allGroup = async () => {
         setIsLoading(true)
         const res = await api.service().fetch(`/accounts/group/?id=${groupId}`, true);
-        console.log(res.data)
+        console.log(res.data.results[0])
         if (api.isSuccessful(res)) {
           setData(res.data.results)
           setGroups(res.data.results)
@@ -167,7 +167,7 @@ function TransactionModal({ fund, widthdraw,groupId }) {
         amount: 0,
         depositor: "",
         plan_id: 0,
-        member_id: groups?.members[0]?.id
+        // member_id: groups?.members[0]?.id
       });
 
 
@@ -182,7 +182,7 @@ const fundGroup = async(values) => {
 
         const response = await api
         .service()
-        .push("/dashboard/savings-plan/collect/",values,true)
+        .push("/dashboard/group-savings-plan/collect/",values,true)
 
         if(api.isSuccessful(response)){
             setTimeout( () => {
@@ -207,7 +207,7 @@ const withdrawCustomer = async(values) => {
 
         const response = await api
         .service()
-        .push("/dashboard/savings-plan/withdraw/",values,true)
+        .push("/dashboard/group-savings-plan/withdraw/",values,true)
 
   if(api.isSuccessful(response)){
     setTimeout( () => {
@@ -242,6 +242,7 @@ const withdrawCustomerFormState = () => ({
 
 
       const getGroup = (id)  => {
+        console.log(data[0])
             let item = data.filter((customer) => customer.id === id);
             if(item.length !== 0){
                 setUser(item[0]);
@@ -306,7 +307,12 @@ const withdrawCustomerFormState = () => ({
                         {widthdraw && (
                             <>
                                 <Formik
-                                    initialValues={withdrawCustomerFormState()}
+                                    initialValues={{
+                                    amount: 0,
+                                    reason: "",
+                                    plan_id: 0,
+                                    members_list:[data[0]?.members[0]?.id]
+                                }}
                                      // validationSchema= {validationSchema}
                                      onSubmit = { async (values,actions) => {
                                         await withdrawCustomer(values)
@@ -330,7 +336,7 @@ const withdrawCustomerFormState = () => ({
 
                                             >
                                             {
-                                            plan(groupId).map((customer) => {
+                                            plans.map((customer) => {
                                                 return (
                                                 <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
@@ -366,7 +372,12 @@ const withdrawCustomerFormState = () => ({
                         {fund && (
                             <>
                                 <Formik
-                                    initialValues={customerFundFormState()}
+                                    initialValues={{
+                                    amount: 0,
+                                    depositor: "",
+                                    plan_id: 0,
+                                    member_id: data[0]?.members[0]?.id
+                                }}
                                     // validationSchema= {savingsValidationSchema}
                                     onSubmit = { async (values,actions) => {
                                         await fundGroup(values)

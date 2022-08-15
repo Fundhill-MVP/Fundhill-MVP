@@ -143,15 +143,25 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
         frequency: "",
         amount_per_cycle: 0,
         duration_in_months: 0,
-        amount: 0,
-        plan_type: "",
+        plan_type: "TARGETED SAVINGS",
         interest_rate: 0,
         fee: 1,
         fixed_amount: true
     });
 
+    const fixedSavingsFormState = (id) => ({
+        user: id,
+        name: "",
+        amount: 0,
+        duration_in_months: 0,
+        interest_rate: 0,
+        fee: 1,
+        fixed_amount: true,
+        plan_type: "FIXED DEPOSIT SAVINGS",
+    });
 
-    const savingsValidationSchema = yupObject().shape({
+
+    const targetedSavingsValidationSchema = yupObject().shape({
         user: yupNumber()
             .required("User is required"),
         name: yupString()
@@ -162,10 +172,6 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
             .required("Amount cycle is required"),
         duration_in_months: yupNumber()
             .required("Duration is required"),
-        amount: yupNumber()
-            .required("Amount is required"),
-        plan_type: yupString()
-            .required("Select a savings plan."),
         interest_rate: yupNumber()
             .required("Select an interest rate"),
         fee: yupNumber()
@@ -174,6 +180,23 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
             .required("Select an option")
     });
 
+
+    const fixedSavingsValidationSchema = yupObject().shape({
+        user: yupNumber()
+            .required("User is required"),
+        name: yupString()
+            .required("name is required"),
+        duration_in_months: yupNumber()
+            .required("Duration is required"),
+        amount: yupNumber()
+            .required("Amount is required"),
+        interest_rate: yupNumber()
+            .required("Select an interest rate"),
+        fee: yupNumber()
+            .required("Select fee"),
+        fixed_amount: yupString()
+            .required("Select an option")
+    });
 
     const savings = async (values) => {
         setPlanBtn(true);
@@ -419,7 +442,7 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
 
                                 <Formik
                                     initialValues={savingsFormState(customerId)}
-                                    validationSchema={savingsValidationSchema}
+                                    validationSchema={targetedSavingsValidationSchema}
                                     onSubmit={async (values, actions) => {
                                         await savings(values)
                                     }}
@@ -683,7 +706,7 @@ const SavingsModal = ({ activate, deactivate, customerId, targeted }) => {
 
                         <Formik
                             initialValues={savingsFormState(customerId)}
-                            validationSchema={savingsValidationSchema}
+                            validationSchema={fixedSavingsValidationSchema}
                             onSubmit={async (values, actions) => {
                                 await savings(values)
                             }}

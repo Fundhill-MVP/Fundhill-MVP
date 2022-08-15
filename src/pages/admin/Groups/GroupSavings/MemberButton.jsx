@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Menu from '@mui/material/Menu';
 import { styled, alpha } from '@mui/material/styles';
-import OngingModal from './OngoingModal';
+import OngingModal from './Members';
 
 
 
@@ -82,9 +82,6 @@ const ActionButton = ({groupId}) => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem disableRipple>
-                    <OngingModal groupId={groupId} />
-                </MenuItem>
                 <MenuItem disableRipple>
                     <OngingModal groupId={groupId} history />
                 </MenuItem>

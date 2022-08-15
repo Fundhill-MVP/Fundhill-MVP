@@ -114,7 +114,7 @@ function OngoingLoan() {
                           </Button>
                         </TableCell>
                           <TableCell>
-                            <ActionButton loanId={customer.id} />
+                            <ActionButton groupId={customer.id} />
                           </TableCell>
                         </TableRow>
                       ))}
