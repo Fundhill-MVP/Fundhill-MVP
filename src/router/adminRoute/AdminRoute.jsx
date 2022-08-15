@@ -73,7 +73,8 @@ import {
   DeniedGroupLoan,
   DisburseGroupLoan,
   OngoingGroupLoan,
-  GroupPlan
+  GroupPlan,
+  GroupTrans
 } from "../../pages/admin"
 
 // context
@@ -172,9 +173,10 @@ function AdminRoute() {
       <Route path="dashboard/group/all_group" element={<AllGroup />} />
       <Route path="dashboard/group/approved_loan" element={<ApprovedGroupLoan />} />
       <Route path="dashboard/group/denied_loan" element={<DeniedGroupLoan />} />
-      <Route path="dashboard/group/ongoing_loan" element={<DeniedGroupLoan />} />
-      <Route path="dashboard/group/disbursed_loan" element={<DeniedGroupLoan />} />
+      <Route path="dashboard/group/ongoing_loan" element={<OngoingGroupLoan />} />
+      <Route path="dashboard/group/disbursed_loan" element={<DisburseGroupLoan />} />
       <Route path="dashboard/group/group_plan" element={<GroupPlan />} />
+      <Route path="dashboard/group/group_trans" element={<GroupTrans />} />
 
 
       {/* Reports */}

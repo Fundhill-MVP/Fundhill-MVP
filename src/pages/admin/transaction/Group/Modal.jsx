@@ -4,7 +4,7 @@ import {Formik,Form} from "formik";
 import {object as yupObject, string as yupString,number as yupNumber} from "yup";
 import {CircularProgress} from "@material-ui/core";
 import { Box, Button, Divider, IconButton, MenuItem, Modal, Typography } from '@mui/material';
-import useStyles from './styles';
+import useStyles from '../styles';
 import Fade from '@mui/material/Fade';
 import Backdrop from '@mui/material/Backdrop';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,8 +15,8 @@ import { Hidden } from "@material-ui/core";
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-import { api  } from "../../../services";
-import {TextField,Select} from "../../../components/FormsUI";
+import { api  } from "../../../../services";
+import {TextField,Select} from "../../../../components/FormsUI";
 import Receipt from "./Receipt"
 
 
@@ -81,7 +81,7 @@ function getStyles(name, personName, theme) {
     };
 }
 
-function TransactionModal({ fund, widthdraw,customerId }) {
+function TransactionModal({ fund, widthdraw,groupId }) {
     const classes = useStyles();
 
     // modal
@@ -116,30 +116,28 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     const [interests,setInterest] = useState([]);
     const [fees,setfees] = useState([]);
     const [customers,setCustomers] = useState([]);
+    const [groups,setGroups] = useState([]);
+    const [plans,setPlans] = useState([])
     const [user,setUser] = useState("");
     const [item,setItem] = useState("");
     const [result,setResult] = useState("")
     const navigate = useNavigate();
 
-    useEffect(() => {
+    const allGroup = async () => {
         setIsLoading(true)
-
-        const allCustomer = async() => {
-        try {
-            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
-            // console.log(res.data.results)
-            if(api.isSuccessful(res)){
-              setData(res.data.results)
-            }
-          setIsLoading(false);
-        } catch (error) {
-            console.log(error);
+        const res = await api.service().fetch(`/accounts/group/?id=${groupId}`, true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+          setData(res.data.results)
+          setGroups(res.data.results)
         }
     
-        }
-
-        allCustomer();
-      },[])
+        setIsLoading(false);
+    
+      }
+      useEffect(() => {
+        allGroup();
+      }, [])
 
 
 
@@ -148,11 +146,11 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     
         const allSavingsPlan = async() => {
                     try {
-                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true",true);
+                        const res = await api.service().fetch(`/dashboard/group-savings-plan/?is_active=true&group=${groupId}`,true);
                         // console.log(res.data.results)
                         if(api.isSuccessful(res)){
                           //   console.log(res)
-                          setCustomers(res.data.results)
+                          setPlans(res.data.results)
                         }
                   
                         setIsLoading(false);
@@ -165,32 +163,19 @@ function TransactionModal({ fund, widthdraw,customerId }) {
       },[]);
 
 
-      const customerFundFormState = () => ({
+      const customerFundFormState = (id) => ({
         amount: 0,
         depositor: "",
-        plan_id: 0
+        plan_id: 0,
+        member_id: groups?.members[0]?.id
       });
 
-      const  customerSavingsPlan = async(id) => {
-        try {
-            const res = await api.service().fetch(`/dashboard/savings-plan/?user=${id}`,true);
-            // console.log(res.data.results)
-            if(api.isSuccessful(res)){
-              //   console.log(res)
-              handleLocks();
-              setCustomers(res.data.results)
-            }
-      
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-        }  
-}
 
 
 
 
-const fundCustomer = async(values) => {
+
+const fundGroup = async(values) => {
     try {
         setFundBtn(true);
         console.log(values)
@@ -250,13 +235,13 @@ const withdrawCustomerFormState = () => ({
 
     //   console.log(customers);
       const plan = (id)=> {
-            return customers.filter(customer => customer.user.id === id)
+            return customers.filter(group => group.id === id)
       }
 
 
 
 
-      const getCustomer = (id)  => {
+      const getGroup = (id)  => {
             let item = data.filter((customer) => customer.id === id);
             if(item.length !== 0){
                 setUser(item[0]);
@@ -268,11 +253,11 @@ const withdrawCustomerFormState = () => ({
         <div>
 
             {fund && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Fund Wallet</Button>
+                <Button onClick={()=> [handleUnlocks(),getGroup(groupId)]}>Fund Wallet</Button>
             )}
 
             {widthdraw && (
-                <Button onClick={()=> [handleUnlocks(),getCustomer(customerId)]}>Widthdraw</Button>
+                <Button onClick={()=> [handleUnlocks(),getGroup(groupId)]}>Widthdraw</Button>
             )}
 
                 {result && (
@@ -298,7 +283,7 @@ const withdrawCustomerFormState = () => ({
                 <Fade in={locks}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {fund ? 'Fund Customer  Wallet' : ' Customer ID'}
+                            {fund ? 'Fund Group  Wallet' : ' Customer ID'}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -345,7 +330,7 @@ const withdrawCustomerFormState = () => ({
 
                                             >
                                             {
-                                            plan(customerId).map((customer) => {
+                                            plan(groupId).map((customer) => {
                                                 return (
                                                 <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
                                             )
@@ -384,7 +369,7 @@ const withdrawCustomerFormState = () => ({
                                     initialValues={customerFundFormState()}
                                     // validationSchema= {savingsValidationSchema}
                                     onSubmit = { async (values,actions) => {
-                                        await fundCustomer(values)
+                                        await fundGroup(values)
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }}>
@@ -413,9 +398,9 @@ const withdrawCustomerFormState = () => ({
                                         >
                                              <MenuItem>Select One</MenuItem>
                                              {
-                                             plan(customerId).map((customer) => {
+                                             plans.map((plan) => {
                                                 return (
-                                                <MenuItem key={customer.id} value={customer.id} > {customer.name} </MenuItem>
+                                                <MenuItem key={plan.id} value={plan.id} > {plan.name} </MenuItem>
                                             )
                                              })
                                              }
