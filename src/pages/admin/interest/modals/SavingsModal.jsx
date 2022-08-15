@@ -16,6 +16,7 @@ import { DotLoader } from "react-spinners";
 import { api } from "../../../../services";
 import { TextField, Select } from "../../../../components/FormsUI";
 import AddPlanActionButton from '../ActionButtons/AddPlanActionButton';
+import { trigger } from '../../../../events';
 
 
 const override = css`
@@ -77,8 +78,10 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
     // modal
     const [locks, setUnlocks] = useState(false);
+    const [lock, setUnlock] = useState(false);
     const handleUnlocks = () => setUnlocks(true);
     const handleLocks = () => setUnlocks(false);
+    const handleLock = () => setUnlock(false);
 
     // select input
 
@@ -131,7 +134,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
         allCustomer();
     }, [])
 
-    const savingsFormState = (id) => ({
+    const targetedSavingsFormState = (id) => ({
         user: id,
         name: "",
         frequency: "",
@@ -146,33 +149,15 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const fixedSavingsFormState = (id) => ({
         user: id,
         name: "",
-        amount: 0,
-        duration_in_months: 0,
-        interest_rate: 0,
-        fee: 1,
+        amount: "",
+        duration_in_months: "",
+        interest_rate: "",
+        fee: "",
         fixed_amount: true,
         plan_type: "FIXED DEPOSIT SAVINGS",
     });
 
 
-    const targetedSavingsValidationSchema = yupObject().shape({
-        user: yupNumber()
-            .required("User is required"),
-        name: yupString()
-            .required("name is required"),
-        frequency: yupString()
-            .required("frequency is required"),
-        amount_per_cycle: yupNumber()
-            .required("Amount cycle is required"),
-        duration_in_months: yupNumber()
-            .required("Duration is required"),
-        interest_rate: yupNumber()
-            .required("Select an interest rate"),
-        fee: yupNumber()
-            .required("Select fee"),
-        fixed_amount: yupString()
-            .required("Select an option")
-    });
 
 
     const fixedSavingsValidationSchema = yupObject().shape({
@@ -202,9 +187,10 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
         if (api.isSuccessful(response)) {
             setTimeout(() => {
+                trigger("reRenderCustomerSavingsPlan")
                 handleLocks()
                 toast.success("Savings Plan successfully added!");
-                // navigate("/admin/allbranch",{replace: true})
+
             }, 0);
         }
         setPlanBtn(false);
@@ -321,23 +307,23 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
         allinterest();
 
-        const customerPlan = async () => {
-            try {
-                const res = await api
-                    .service()
-                    .fetch("/dashboard/savings-plan/", true);
-                console.log(res.data.results)
+        // const customerPlan = async () => {
+        //     try {
+        //         const res = await api
+        //             .service()
+        //             .fetch("/dashboard/savings-plan/", true);
+        //         console.log(res.data.results)
 
-                if ((api.isSuccessful(res))) {
-                    setCustomers(res.data.results);
-                    setIsLoading(false)
-                } else {
-                    setIsLoading(true)
-                }
-            } catch (error) {
-                console.log(error.message)
-            }
-        }
+        //         if ((api.isSuccessful(res))) {
+        //             setCustomers(res.data.results);
+        //             setIsLoading(false)
+        //         } else {
+        //             setIsLoading(true)
+        //         }
+        //     } catch (error) {
+        //         console.log(error.message)
+        //     }
+        // }
     }, []);
 
 
@@ -394,7 +380,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
             {!activate && !deactivate ? (
                 // <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Add Plan</Button>
-                <AddPlanActionButton handleUnlocks={handleUnlocks} />
+                <AddPlanActionButton customerId={customerId} handleUnlocks={handleUnlocks} />
             ) : ''}
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -435,8 +421,8 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                             <>
 
                                 <Formik
-                                    initialValues={savingsFormState(customerId)}
-                                    validationSchema={targetedSavingsValidationSchema}
+                                    initialValues={fixedSavingsFormState(customerId)}
+                                    validationSchema={fixedSavingsValidationSchema}
                                     onSubmit={async (values, actions) => {
                                         await savings(values)
                                     }}
@@ -447,17 +433,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                             <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
                                         </div>
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                            <Select
-                                                size="small"
-                                                fullWidth
-                                                label="Select One"
-                                                name="frequency"
-                                                options={frequency}
-                                            />
 
-                                        </div>
 
                                         <div className={classes.formDiv}>
                                             <div className={classes.divTypo}><Typography>Amount</Typography></div>
@@ -465,11 +441,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                         </div>
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
 
-                                        </div>
 
                                         <div className={classes.formDiv}>
                                             <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
@@ -477,17 +449,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                         </div>
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                            <Select
-                                                size='small'
-                                                fullWidth
-                                                label="Select One"
-                                                name="plan_type"
-                                                options={savingsPlan}
-                                            />
 
-                                        </div>
                                         <div className={classes.formDiv}>
                                             <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
                                             <TextField
@@ -670,7 +632,6 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                     </Box>
                 </Fade>
             </Modal>
-<<<<<<< HEAD
 
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -700,7 +661,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
 
                         <Formik
-                            initialValues={savingsFormState(customerId)}
+                            initialValues={fixedSavingsFormState(customerId)}
                             validationSchema={fixedSavingsValidationSchema}
                             onSubmit={async (values, actions) => {
                                 await savings(values)
@@ -742,17 +703,6 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                 </div>
 
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                    <Select
-                                        size='small'
-                                        fullWidth
-                                        label="Select One"
-                                        name="plan_type"
-                                        options={savingsPlan}
-                                    />
-
-                                </div>
                                 <div className={classes.formDiv}>
                                     <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
                                     <TextField
@@ -824,8 +774,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                     </Box>
                 </Fade>
             </Modal>
-=======
->>>>>>> d5a40985d817f5b50b97b71efa2a2cfb2f371ad6
+
         </div>
     )
 }

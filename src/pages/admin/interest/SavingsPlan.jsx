@@ -18,6 +18,7 @@ import { api } from '../../../services';
 import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
 import { Context } from "../../../context/Context"
+import { on } from "../../../events";
 
 
 const override = css`
@@ -38,21 +39,23 @@ const SavingsPlan = () => {
     const [marketers, setMarketers] = useState([]);
     const { user } = useContext(Context)
 
-    useEffect(() => {
+    const customerSavingsPlan = async () => {
         setIsLoading(true)
 
-        const allCustomer = async () => {
-            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-            console.log(res.data)
-            if (api.isSuccessful(res)) {
-                setData(res.data.results)
-            }
-            setIsLoading(false);
-
+        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+            setData(res.data.results)
         }
+        setIsLoading(false);
 
-        allCustomer();
+    }
+
+    useEffect(() => {
+        customerSavingsPlan();
+
     }, [])
+    on("reRenderCustomerSavingsPlan",customerSavingsPlan)
 
     return (
         <Fragment>

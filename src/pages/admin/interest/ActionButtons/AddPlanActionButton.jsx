@@ -47,7 +47,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const AddPlanActionButton = ({ handleUnlocks }) => {
+const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -83,7 +83,7 @@ const AddPlanActionButton = ({ handleUnlocks }) => {
                     Fixed Savings
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <TargetedSavingsModal />
+                    <TargetedSavingsModal customerId={customerId} />
                 </MenuItem>
             </StyledMenu>
         </div>
