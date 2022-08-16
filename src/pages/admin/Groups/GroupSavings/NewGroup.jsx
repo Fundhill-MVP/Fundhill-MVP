@@ -76,24 +76,20 @@ function NewGroup() {
 
 
     const add_group = async (values) => {
-        try {
-            setIsLoading(true);
-            console.log(values)
+        setIsLoading(true);
+        console.log(values)
 
-            const response = await api
-                .service()
-                .push("/accounts/group/add/", values, true)
+        const response = await api
+            .service()
+            .push("/accounts/group/add/", values, true)
 
-            if (api.isSuccessful(response)) {
-                setTimeout(() => {
-                    toast.success("Group successfully added!");
-                    navigate("/admin/dashboard/group/new_group", { replace: true })
-                }, 0);
-            }
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error)
+        if (api.isSuccessful(response)) {
+            setTimeout(() => {
+                toast.success("Group successfully added!");
+                navigate("/admin/dashboard/group/new_group", { replace: true })
+            }, 0);
         }
+        setIsLoading(false);
     }
 
 

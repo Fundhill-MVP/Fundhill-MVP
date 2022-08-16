@@ -17,7 +17,7 @@ import ActionButton from "./ActionButton";
 import { api } from '../../../services';
 import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
-
+import {on} from "../../../events";
 
 
 const override = css`
@@ -40,21 +40,24 @@ function Transaction() {
     let [color, setColor] = useState("#ADD8E6");
     const [marketers, setMarketers] = useState([]);
 
-    useEffect(() => {
+    const transCustomer = async () => {
         setIsLoading(true)
 
-        const allCustomer = async () => {
-            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-            console.log(res.data)
-            if (api.isSuccessful(res)) {
-                setData(res.data.results)
-            }
-            setIsLoading(false);
-
+        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+            setData(res.data.results)
         }
+        setIsLoading(false);
+    }
 
-        allCustomer();
+
+    useEffect(() => {
+        transCustomer();
+
     }, [])
+    on("reRenderTransCustomer",transCustomer);
+
 
     return (
         <Fragment>
