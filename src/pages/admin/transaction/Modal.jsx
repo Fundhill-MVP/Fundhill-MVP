@@ -148,8 +148,8 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     
         const allSavingsPlan = async() => {
                     try {
-                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true",true);
-                        // console.log(res.data.results)
+                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true&plan_type=TARGETED SAVINGS",true);
+                        console.log(res.data.results)
                         if(api.isSuccessful(res)){
                           //   console.log(res)
                           setCustomers(res.data.results)
@@ -171,21 +171,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
         plan_id: 0
       });
 
-      const  customerSavingsPlan = async(id) => {
-        try {
-            const res = await api.service().fetch(`/dashboard/savings-plan/?user=${id}`,true);
-            // console.log(res.data.results)
-            if(api.isSuccessful(res)){
-              //   console.log(res)
-              handleLocks();
-              setCustomers(res.data.results)
-            }
-      
-            setIsLoading(false);
-        } catch (error) {
-            console.log(error);
-        }  
-}
+    
 
 
 

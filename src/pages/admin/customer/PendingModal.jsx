@@ -12,8 +12,15 @@ import { toast } from "react-toastify";
 import { api } from '../../../services';
 import useStyles from './styles';
 import { trigger } from '../../../events';
+import {BounceLoader} from "react-spinners"
+import { css } from "@emotion/react";
 
-
+const override = css`
+display: block;
+margin: 0 auto;
+border-color: green;
+align-items: center;
+`;
 
 const style = {
     position: 'absolute',
@@ -32,13 +39,13 @@ export default function ActionButton({ del, customerId }) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    let [loading, setloading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
     const [activeBtn,setActiveBtn] = useState(false);
     const [deactiveBtn,setDeactiveBtn] = useState(false);
     const [delBtn,setDelBtn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [data,setData] = useState([]);
-    const PF = "https://fundhill-api.herokuapp.com/media/";
 
     useEffect(() => {
         setIsLoading(true)
@@ -92,7 +99,6 @@ export default function ActionButton({ del, customerId }) {
                     toast.success("Successfully deactivated customer!");
                 },0);
                 }
-      
         } catch (error) {
             setDeactiveBtn(false)
             console.log(error);
@@ -158,9 +164,19 @@ export default function ActionButton({ del, customerId }) {
                         </Box>
                         <Divider />
 
-                        {/* <img className={classes.img} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMltxBUZCeJjJCrE18S0PZktyxZyhJMXyPuc9fc9zRU-Qi6sm9lv9UaStBK6m77lgsO7o&usqp=CAU" alt="" /> */}
-                        <img className={classes.img} src={user.avatar} alt={user.first_name}  />
+                      
+                            {isLoading ? 
+                                (
+                                    <div className={classes.sweet_loading}>
+                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                    </div>
+                                )
+                                :
+                                (
+                                    <img className={classes.img} src={user.avatar} alt={user.first_name}  />
 
+                                )
+                            }
                         <Divider />
                         <div style={{ marginTop: 10, display: 'flex', justifyContent: 'flex-end' }}>
                         {activeBtn ? (

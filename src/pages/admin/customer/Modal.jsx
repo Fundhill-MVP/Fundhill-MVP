@@ -10,9 +10,10 @@ import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { toast } from "react-toastify";
 
 import { api } from '../../../services';
-import {DotLoader} from "react-spinners";
+import {DotLoader,BounceLoader} from "react-spinners";
 import {TextField} from "../../../components/FormsUI"
 import { css } from "@emotion/react";
+import { trigger } from '../../../events';
 
 
 
@@ -172,6 +173,7 @@ const AllCustomersModal = ({ edit,customerId }) => {
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {
+                trigger("reRenderActiveCustomer")
                 setDelBtn(false)
                 handleLocks()
                 toast.success("Successfully deactivated customer!");
@@ -333,11 +335,19 @@ const AllCustomersModal = ({ edit,customerId }) => {
                         ) : (
                             <>
                                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <img
-                                        className={classes.profileImage}
-                                        src="https://i.ytimg.com/vi/K0u_kAWLJOA/maxresdefault.jpg"
-                                        alt="profile"
-                                    />
+                                
+                                {isLoading ? 
+                                (
+                                    <div className={classes.sweet_loading}>
+                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                    </div>
+                                )
+                                :
+                                (
+                                    <img className={classes.img} src={user.avatar} alt={user.first_name}  />
+
+                                )
+                            }
                                         {delBtn ? (
                                         <CircularProgress size={26} />
                                         )
