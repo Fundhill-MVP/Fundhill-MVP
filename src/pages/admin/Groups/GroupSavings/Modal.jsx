@@ -188,7 +188,7 @@ const AllModal = ({ updates,groupId }) => {
                                         )
                                         :
                                         (
-                                            <Button onClick={() => deleteGroup(item.id)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
+                                            <Button onClick={() => deleteGroup(groupId)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
                                         )
                                         }
 

@@ -227,10 +227,10 @@ const AllDeposits = () => {
                           <TableCell className="pl-3 fw-normal"> {tranx?.id} </TableCell>
                           <TableCell> {tranx?.created_date} </TableCell>
                           <TableCell> {tranx?.amount} </TableCell>
-                          {/* <TableCell> {tranx?.depositor} </TableCell>
-                                    <TableCell> {tranx?.customer} </TableCell>
-                                    <TableCell> {tranx?.agent} </TableCell>
-                                    <TableCell> {tranx?.customer.bank_account_number} </TableCell> */}
+                          <TableCell> {tranx?.depositor} </TableCell>
+                          <TableCell> {tranx?.to.first_name} {tranx?.to?.last_name} </TableCell>
+                          <TableCell> {tranx?.to?.agent?.first_name} {tranx?.to?.agent.last_name} </TableCell>
+                          <TableCell> {tranx?.to?.bank_account_number} </TableCell>
                           <TableCell> {tranx?.status} </TableCell>
                         </TableRow>
                       ))}

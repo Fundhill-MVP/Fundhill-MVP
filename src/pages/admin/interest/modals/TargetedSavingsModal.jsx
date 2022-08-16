@@ -12,7 +12,7 @@ import { useTheme } from '@material-ui/styles';
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import { DotLoader } from "react-spinners";
+import { DotLoader,BounceLoader } from "react-spinners";
 import { api } from "../../../../services";
 import { TextField, Select } from "../../../../components/FormsUI";
 import { trigger } from '../../../../events';
@@ -65,20 +65,13 @@ const TargetedSavingsModal = ( {customerId} ) => {
     const handleUnlock = () => setUnlock(true);
     const handleLock = () => setUnlock(false);
     const [planBtn, setPlanBtn] = useState(false);
-    const [deactivateBtn, setDeactivatePlan] = useState(false);
-    const [activateBtn, setActivateBtn] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
-    const [Loading, setLoading] = useState(false)
     let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const [data, setData] = useState([]);
     const [interests, setInterest] = useState([]);
     const [fees, setfees] = useState([]);
-    const [customers, setCustomers] = useState([]);
-    const [decustomer, setDeactivateCustomer] = useState([]);
-    const [user, setUser] = useState("");
-    const [item, setItem] = useState("");
-    const navigate = useNavigate();
+
 
 
     const allCustomer = async () => {
@@ -87,6 +80,7 @@ const TargetedSavingsModal = ( {customerId} ) => {
             console.log(res.data.results)
             if (api.isSuccessful(res)) {
                 setData(res.data.results)
+                setIsLoading(false)
             }
             setIsLoading(false);
 
@@ -103,9 +97,8 @@ const TargetedSavingsModal = ( {customerId} ) => {
             if ((api.isSuccessful(res))) {
                 setInterest(res.data.results);
                 setIsLoading(false)
-            } else {
-                setIsLoading(true)
             }
+            setIsLoading(false)
 
     }
 
@@ -115,8 +108,8 @@ const TargetedSavingsModal = ( {customerId} ) => {
             const res = await api.service().fetch("/dashboard/fees/", true);
             console.log(res.data.results)
             if (api.isSuccessful(res)) {
-                //   console.log(res)
                 setfees(res.data.results)
+                setIsLoading(false)
             }
 
             setIsLoading(false);
@@ -224,7 +217,17 @@ const TargetedSavingsModal = ( {customerId} ) => {
                                 }}
                             >
                                 <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                    <div className={classes.formDiv}>
+                                        {
+                                            isLoading ?
+                                            (
+                                                <div className={classes.sweet_loading}>
+                                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                                </div>
+                                            )
+                                            :
+                                            (
+                                                <>
+                                                <div className={classes.formDiv}>
                                         <div className={classes.divTypo}><Typography>Name</Typography></div>
                                         <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
@@ -303,6 +306,9 @@ const TargetedSavingsModal = ( {customerId} ) => {
                                             label="Choose One"
                                         />
                                     </div>
+                                                </>
+                                            )
+                                        }
 
                                     {
                                         planBtn ?

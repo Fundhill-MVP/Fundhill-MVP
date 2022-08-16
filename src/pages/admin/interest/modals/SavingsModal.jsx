@@ -12,7 +12,7 @@ import { useTheme } from '@material-ui/styles';
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import { DotLoader } from "react-spinners";
+import { DotLoader,BounceLoader } from "react-spinners";
 import { api } from "../../../../services";
 import { TextField, Select } from "../../../../components/FormsUI";
 import AddPlanActionButton from '../ActionButtons/AddPlanActionButton';
@@ -113,6 +113,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const [user, setUser] = useState("");
     const [item, setItem] = useState("");
     const navigate = useNavigate();
+    const [customerPlan,setCustomerPlan] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
@@ -134,17 +135,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
         allCustomer();
     }, [])
 
-    const targetedSavingsFormState = (id) => ({
-        user: id,
-        name: "",
-        frequency: "",
-        amount_per_cycle: 0,
-        duration_in_months: 0,
-        plan_type: "TARGETED SAVINGS",
-        interest_rate: 0,
-        fee: 1,
-        fixed_amount: true
-    });
+
 
     const fixedSavingsFormState = (id) => ({
         user: id,
@@ -196,39 +187,32 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
         setPlanBtn(false);
     }
 
+    const allSavingsPlan = async () => {
+        setCustomerPlan(true)
+        const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`, true);
+        console.log(res.data.results)
+        if (api.isSuccessful(res)) {
+            //   console.log(res)
+            setCustomers(res.data.results)
+            setCustomerPlan(false)
+        }
+        setCustomerPlan(false)
+    }
+
+    const allDeactivedSavingsPlan = async () => {
+        setCustomerPlan(true)
+        const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}&status=DEACTIVATED`, true);
+        console.log(res.data.results)
+        if (api.isSuccessful(res)) {
+            //   console.log(res)
+            setDeactivateCustomer(res.data.results)
+            setCustomerPlan(false)
+        }
+        setCustomerPlan(false)
+    }
+
+
     useEffect(() => {
-        setIsLoading(true)
-
-        const allSavingsPlan = async () => {
-            try {
-                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`, true);
-                console.log(res.data.results)
-                if (api.isSuccessful(res)) {
-                    //   console.log(res)
-                    setCustomers(res.data.results)
-                }
-
-                setIsLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
-        const allDeactivedSavingsPlan = async () => {
-            try {
-                const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}&status=DEACTIVATED`, true);
-                console.log(res.data.results)
-                if (api.isSuccessful(res)) {
-                    //   console.log(res)
-                    setDeactivateCustomer(res.data.results)
-                }
-
-                setIsLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
 
         allSavingsPlan();
         allDeactivedSavingsPlan();
@@ -284,80 +268,40 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     }
 
 
-    useEffect(() => {
+
+    const allinterest = async () => {
         setIsLoading(true)
+        const res = await api
+        .service()
+        .fetch("/dashboard/interest-rates/", true);
+    // console.log(res.data.results)
+    if ((api.isSuccessful(res))) {
+        setInterest(res.data.results);
+        setIsLoading(false)
+    } 
+    setIsLoading(false)
+    }
 
-        const allinterest = async () => {
-            try {
-                const res = await api
-                    .service()
-                    .fetch("/dashboard/interest-rates/", true);
-                console.log(res.data.results)
-
-                if ((api.isSuccessful(res))) {
-                    setInterest(res.data.results);
-                    setIsLoading(false)
-                } else {
-                    setIsLoading(true)
-                }
-            } catch (error) {
-                console.log(error.message)
-            }
+    const allfee = async () => {
+        setIsLoading(true)
+        const res = await api.service().fetch("/dashboard/fees/", true);
+        console.log(res.data.results)
+        if (api.isSuccessful(res)) {
+            setfees(res.data.results)
+            setIsLoading(false)
         }
-
-        allinterest();
-
-        // const customerPlan = async () => {
-        //     try {
-        //         const res = await api
-        //             .service()
-        //             .fetch("/dashboard/savings-plan/", true);
-        //         console.log(res.data.results)
-
-        //         if ((api.isSuccessful(res))) {
-        //             setCustomers(res.data.results);
-        //             setIsLoading(false)
-        //         } else {
-        //             setIsLoading(true)
-        //         }
-        //     } catch (error) {
-        //         console.log(error.message)
-        //     }
-        // }
-    }, []);
-
+        setIsLoading(false)
+    }
 
     useEffect(() => {
-        setIsLoading(true)
-
-        const allfee = async () => {
-            try {
-                const res = await api.service().fetch("/dashboard/fees/", true);
-                console.log(res.data.results)
-                if (api.isSuccessful(res)) {
-                    //   console.log(res)
-                    setfees(res.data.results)
-                }
-
-                setIsLoading(false);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-
         allfee();
+        allinterest();
+  
     }, []);
 
-    //       console.log(customers);
-
-    //       const activatedPlan = (id)=> {
-    //             return customers.filter(customer => customer.user.id === id)
-    //       }
 
 
-    //   const deactivatedPlan = (id)=> {
-    //     return decustomer.filter(customer => customer.user.id === id)
-    // }
+
 
     const getCustomer = (id) => {
         let item = data.filter((customer) => customer.id === id);
@@ -396,7 +340,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                 <Fade in={locks}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {activate ? `Activate ${user.first_name} Plan ` : `Customer Id: ${user.id} `}
+                            {activate ? `Activate ${user?.first_name} Plan ` : `Customer Id: ${user?.id} `}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -428,7 +372,17 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                     }}
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                        <div className={classes.formDiv}>
+
+                                        {
+                                            isLoading ?
+                                                (
+                                                    <div className={classes.sweet_loading}>
+                                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                                    </div>
+                                                ):
+                                                (
+                                                    <>
+                                                    <div className={classes.formDiv}>
                                             <div className={classes.divTypo}><Typography>Name</Typography></div>
                                             <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
@@ -499,6 +453,10 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                             />
                                         </div>
 
+                                                    </>
+                                                )
+                                        }
+
                                         {
                                             planBtn ?
                                                 (<div className="sweet-loading">
@@ -530,27 +488,44 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }} >
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                            <TextField
-                                                select={true}
-                                                fullWidth
-                                                name="id"
-                                                variant='outlined'
-                                                label="Select One"
+                                        {
+                                            customerPlan ?
+                                            (
 
-                                            >
-                                                <MenuItem>Select One</MenuItem>
-                                                {
-                                                    customers.map((plan) => {
-                                                        return (
-                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                            </TextField>
 
-                                        </div>
+                                            <div className={classes.sweet_loading}>
+                                            <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                            </div>
+
+
+                                            )
+                                            :
+                                            (
+                                                <div className={classes.formDiv}>
+                                                <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                                <TextField
+                                                    select={true}
+                                                    fullWidth
+                                                    name="id"
+                                                    variant='outlined'
+                                                    label="Select One"
+
+                                                >
+                                                    <MenuItem>Select One</MenuItem>
+                                                    {
+                                                        customers.map((plan) => {
+                                                            return (
+                                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                            )
+                                                        })
+                                                    }
+                                                </TextField>
+
+                                            </div>
+                                            )
+                                        }
+
+                                        
 
 
                                         {
@@ -584,7 +559,17 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }}>
 
-                                        <div className={classes.formDiv}>
+                                    {
+                                        customerPlan ?
+                                        (
+
+                                            <div className={classes.sweet_loading}>
+                                            <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div className={classes.formDiv}>
                                             <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
                                             <TextField
                                                 select={true}
@@ -605,6 +590,8 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                             </TextField>
 
                                         </div>
+                                        )
+                                    }
 
 
                                         {

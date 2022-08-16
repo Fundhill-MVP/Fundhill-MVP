@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { Alert } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
+import { trigger } from '../../../events';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -91,6 +92,7 @@ export default function Reciept(props) {
     };
     const handleClose = () => {
         setOpen(false);
+        trigger("reRenderTransCustomer")
     };
 
     const Print = () => {
