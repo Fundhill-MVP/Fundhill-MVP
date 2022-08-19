@@ -32,6 +32,14 @@ const structure = [
   {
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
+  
+  {
+    id: 11, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
+    children: [
+      { label: "Organisations", links: "/admin/fundhill/organisation" },
+      { label: "Users", links: "/admin/fundhill/users" },
+    ],
+  },
   {
     id: 1,
     label: "Accounting",

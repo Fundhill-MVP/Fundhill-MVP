@@ -88,7 +88,7 @@ function Profile() {
       // values.append("password",genPassword());
 
       console.log(values);
-      const response = await api.service().update(`/accounts/organisation/${user.data.organisation}`, data, true, true);
+      const response = await api.service().update(`/accounts/organisation/${user.data.organisation}/`, data, true, true);
 
       if (api.isSuccessful(response)) {
         setTimeout(() => {

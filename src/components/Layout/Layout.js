@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import {
   useLocation,
   Outlet,
@@ -21,15 +21,9 @@ import useStyles from "./styles";
 // components
 import Header from "../Header";
 import Sidebar from "../Sidebar";
+import AdminSideBar from "../AdminSidebar";
+import {Context} from "../../context/Context"
 
-// pages
-import Dashboard from "../../pages/dashboard";
-import Typography from "../../pages/typography";
-import Notifications from "../../pages/notifications";
-import Maps from "../../pages/maps";
-import Tables from "../../pages/tables";
-import Icons from "../../pages/icons";
-import Charts from "../../pages/charts";
 
 // context
 import { useLayoutState } from "../../context/LayoutContext";
@@ -39,13 +33,24 @@ function Layout(props) {
   // global
   const layoutState = useLayoutState();
   let location = useLocation();
+  const {user} = useContext(Context);
 
   return (
     <div className={classes.root}>
       <>
         <Header history={props.history} />
-        <Sidebar location={location} />
+        {/* <Sidebar location={location} /> */}
+        {
+          user.data.created_by === "FUNDHILL" ?
+          (
+            <AdminSideBar location={location} />
+          )
+          :
+          (
+            <Sidebar location={location} />
 
+          )
+        }
         <div
           className={classnames(classes.content, {
             [classes.contentShift]: layoutState.isSidebarOpened,
