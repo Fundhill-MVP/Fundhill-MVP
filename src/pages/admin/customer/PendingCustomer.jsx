@@ -115,12 +115,12 @@ function PendingCustomer() {
                           <TableCell>{customer?.agent.first_name} </TableCell>
                           <TableCell>
                           <Button onClick={() => downloadId(customer?.id_document)} >
-                            Download
+                            View
                           </Button>
                           </TableCell>
                           <TableCell>
                           <Button onClick={() => downloadBill(customer?.id_document)} >
-                            Download
+                            View
                           </Button>
                           </TableCell>
                           <TableCell>
