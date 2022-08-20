@@ -21,6 +21,7 @@ import {
 } from "@material-ui/core";
 import ActionButton from './ActionButtons/ActionButton';
 import AddNewInterest from './modals/AddNewInterest';
+import { on } from '../../../events';
 
 
 // CONTEXT
@@ -42,71 +43,26 @@ function InterestRate() {
 
 
 
-  useEffect(() => {
+  const interestRate = async () => {
     setIsLoading(true)
+    const interests = await api
+    .service()
+    .fetch("/dashboard/interest-rates/", true);
+  console.log(interests.data.results)
 
-    const interestRate = async () => {
-      try {
-        const interests = await api
-          .service()
-          .fetch("/dashboard/interest-rates/", true);
-        console.log(interests.data.results)
-
-        if ((api.isSuccessful(interests))) {
-          setData(interests.data.results);
-          setIsLoading(false)
-        } else {
-          setIsLoading(true)
-        }
-      } catch (error) {
-        console.log(error.message)
-      }
-
-    }
-
-    interestRate();
-  }, [])
-
-  const initialFormState = () => ({
-    name: "",
-    percentage: 0,
-    minimum_time_in_months: 0,
-    maximum_time_in_months: 0
-  });
-
-  const validationSchema = yupObject().shape({
-    name: yupString()
-      .required("What type of interest rate is this"),
-    percentage: yupNumber()
-      .required("Enter a percentage"),
-    minimum_time_in_months: yupNumber()
-      .required("minimum time in months"),
-    maximum_time_in_months: yupNumber()
-      .required("maximum time in months"),
-  });
-
-  const add_interest = async (values) => {
-    setIsLoading(true);
-
-    try {
-      console.log(values)
-
-      const response = await api
-        .service()
-        .push("/dashboard/interest-rates/add/", values, true)
-
-      if (api.isSuccessful(response)) {
-        setTimeout(() => {
-          toast.success("Interest rate successfully created!");
-          // navigate("/dashboard/interest-rates/",{replace: true});
-        }, 0);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error.message)
-    }
+  if ((api.isSuccessful(interests))) {
+    setData(interests.data.results);
+    setIsLoading(false)
+  } else {
+    setIsLoading(true)
+  }
 
   }
+
+  useEffect(() => {
+    interestRate();
+  }, [])
+  on("reRenderInterestRates",interestRate)
 
 
   return (

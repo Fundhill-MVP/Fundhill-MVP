@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const ActionButton = () => {
+const ActionButton = ({groupId}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -83,10 +83,10 @@ const ActionButton = () => {
                 onClose={handleClose}
             >
                 <MenuItem disableRipple>
-                    <OngingModal />
+                    <OngingModal groupId={groupId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <OngingModal history />
+                    <OngingModal groupId={groupId} history />
                 </MenuItem>
             </StyledMenu>
         </div>

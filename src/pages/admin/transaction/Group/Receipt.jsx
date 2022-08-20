@@ -12,7 +12,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { Alert } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
-import { trigger } from '../../../events';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -92,7 +91,6 @@ export default function Reciept(props) {
     };
     const handleClose = () => {
         setOpen(false);
-        trigger("reRenderTransCustomer")
     };
 
     const Print = () => {
@@ -226,7 +224,7 @@ export default function Reciept(props) {
 
                             </DialogContent>
                             <DialogActions>
-                                <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={[Print(),handleClose()]}>
+                                <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
                                     Print
                                 </Button>
                             </DialogActions>
@@ -251,8 +249,7 @@ export default function Reciept(props) {
                                 </Alert>
                                 <DialogContent dividers className={classes.deviderContainer} id='printable'>
                                     <Typography gutterBottom style={{ fontWeight: 600, fontSize: '0.8rem' }}>Transaction Reciept</Typography>
-                                    {/* <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on 08 August 2022 6:17pm</Typography> */}
-                                    <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on {data.created_date} </Typography>
+                                    <Typography gutterBottom style={{ fontSize: '0.8rem' }}>Completed on 08 August 2022 6:17pm</Typography>
 
                                     <div className={classes.grid}>
                                         <div className={classes.gridItems}>
@@ -281,7 +278,19 @@ export default function Reciept(props) {
                                             </div>
                                         </div>
                                     </div>
-
+                                    {/* <div className={classes.grid}>
+                            <div className={classes.gridItems}>
+                                <div className={classes.innerGrid}>
+                                    <p className={classes.span}>Recipient</p>
+                                </div>
+                            </div>
+    
+                            <div className={classes.gridItems}>
+                                <div className={classes.innerGrid1}>
+                                    <p>Joseph Segun Stephen 09603884 Union Bank</p>
+                                </div>
+                            </div>
+                        </div> */}
 
 
 
@@ -317,7 +326,7 @@ export default function Reciept(props) {
 
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={() => [Print(),handleClose()]}>
+                                    <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={Print}>
                                         Print
                                     </Button>
                                 </DialogActions>

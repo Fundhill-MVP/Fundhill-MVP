@@ -16,6 +16,7 @@ import Widget from "../../../components/Widget/Widget";
 import AddFees from './modals/AddFees';
 import { api } from '../../../services';
 import {Context} from "../../../context/Context";
+import { on } from "../../../events";
 
 // CONTEXT
 const override = css`
@@ -34,32 +35,28 @@ function Fees() {
   const [feeId, setFeeId] = useState("");
   const {user} = useContext(Context);
 
+  const allFees = async () => {
+    setIsLoading(true)
+      const fees = await api
+        .service()
+        .fetch("/dashboard/fees/", true);
+      console.log(fees.data.results)
 
+      if ((api.isSuccessful(fees))) {
+        setData(fees.data.results);
+        setIsLoading(false)
+      } else {
+        setIsLoading(true)
+      }
+ 
+
+  }
 
   useEffect(() => {
-    setIsLoading(true)
-
-    const allFees = async () => {
-      try {
-        const fees = await api
-          .service()
-          .fetch("/dashboard/fees/", true);
-        console.log(fees.data.results)
-
-        if ((api.isSuccessful(fees))) {
-          setData(fees.data.results);
-          setIsLoading(false)
-        } else {
-          setIsLoading(true)
-        }
-      } catch (error) {
-        console.log(error.message)
-      }
-
-    }
 
     allFees();
-  }, [])
+  }, []);
+  on("reRenderFees",allFees)
 
 
 

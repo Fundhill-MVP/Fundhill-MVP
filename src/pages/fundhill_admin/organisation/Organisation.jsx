@@ -24,6 +24,7 @@ const Organisation = () => {
     const classes = useStyles();
 
     const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(true)
     const [data, setData] = useState([]);
     let [color, setColor] = useState("#ADD8E6");
     const { user } = useContext(Context);
@@ -49,7 +50,15 @@ const Organisation = () => {
     return (
         <Fragment>
             <PageTitle title="Organisations" />
-            <Container>
+            {
+                isLoading ?
+                (
+                    <div className={classes.sweet_loading}>
+                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                    </div>
+                ):
+                (
+                    <Container>
                 <Widget title="All Collections of Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                     <Table className="mb-0">
                         <TableHead>
@@ -81,6 +90,8 @@ const Organisation = () => {
                     </Table>
                 </Widget>
             </Container>
+                )
+            }
         </Fragment>
     )
 }

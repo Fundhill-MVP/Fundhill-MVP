@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {TextField} from "../../../../components/FormsUI"
-
+import { trigger } from '../../../../events';
 
 const override = css`
   display: block;
@@ -70,9 +70,9 @@ const AddFees = () => {
     
             if(api.isSuccessful(response)){
               setTimeout( () => {
+                trigger("reRenderFees")
                 handleClose()
                 toast.success("Fees created successfully!");
-                navigate("/admin/dashboard/customer/fees/",{replace: true});
               },0);
             }
             setBtnLoading(false);
