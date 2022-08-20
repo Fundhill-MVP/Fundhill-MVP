@@ -55,7 +55,13 @@ const useStyles = makeStyles(theme => ({
     },
     btn: {
         marginTop: '10px !important'
-    }
+    },
+    sweet_loading: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 }));
 
 
@@ -161,7 +167,7 @@ const ResetPassword = () => {
                         {/* <Button className={classes.btn} variant='contained' fullWidth>Submit</Button> */}
                         {
                             isLoading ?
-                                (<div className="sweet-loading">
+                                (<div className={classes.sweet_loading}>
                                     <DotLoader color={color} loading={loading} css={override} size={80} />
                                 </div>)
                                 : (

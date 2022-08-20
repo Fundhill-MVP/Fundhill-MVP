@@ -249,7 +249,7 @@ export default function OptionModal({ history,loanId }) {
 
                                         {
                                         btnLoading ? 
-                                            ( <div className="sweet-loading">
+                                            ( <div className={classes.sweet_loading}>
                                                 <DotLoader color={color} loading={loading} css={override}  size={80} />
                                                 </div>)
                                             : (
