@@ -1,17 +1,17 @@
-import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal,  Typography, MenuItem } from '@mui/material'
+import { Backdrop, Box, Button, Divider, Fade, IconButton, Modal, Typography, MenuItem } from '@mui/material'
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {CircularProgress} from "@material-ui/core";
-import { Formik, Form,  } from "formik";
+import { CircularProgress } from "@material-ui/core";
+import { Formik, Form, } from "formik";
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners";
+import { DotLoader } from "react-spinners";
 import { api } from '../../../../services';
-import {toast} from "react-toastify"
-import {TextField} from "../../../../components/FormsUI"
+import { toast } from "react-toastify"
+import { TextField } from "../../../../components/FormsUI"
 import CloseIcon from '@mui/icons-material/Close';
 import useStyles from '../styles';
 import SearchGroup from "./SearchGroup";
-import {trigger} from "../../../../events";
+import { trigger } from "../../../../events";
 
 // CONTEXT
 const override = css`
@@ -33,117 +33,117 @@ const style = {
 };
 
 
-const AllModal = ({ updates,groupId }) => {
+const AllModal = ({ updates, groupId }) => {
 
     const [lock, setUnlock] = useState(false);
     const handleUnlock = () => setUnlock(true);
     const handleLock = () => setUnlock(false);
     const classes = useStyles();
 
- 
 
-  const [btnLoading,setBtnLoading] = useState(false);
-  const [delBtn,setDelBtn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ADD8E6");
-  const [data, setData] = useState([]);
-  const [marketers, setMarketers] = useState([]);
-  const navigate = useNavigate();
-  const [item, setItem] = useState("");
 
-  //  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
-  //  keys.shift(); // delete "id" key
+    const [btnLoading, setBtnLoading] = useState(false);
+    const [delBtn, setDelBtn] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const [data, setData] = useState([]);
+    const [marketers, setMarketers] = useState([]);
+    const navigate = useNavigate();
+    const [item, setItem] = useState("");
 
- 
+    //  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
+    //  keys.shift(); // delete "id" key
 
-  useEffect(() => {
-    setIsLoading(true)
 
-    const allGroup = async () => {
-      const res = await api.service().fetch("/accounts/group/", true);
-      console.log(res.data)
-      if (api.isSuccessful(res)) {
-        setData(res.data.results)
-      }
 
-      setIsLoading(false);
+    useEffect(() => {
+        setIsLoading(true)
 
+        const allGroup = async () => {
+            const res = await api.service().fetch("/accounts/group/", true);
+            console.log(res.data)
+            if (api.isSuccessful(res)) {
+                setData(res.data.results)
+            }
+
+            setIsLoading(false);
+
+        }
+
+        allGroup();
+    }, [])
+
+
+    const groups = (id) => {
+        const group = data.filter((item) => item.id === id);
+        // console.log(branch);
+        setItem(group[0]);
+        console.log(item);
+        // return branch
     }
 
-    allGroup();
-  }, [])
-
-
-  const groups = (id) => {
-    const group = data.filter((item) => item.id === id);
-    // console.log(branch);
-    setItem(group[0]);
-    console.log(item);
-    // return branch
-  }
-
-  const handleProps = () => {
-    // console.log(groupId);
-    groups(groupId);
-    // setItem(groups(groupId));
-    return setUnlock(true);
-  }
+    const handleProps = () => {
+        // console.log(groupId);
+        groups(groupId);
+        // setItem(groups(groupId));
+        return setUnlock(true);
+    }
 
 
 
 
-  const initialFormState = () => ({
-    name: `${item.name}`,
-    members: [item.members],
-    description: `${item.description}`,
-});
+    const initialFormState = () => ({
+        name: `${item.name}`,
+        members: [item.members],
+        description: `${item.description}`,
+    });
 
 
 
 
-  const deleteGroup = async (id) => {
+    const deleteGroup = async (id) => {
         try {
             setDelBtn(true)
             const res = await api.service().remove(`/accounts/group/${id}/`, true);
             console.log(res.data)
             if (api.isSuccessful(res)) {
-              setTimeout(() => {
-                toast.success("Successfully deleted Group!");
-                trigger("reRenderAllGroup")
-                handleLock()
-                setDelBtn(false)
+                setTimeout(() => {
+                    toast.success("Successfully deleted Group!");
+                    trigger("reRenderAllGroup")
+                    handleLock()
+                    setDelBtn(false)
 
-              }, 0);
+                }, 0);
             }
         } catch (error) {
             console.log(error);
         }
 
-  }
-
-  const editGroup = async (values, id) => {
-    try {
-        setBtnLoading(true);
-        console.log(values)
-    
-        const response = await api
-          .service()
-          .update(`/accounts/group/${id}/`, values, true)
-    
-        if (api.isSuccessful(response)) {
-          setTimeout(() => {
-            trigger("reRenderAllGroup")
-            toast.success("Group successfully updated!!");
-            handleLock()
-            // allGroup();
-          }, 0);
-        }
-        setBtnLoading(false);
-    } catch (error) {
-        console.log(error);
     }
-  }
+
+    const editGroup = async (values, id) => {
+        try {
+            setBtnLoading(true);
+            console.log(values)
+
+            const response = await api
+                .service()
+                .update(`/accounts/group/${id}/`, values, true)
+
+            if (api.isSuccessful(response)) {
+                setTimeout(() => {
+                    trigger("reRenderAllGroup")
+                    toast.success("Group successfully updated!!");
+                    handleLock()
+                    // allGroup();
+                }, 0);
+            }
+            setBtnLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
 
@@ -151,7 +151,7 @@ const AllModal = ({ updates,groupId }) => {
 
     return (
         <div>
-            <Button onClick={handleUnlock  && handleProps}>{updates ? 'Delete' : 'Update'}</Button>
+            <Button onClick={handleUnlock && handleProps}>{updates ? 'Delete' : 'Update'}</Button>
 
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -183,69 +183,69 @@ const AllModal = ({ updates,groupId }) => {
                                 <Divider style={{ marginTop: 40 }} />
                                 <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
                                     <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                                                                        {delBtn ? (
+                                    {delBtn ? (
                                         <CircularProgress size={26} />
-                                        )
+                                    )
                                         :
                                         (
                                             <Button onClick={() => deleteGroup(groupId)} variant="contained" style={{ textTransform: 'none', background: 'red', marginLeft: 5 }}>Delete</Button>
                                         )
-                                        }
+                                    }
 
                                 </Box>
                             </>
                         ) : (
                             item && (
-                                
+
                                 <>
-                                <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit Group Profile</Typography>
-                                <Formik 
-                                    initialValues={initialFormState()}
-                                    onSubmit={async(values) => {
-                                        await editGroup(values,item.id)
-                                    }}
-                                >
-                                    {(prop) => (
-                                        <Form>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Group Name </Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text"  name="name" size='small' />
+                                    <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Edit Group Profile</Typography>
+                                    <Formik
+                                        initialValues={initialFormState()}
+                                        onSubmit={async (values) => {
+                                            await editGroup(values, item.id)
+                                        }}
+                                    >
+                                        {(prop) => (
+                                            <Form>
+                                                <div className={classes.formDiv}>
+                                                    <div className={classes.divTypo}><Typography>Group Name </Typography></div>
+                                                    <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                                    </div>
+                                                </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Members</Typography></div>
-                                                <SearchGroup
-                                            setSelectedOption = {(value) => {
-                                                prop.setFieldValue("members",value)
-                                            }}
-                                        />
-                                    </div>
+                                                <div className={classes.formDiv}>
+                                                    <div className={classes.divTypo}><Typography>Members</Typography></div>
+                                                    <SearchGroup
+                                                        setSelectedOption={(value) => {
+                                                            prop.setFieldValue("members", value)
+                                                        }}
+                                                    />
+                                                </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography> Description </Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text"  name="description" size='small' />
+                                                <div className={classes.formDiv}>
+                                                    <div className={classes.divTypo}><Typography> Description </Typography></div>
+                                                    <TextField fullWidth variant='outlined' type="text" name="description" size='small' />
 
-                                    </div>
-                                                   {
-                                            btnLoading ? 
-                                            ( <div className="sweet-loading">
-                                                <DotLoader color={color} loading={loading} css={override}  size={80} />
-                                                </div>)
-                                            : (
-                                                <Button type='submit' variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                        Update
-                                                    </Button>
-                                             )
-                                        }
-                                            
-                                    </Form>
-                                    )}
-                                </Formik>
-                              
-                            
+                                                </div>
+                                                {
+                                                    btnLoading ?
+                                                        (<div className={classes.sweet_loading}>
+                                                            <DotLoader color={color} loading={loading} css={override} size={80} />
+                                                        </div>)
+                                                        : (
+                                                            <Button type='submit' variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
+                                                                Update
+                                                            </Button>
+                                                        )
+                                                }
+
+                                            </Form>
+                                        )}
+                                    </Formik>
+
+
                                 </>
-                                
+
                             )
                         )}
                         {!updates &&
@@ -263,7 +263,7 @@ const AllModal = ({ updates,groupId }) => {
                 </Fade>
             </Modal>
 
-         
+
         </div>
     )
 }

@@ -12,7 +12,7 @@ import { useTheme } from '@material-ui/styles';
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import { DotLoader,BounceLoader } from "react-spinners";
+import { DotLoader, BounceLoader } from "react-spinners";
 import { api } from "../../../../services";
 import { TextField, Select } from "../../../../components/FormsUI";
 import { trigger } from '../../../../events';
@@ -58,7 +58,7 @@ const fixedAmount = {
     "false": "False"
 };
 
-const TargetedSavingsModal = ( {customerId} ) => {
+const TargetedSavingsModal = ({ customerId }) => {
     const classes = useStyles();
     // modal
     const [lock, setUnlock] = useState(false);
@@ -76,43 +76,43 @@ const TargetedSavingsModal = ( {customerId} ) => {
 
     const allCustomer = async () => {
         setIsLoading(true)
-            const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-            console.log(res.data.results)
-            if (api.isSuccessful(res)) {
-                setData(res.data.results)
-                setIsLoading(false)
-            }
-            setIsLoading(false);
+        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+        console.log(res.data.results)
+        if (api.isSuccessful(res)) {
+            setData(res.data.results)
+            setIsLoading(false)
+        }
+        setIsLoading(false);
 
 
     }
 
     const allinterest = async () => {
         setIsLoading(true)
-            const res = await api
-                .service()
-                .fetch("/dashboard/interest-rates/", true);
-            console.log(res.data.results)
+        const res = await api
+            .service()
+            .fetch("/dashboard/interest-rates/", true);
+        console.log(res.data.results)
 
-            if ((api.isSuccessful(res))) {
-                setInterest(res.data.results);
-                setIsLoading(false)
-            }
+        if ((api.isSuccessful(res))) {
+            setInterest(res.data.results);
             setIsLoading(false)
+        }
+        setIsLoading(false)
 
     }
 
 
     const allfee = async () => {
         setIsLoading(true)
-            const res = await api.service().fetch("/dashboard/fees/", true);
-            console.log(res.data.results)
-            if (api.isSuccessful(res)) {
-                setfees(res.data.results)
-                setIsLoading(false)
-            }
+        const res = await api.service().fetch("/dashboard/fees/", true);
+        console.log(res.data.results)
+        if (api.isSuccessful(res)) {
+            setfees(res.data.results)
+            setIsLoading(false)
+        }
 
-            setIsLoading(false);
+        setIsLoading(false);
 
     }
 
@@ -217,8 +217,8 @@ const TargetedSavingsModal = ( {customerId} ) => {
                                 }}
                             >
                                 <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                        {
-                                            isLoading ?
+                                    {
+                                        isLoading ?
                                             (
                                                 <div className={classes.sweet_loading}>
                                                     <BounceLoader color={color} loading={loading} css={override} size={150} />
@@ -227,92 +227,92 @@ const TargetedSavingsModal = ( {customerId} ) => {
                                             :
                                             (
                                                 <>
-                                                <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                                        <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                        <Select
-                                            size="small"
-                                            fullWidth
-                                            label="Select One"
-                                            name="frequency"
-                                            options={frequency}
-                                        />
+                                                    </div>
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Frequency</Typography></div>
+                                                        <Select
+                                                            size="small"
+                                                            fullWidth
+                                                            label="Select One"
+                                                            name="frequency"
+                                                            options={frequency}
+                                                        />
 
-                                    </div>
+                                                    </div>
 
 
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
+                                                        <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
 
-                                    </div>
+                                                    </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
-                                        <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
+                                                        <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
 
-                                    </div>
+                                                    </div>
 
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            label="Select One"
-                                            name="interest_rate"
-                                            fullWidth
-                                            variant='outlined'
-                                        >
-                                            {
-                                                interests.map((interest) => {
-                                                    return (
-                                                        <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
-                                                    )
-                                                })
-                                            }
-                                        </TextField>
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
+                                                        <TextField
+                                                            select={true}
+                                                            label="Select One"
+                                                            name="interest_rate"
+                                                            fullWidth
+                                                            variant='outlined'
+                                                        >
+                                                            {
+                                                                interests.map((interest) => {
+                                                                    return (
+                                                                        <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TextField>
 
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                        <TextField
-                                            select={true}
-                                            fullWidth
-                                            name="fee"
-                                            variant='outlined'
-                                            label="Select One"
-                                        >
-                                            {
-                                                fees.map((fee) => {
-                                                    return (
-                                                        <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
-                                                    )
-                                                })
-                                            }
-                                        </TextField>
+                                                    </div>
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
+                                                        <TextField
+                                                            select={true}
+                                                            fullWidth
+                                                            name="fee"
+                                                            variant='outlined'
+                                                            label="Select One"
+                                                        >
+                                                            {
+                                                                fees.map((fee) => {
+                                                                    return (
+                                                                        <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TextField>
 
-                                    </div>
-                                    <div className={classes.formDiv}>
-                                        <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
-                                        <Select
-                                            size='small'
-                                            fullWidth
-                                            name="fixed_amount"
-                                            options={fixedAmount}
-                                            label="Choose One"
-                                        />
-                                    </div>
+                                                    </div>
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
+                                                        <Select
+                                                            size='small'
+                                                            fullWidth
+                                                            name="fixed_amount"
+                                                            options={fixedAmount}
+                                                            label="Choose One"
+                                                        />
+                                                    </div>
                                                 </>
                                             )
-                                        }
+                                    }
 
                                     {
                                         planBtn ?
-                                            (<div className="sweet-loading">
+                                            (<div className={classes.sweet_loading}>
                                                 <DotLoader color={color} loading={loading} css={override} size={80} />
                                             </div>)
                                             : (
