@@ -69,7 +69,7 @@ const AllWithdrawals = () => {
       setIsLoading(true)
 
       const AllWithdrawals = async () => {
-        const res = await api.service().fetch(`/dashboard/transactions/?min_date=${today}&max_date=${today}&trx_type=DEPOSIT`, true);
+        const res = await api.service().fetch(`/dashboard/transactions/?min_date=${today}&max_date=${today}&trx_type=WITHDRAWAL`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
           setData(res.data.results)
@@ -106,6 +106,7 @@ const AllWithdrawals = () => {
       const response = await api.service().fetch(`/dashboard/transactions/?min_date=${values.min_date}&max_date=${values.max_date}&trx_type=WITHDRAWAL`, true);
 
       if (api.isSuccessful(response)) {
+        console.log(response.data.results);
         setTimeout(() => {
           handleClose()
           setData(response.data.results)
@@ -226,9 +227,9 @@ const AllWithdrawals = () => {
                           <TableCell className="pl-3 fw-normal"> {tranx?.id} </TableCell>
                           <TableCell> {tranx?.created_date} </TableCell>
                           <TableCell> {tranx?.amount} </TableCell>
-                          <TableCell> {tranx?.to.first_name} {tranx?.to?.last_name} </TableCell>
-                          <TableCell> {tranx?.to?.agent?.first_name} {tranx?.to?.agent.last_name} </TableCell>
-                          <TableCell> {tranx?.to?.bank_account_number} </TableCell>
+                          <TableCell> {tranx?._from?.first_name} {tranx?._from?.last_name} </TableCell>
+                          <TableCell> {tranx?._from?.agent?.first_name} {tranx?._from?.agent.last_name} </TableCell>
+                          <TableCell> {tranx?._from?.bank_account_number} </TableCell>
                           <TableCell> {tranx?.status} </TableCell>
                         </TableRow>
                       ))}

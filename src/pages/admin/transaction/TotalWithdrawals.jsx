@@ -84,7 +84,7 @@ const TotalWithdrawals = () => {
             ):
             (
                 <Grid item xs={12}>
-                    <Widget title="Deposit" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                    <Widget title="Withdraw" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                         <Table className="mb-0">
                             <TableHead>
                                 <TableRow>
@@ -104,10 +104,9 @@ const TotalWithdrawals = () => {
                                     <TableCell className="pl-3 fw-normal"> {tranx?.id} </TableCell>
                                     <TableCell> {tranx?.created_date} </TableCell>
                                     <TableCell> {tranx?.amount} </TableCell>
-                                    {/* <TableCell> {tranx?.depositor} </TableCell>
-                                    <TableCell> {tranx?.customer} </TableCell>
-                                    <TableCell> {tranx?.agent} </TableCell>
-                                    <TableCell> {tranx?.customer.bank_account_number} </TableCell> */}
+                                    <TableCell> {tranx?._from?.first_name} {tranx?._from?.last_name} </TableCell>
+                                    <TableCell> {tranx?._from?.agent?.first_name} {tranx?._from?.agent?.last_name} </TableCell>
+                                    <TableCell> {tranx?._from?.bank_account_number} </TableCell>
                                     <TableCell> {tranx?.status} </TableCell>
                                 </TableRow>
                                 ))}

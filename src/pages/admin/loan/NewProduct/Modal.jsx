@@ -14,9 +14,10 @@ import useStyles from '../styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import { DotLoader } from "react-spinners";
-import { api } from "../../../../services";
-import { TextField } from "../../../../components/FormsUI"
+import {DotLoader} from "react-spinners";
+import { api  } from "../../../../services";
+import {TextField} from "../../../../components/FormsUI"
+import {trigger} from "../../../../events"
 
 
 
@@ -115,28 +116,22 @@ export default function OptionModal({ del, productId }) {
 
     const editProduct = async (values, id) => {
         setBtnLoading(true);
-
-        try {
             console.log(values)
             const response = await api
-                .service()
-                .update(`/dashboard/loan-product/${id}/`, values, true)
-
-            if (api.isSuccessful(response)) {
-                setTimeout(() => {
-                    handleClose()
-                    toast.success("Loan product successfully updated!");
-                    navigate("/admin/dashboard/loan/new_product/", { replace: true });
-                }, 0);
-            }
+                  .service()
+                  .update(`/dashboard/loan-product/${id}/`,values,true)
+    
+            if(api.isSuccessful(response)){
+              setTimeout( () => {
+                handleClose()
+                trigger("reRenderProduct");
+                toast.success("Loan product successfully updated!");
+              },0);
             setBtnLoading(false);
-        } catch (error) {
-            console.log(error.message)
-            setBtnLoading(false);
-
         }
-
+        setBtnLoading(false)
     }
+
 
     const deleteProduct = async (id) => {
         try {
@@ -147,10 +142,12 @@ export default function OptionModal({ del, productId }) {
                 setTimeout(() => {
                     handleClose()
                     toast.success("Successfully deleted Loan!");
-
+                    trigger("reRenderProduct");
                     setDelBtn(false)
                 }, 0);
+                setDelBtn(false)
             }
+            setDelBtn(false)
         } catch (error) {
             console.log(error);
             setDelBtn(false)

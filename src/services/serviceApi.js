@@ -1,8 +1,61 @@
 import axios from "axios";
 import { toast } from 'react-toastify';
+import {trigger} from "../events";
+
 
 const axiosClient = axios.create();
 const isDev = process.env.NODE_ENV === "development";
+// const loginRoute = isDev ? process.env.REACT_APP_DEV_LOGIN_URL : process.env.REACT_APP_PROD_LOGIN_URL
+
+axiosClient.interceptors.response.use(
+    res => res,
+    err => {
+    //     if(err && err.response.status === 400){
+    //         toast.error("Invalid request, Submit the right data and try again",{autoClose: false});
+    //     }
+    //     else if (err && err.response.status === 401) {
+    //     trigger("handleLogout")
+    //   }
+
+    //   else if(err && err.response.status === 403){
+    //     toast.error("Invalid Username or Password",{autoClose: false});
+    //  }
+    //   else  if(err && err.response.status === 404){
+    //     toast.error("Resource not found",{autoClose: false});
+    // }
+    //  else if(err && err.response.status === 500){
+    //     toast.error("There seems to be a problem with the server this will be fixed shortly.",{autoClose: false});
+    // }
+    //   throw err;
+
+    switch(err && err.response.status) {
+        case 400:
+          // code block
+          toast.error("Invalid request, Submit the right data and try again",{autoClose: false});
+          break;
+        case 401:
+          // code block
+          trigger("handleLogout")
+          break;
+        case 403:
+        // code block
+            toast.error("Invalid Username or Password",{autoClose: false});
+            break;
+        case 404:
+        // code block
+        toast.error("Resource not found",{autoClose: false});
+        break;
+        case 500:
+         // code block
+         toast.error("There seems to be a problem with the server this will be fixed shortly.",{autoClose: false});
+         break;
+        default:
+          // code block
+          throw err;
+      }
+    }
+
+  );
 
 class ServiceApi {
     url = "";
@@ -105,7 +158,7 @@ class ServiceApi {
         const toastOptions = {
             autoClose: false,
         };
-        toast.error(`An error occured due to ${err.response.data.error}.Please try again`, toastOptions);
+        // toast.error(`An error occured due to ${err.response.data.error}.Please try again`, toastOptions);
         console.error('API ERROR:', err.response.data.error);
         return err;
     }
