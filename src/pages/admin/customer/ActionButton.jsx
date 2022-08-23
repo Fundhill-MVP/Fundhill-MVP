@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { styled, alpha } from '@mui/material/styles';
 import AllCustomersModal from './Modal';
+import TransactionHistoryModal from './TransactionHistoryModal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -46,7 +47,7 @@ const StyledMenu = styled((props) => (
 }));
 
 
-const ActionButton = ({customerId}) => {
+const ActionButton = ({ customerId }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -89,9 +90,13 @@ const ActionButton = ({customerId}) => {
                 <MenuItem disableRipple>
                     <AllCustomersModal customerId={customerId} />
                 </MenuItem>
+                <MenuItem disableRipple>
+                    <TransactionHistoryModal />
+                </MenuItem>
             </StyledMenu>
         </div>
     )
 }
 
 export default ActionButton
+// transaction history
