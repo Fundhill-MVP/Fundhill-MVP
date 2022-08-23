@@ -12,7 +12,7 @@ import { useTheme } from '@material-ui/styles';
 
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-import { DotLoader,BounceLoader } from "react-spinners";
+import { DotLoader, BounceLoader } from "react-spinners";
 import { api } from "../../../../services";
 import { TextField, Select } from "../../../../components/FormsUI";
 import AddPlanActionButton from '../ActionButtons/AddPlanActionButton';
@@ -113,7 +113,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const [user, setUser] = useState("");
     const [item, setItem] = useState("");
     const navigate = useNavigate();
-    const [customerPlan,setCustomerPlan] = useState(false)
+    const [customerPlan, setCustomerPlan] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
@@ -272,14 +272,14 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     const allinterest = async () => {
         setIsLoading(true)
         const res = await api
-        .service()
-        .fetch("/dashboard/interest-rates/", true);
-    // console.log(res.data.results)
-    if ((api.isSuccessful(res))) {
-        setInterest(res.data.results);
+            .service()
+            .fetch("/dashboard/interest-rates/", true);
+        // console.log(res.data.results)
+        if ((api.isSuccessful(res))) {
+            setInterest(res.data.results);
+            setIsLoading(false)
+        }
         setIsLoading(false)
-    } 
-    setIsLoading(false)
     }
 
     const allfee = async () => {
@@ -296,7 +296,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
     useEffect(() => {
         allfee();
         allinterest();
-  
+
     }, []);
 
 
@@ -377,81 +377,81 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                             isLoading ?
                                                 (
                                                     <div className={classes.sweet_loading}>
-                                                    <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                                        <BounceLoader color={color} loading={loading} css={override} size={150} />
                                                     </div>
-                                                ):
+                                                ) :
                                                 (
                                                     <>
-                                                    <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Name</Typography></div>
+                                                            <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
 
-                                        </div>
-
-
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
-
-                                        </div>
+                                                        </div>
 
 
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Amount</Typography></div>
+                                                            <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
-                                            <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
-
-                                        </div>
+                                                        </div>
 
 
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                            <TextField
-                                                select={true}
-                                                label="Select One"
-                                                name="interest_rate"
-                                                fullWidth
-                                                variant='outlined'
-                                            >
-                                                {
-                                                    interests.map((interest) => {
-                                                        return (
-                                                            <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                            </TextField>
 
-                                        </div>
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                            <TextField
-                                                select={true}
-                                                fullWidth
-                                                name="fee"
-                                                variant='outlined'
-                                                label="Select One"
-                                            >
-                                                {
-                                                    fees.map((fee) => {
-                                                        return (
-                                                            <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                            </TextField>
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
+                                                            <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
 
-                                        </div>
-                                        <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
-                                            <Select
-                                                size='small'
-                                                fullWidth
-                                                name="fixed_amount"
-                                                options={fixedAmount}
-                                                label="Choose One"
-                                            />
-                                        </div>
+                                                        </div>
+
+
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
+                                                            <TextField
+                                                                select={true}
+                                                                label="Select One"
+                                                                name="interest_rate"
+                                                                fullWidth
+                                                                variant='outlined'
+                                                            >
+                                                                {
+                                                                    interests.map((interest) => {
+                                                                        return (
+                                                                            <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </TextField>
+
+                                                        </div>
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
+                                                            <TextField
+                                                                select={true}
+                                                                fullWidth
+                                                                name="fee"
+                                                                variant='outlined'
+                                                                label="Select One"
+                                                            >
+                                                                {
+                                                                    fees.map((fee) => {
+                                                                        return (
+                                                                            <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
+                                                                        )
+                                                                    })
+                                                                }
+                                                            </TextField>
+
+                                                        </div>
+                                                        <div className={classes.formDiv}>
+                                                            <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
+                                                            <Select
+                                                                size='small'
+                                                                fullWidth
+                                                                name="fixed_amount"
+                                                                options={fixedAmount}
+                                                                label="Choose One"
+                                                            />
+                                                        </div>
 
                                                     </>
                                                 )
@@ -459,7 +459,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                         {
                                             planBtn ?
-                                                (<div className="sweet-loading">
+                                                (<div className={classes.sweet_loading}>
                                                     <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
                                                 : (
@@ -490,47 +490,47 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                         {
                                             customerPlan ?
-                                            (
+                                                (
 
 
-                                            <div className={classes.sweet_loading}>
-                                            <BounceLoader color={color} loading={loading} css={override} size={150} />
-                                            </div>
+                                                    <div className={classes.sweet_loading}>
+                                                        <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                                    </div>
 
 
-                                            )
-                                            :
-                                            (
-                                                <div className={classes.formDiv}>
-                                                <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                                <TextField
-                                                    select={true}
-                                                    fullWidth
-                                                    name="id"
-                                                    variant='outlined'
-                                                    label="Select One"
+                                                )
+                                                :
+                                                (
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                                        <TextField
+                                                            select={true}
+                                                            fullWidth
+                                                            name="id"
+                                                            variant='outlined'
+                                                            label="Select One"
 
-                                                >
-                                                    <MenuItem>Select One</MenuItem>
-                                                    {
-                                                        customers.map((plan) => {
-                                                            return (
-                                                                <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
-                                                            )
-                                                        })
-                                                    }
-                                                </TextField>
+                                                        >
+                                                            <MenuItem>Select One</MenuItem>
+                                                            {
+                                                                customers.map((plan) => {
+                                                                    return (
+                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TextField>
 
-                                            </div>
-                                            )
+                                                    </div>
+                                                )
                                         }
 
-                                        
+
 
 
                                         {
                                             deactivateBtn ?
-                                                (<div className="sweet-loading">
+                                                (<div className={classes.sweet_loading}>
                                                     <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
                                                 : (
@@ -559,44 +559,44 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                 >
                                     <Form style={{ display: 'flex', flexDirection: 'column' }}>
 
-                                    {
-                                        customerPlan ?
-                                        (
+                                        {
+                                            customerPlan ?
+                                                (
 
-                                            <div className={classes.sweet_loading}>
-                                            <BounceLoader color={color} loading={loading} css={override} size={150} />
-                                            </div>
-                                        )
-                                        :
-                                        (
-                                            <div className={classes.formDiv}>
-                                            <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
-                                            <TextField
-                                                select={true}
-                                                fullWidth
-                                                name="id"
-                                                variant='outlined'
-                                                label="Select One"
+                                                    <div className={classes.sweet_loading}>
+                                                        <BounceLoader color={color} loading={loading} css={override} size={150} />
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <div className={classes.formDiv}>
+                                                        <div className={classes.divTypo}><Typography>Savings Plan</Typography></div>
+                                                        <TextField
+                                                            select={true}
+                                                            fullWidth
+                                                            name="id"
+                                                            variant='outlined'
+                                                            label="Select One"
 
-                                            >
-                                                <MenuItem>Select One</MenuItem>
-                                                {
-                                                    decustomer.map((plan) => {
-                                                        return (
-                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
-                                                        )
-                                                    })
-                                                }
-                                            </TextField>
+                                                        >
+                                                            <MenuItem>Select One</MenuItem>
+                                                            {
+                                                                decustomer.map((plan) => {
+                                                                    return (
+                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                                    )
+                                                                })
+                                                            }
+                                                        </TextField>
 
-                                        </div>
-                                        )
-                                    }
+                                                    </div>
+                                                )
+                                        }
 
 
                                         {
                                             activateBtn ?
-                                                (<div className="sweet-loading">
+                                                (<div className={classes.sweet_loading}>
                                                     <DotLoader color={color} loading={loading} css={override} size={80} />
                                                 </div>)
                                                 : (
@@ -741,7 +741,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
 
                                 {
                                     planBtn ?
-                                        (<div className="sweet-loading">
+                                        (<div className={classes.sweet_loading}>
                                             <DotLoader color={color} loading={loading} css={override} size={80} />
                                         </div>)
                                         : (

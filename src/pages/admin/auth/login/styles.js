@@ -197,5 +197,14 @@ export default makeStyles(theme => ({
     marginTop: 10,
     marginBottom: 5,
 
+  },
+  sweet_loading: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  goBack: {
+    marginTop: 10
   }
 }));
