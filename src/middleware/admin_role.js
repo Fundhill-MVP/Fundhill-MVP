@@ -13,7 +13,7 @@ const AdminRole = ({children}) => {
 
     const isAdmin = user?.data?.user_role === "ADMIN";
 
-    if(!isAdmin){<Navigate to="/auth/login" replace={true} state={{path: "/auth/login"}} />}
+    // if(!isAdmin){<Navigate to="/auth/login" replace={true} state={{path: "/auth/login"}} />}
 
     return isAdmin ? (
         children

@@ -18,6 +18,7 @@ import {
   ArrowBack as ArrowBackIcon,
 } from "@material-ui/icons";
 import classNames from "classnames";
+import {toast} from "react-toastify";
 
 // icons
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -29,7 +30,7 @@ import useStyles from "./styles";
 import { Badge, Typography, } from "../Wrappers";
 import Notification from "../Notification/Notification";
 import UserAvatar from "../UserAvatar/UserAvatar";
-
+import {on} from "../../events";
 // context
 import {
   useLayoutState,
@@ -112,7 +113,10 @@ export default function Header(props) {
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    toast.success("Logout successful")
+
   };
+  on("handleLogout",handleLogout)
 
 
   return (

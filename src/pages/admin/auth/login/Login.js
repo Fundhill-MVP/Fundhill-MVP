@@ -111,7 +111,7 @@ function Login(props) {
       localStorage.setItem("token", response?.data?.data?.token)
       dispatch({ type: "LOGIN_SUCCESS", payload: response?.data });
       setTimeout(() => {
-        toast.success('Logged in successfully!');
+        response?.data?.data?.user_role === "ADMIN" &&   toast.success('Logged in successfully!');
         navigate("/admin/dashboard", { replace: true })
       }, 0);
     }

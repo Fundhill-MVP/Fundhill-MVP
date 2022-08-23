@@ -129,6 +129,7 @@ export default function OptionModal({ del, productId }) {
               },0);
             setBtnLoading(false);
         }
+        setBtnLoading(false)
     }
 
 
@@ -144,7 +145,9 @@ export default function OptionModal({ del, productId }) {
                     trigger("reRenderProduct");
                     setDelBtn(false)
                 }, 0);
+                setDelBtn(false)
             }
+            setDelBtn(false)
         } catch (error) {
             console.log(error);
             setDelBtn(false)
