@@ -11,7 +11,7 @@ import useStyles from './styles';
 import {api} from "../../../services"
 import {Context} from "../../../context/Context";
 import {TextField} from "../../../components/FormsUI";
-
+import {trigger} from "../../../events"
 
 // CONTEXT
 const override = css`
@@ -83,7 +83,9 @@ function NewExpense() {
                 if(api.isSuccessful(response)){
                   setTimeout( () => {
                     toast.success("Expenses successfully saved!");
-                    navigate("/admin/dashboard/expense/new_expenses",{replace: true})
+                    trigger("reRenderExpenses")
+
+                    // navigate("/admin/dashboard/expense/new_expenses",{replace: true})
                   },0);
                 }
                 setIsLoading(false);

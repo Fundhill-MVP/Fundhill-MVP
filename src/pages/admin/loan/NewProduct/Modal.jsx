@@ -17,7 +17,7 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
-
+import {trigger} from "../../../../events"
 
 
 
@@ -125,8 +125,8 @@ export default function OptionModal({ del,productId }) {
             if(api.isSuccessful(response)){
               setTimeout( () => {
                 handleClose()
+                trigger("reRenderProduct");
                 toast.success("Loan product successfully updated!");
-                navigate("/admin/dashboard/loan/new_product/",{replace: true});
               },0);
             }
             setBtnLoading(false);
@@ -146,8 +146,8 @@ export default function OptionModal({ del,productId }) {
         if (api.isSuccessful(res)) {
           setTimeout(() => {
             handleClose()
+            trigger("reRenderProduct");
             toast.success("Successfully deleted Loan!");
-    
             setDelBtn(false)
           }, 0);
         }

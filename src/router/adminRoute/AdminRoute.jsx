@@ -81,10 +81,18 @@ import AdminRole from "../../middleware/admin_role"
 
 function AdminRoute() {
   return (
-          <Route path="admin" element={<Layout />} >
+
+        <Route
+          path="admin"
+          element={
+            <Layout />
+            // <AdminRole>
+              // <Layout />
+            // </AdminRole>
+          }>
 
         {/* Dashboard */}
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="dashboard" element={ <Dashboard />} />
 
         {/* Branches */}
         <Route path="dashboard/branch/allbranch" element={<AllBranches />} />
@@ -96,8 +104,7 @@ function AdminRoute() {
         <Route path="dashboard/customer/pendingcustomer" element={<PendingCustomer />} />
         <Route path="dashboard/customer/deletedcustomer" element={<DeletedCustomer />} />
         <Route path="dashboard/customer/allcustomer" element={<AllCustomer />} />
-        {/* <Route path="dashboard/updatecustomer" element={<EditCustomer />} /> */}
-        {/* <Route path="dashboard/quick_customer" element={<QuickCustomer />} /> */}
+       
 
         {/* Savings Plan */}
         <Route path="dashboard/customer/interest_rate" element={<InterestRate />} />
@@ -108,26 +115,10 @@ function AdminRoute() {
 
 
 
-
-        {/* Reports */}
-        {/* <Route path="dashboard/daily_report" element={<DailyReport />} />
-          <Route path="dashboard/regular_savings_report" element={<RegularReport />} />
-          <Route path="dashboard/targeted_savings_report" element={<TargetedReport />} />
-          <Route path="dashboard/fixed_savings_report" element={<FixedReport />} />
-          <Route path="dashboard/withdrawal_report" element={<WithdrawalReport />} />
-          <Route path="dashboard/deposit_report" element={<DepositReport />} />
-          <Route path="dashboard/loan_report" element={<LoanReport />} /> */}
-
-
         {/* Accounting         */}
         <Route path="dashboard/account/all_deposits" element={<AllDeposits />} />
         <Route path="dashboard/account/all_withdrawals" element={<AllWithdrawals />} />
-          {/* <Route path="dashboard/all_fixedsavings" element={<AllFixedSaving />} />
-          <Route path="dashboard/all_Loan" element={<AllLoan />} />
-          <Route path="dashboard/all_regsavings" element={<AllRegularSaving />} />
-          <Route path="dashboard/all_targsavings" element={<AllTargetedSaving />} />
-          <Route path="dashboard/all_withdrawsavings" element={<AllWithdrawalSaving />} />
-          <Route path="dashboard/total_customers" element={<TotalCustomer />} /> */}
+
 
 
         {/* Marketer */}
@@ -174,7 +165,6 @@ function AdminRoute() {
 
 
         </Route>
-
   )
 }
 
