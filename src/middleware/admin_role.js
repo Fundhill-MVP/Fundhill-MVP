@@ -1,4 +1,4 @@
-import {ReactElement,ReactNode,useContext,Fragment} from "react";
+import {useContext,Fragment} from "react";
 import {Navigate} from "react-router";
 import {Context} from "../context/Context";
 import {toast} from "react-toastify";
@@ -11,9 +11,9 @@ const AdminRole = ({children}) => {
     
     const {user} = useContext(Context);
 
-    const isAdmin = user?.user_role === "ADMIN";
+    const isAdmin = user?.data?.user_role === "ADMIN";
 
-    if(!isAdmin){<Navigate to="/auth/login" replace={true} state={{path: "/auth/login"}} />}
+    // if(!isAdmin){<Navigate to="/auth/login" replace={true} state={{path: "/auth/login"}} />}
 
     return isAdmin ? (
         children

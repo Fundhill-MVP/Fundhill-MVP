@@ -9,13 +9,12 @@ import DashboardRoute from "./adminRoute/DashboardRoute";
 import { ContextProvider } from "../context/Context"
 import FundhillAdminRoute from "./adminRoute/FundhillAdminRoute";
 
-import AdminRole from "../middleware/admin_role";
 const Router = () => {
   return (
     <BrowserRouter  >
       <ContextProvider>
         <Routes >
-            {AdminRoute()}
+          {AdminRoute()}
           {AuthRoute()}
           {HomeRoute()}
           {DashboardRoute()}

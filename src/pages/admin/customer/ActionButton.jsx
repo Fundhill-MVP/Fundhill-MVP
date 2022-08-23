@@ -91,7 +91,7 @@ const ActionButton = ({ customerId }) => {
                     <AllCustomersModal customerId={customerId} />
                 </MenuItem>
                 <MenuItem disableRipple>
-                    <TransactionHistoryModal />
+                    <TransactionHistoryModal customerId={customerId} />
                 </MenuItem>
             </StyledMenu>
         </div>
