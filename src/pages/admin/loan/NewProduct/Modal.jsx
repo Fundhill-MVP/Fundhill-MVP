@@ -14,17 +14,11 @@ import useStyles from '../styles';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
-<<<<<<< HEAD
 import {DotLoader} from "react-spinners";
 import { api  } from "../../../../services";
 import {TextField} from "../../../../components/FormsUI"
 import {trigger} from "../../../../events"
-=======
-import { DotLoader } from "react-spinners";
-import { api } from "../../../../services";
-import { TextField } from "../../../../components/FormsUI"
 
->>>>>>> 850b81519a9db4590dd7641a1b2ebb00f41c0e5a
 
 
 
@@ -122,11 +116,8 @@ export default function OptionModal({ del, productId }) {
 
     const editProduct = async (values, id) => {
         setBtnLoading(true);
-
-        try {
             console.log(values)
             const response = await api
-<<<<<<< HEAD
                   .service()
                   .update(`/dashboard/loan-product/${id}/`,values,true)
     
@@ -136,41 +127,10 @@ export default function OptionModal({ del, productId }) {
                 trigger("reRenderProduct");
                 toast.success("Loan product successfully updated!");
               },0);
-=======
-                .service()
-                .update(`/dashboard/loan-product/${id}/`, values, true)
-
-            if (api.isSuccessful(response)) {
-                setTimeout(() => {
-                    handleClose()
-                    toast.success("Loan product successfully updated!");
-                    navigate("/admin/dashboard/loan/new_product/", { replace: true });
-                }, 0);
->>>>>>> 850b81519a9db4590dd7641a1b2ebb00f41c0e5a
-            }
             setBtnLoading(false);
-        } catch (error) {
-            console.log(error.message)
-            setBtnLoading(false);
-
         }
-<<<<<<< HEAD
-   
-  }
-
-  const deleteProduct = async (id) => {
-    try {
-        setDelBtn(true);
-        const res = await api.service().remove(`/dashboard/loan-product/${id}/`, true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setTimeout(() => {
-            handleClose()
-            trigger("reRenderProduct");
-            toast.success("Successfully deleted Loan!");
-=======
-
     }
+
 
     const deleteProduct = async (id) => {
         try {
@@ -181,13 +141,12 @@ export default function OptionModal({ del, productId }) {
                 setTimeout(() => {
                     handleClose()
                     toast.success("Successfully deleted Loan!");
-
+                    trigger("reRenderProduct");
                     setDelBtn(false)
                 }, 0);
             }
         } catch (error) {
             console.log(error);
->>>>>>> 850b81519a9db4590dd7641a1b2ebb00f41c0e5a
             setDelBtn(false)
         }
 
