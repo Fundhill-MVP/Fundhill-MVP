@@ -5,6 +5,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import TargetedSavingsModal from '../modals/TargetedSavingsModal';
+import ThriftSavingsModal from "../modals/ThriftSavings";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -84,6 +85,9 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 </MenuItem>
                 <MenuItem disableRipple>
                     <TargetedSavingsModal customerId={customerId} />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <ThriftSavingsModal customerId={customerId} />
                 </MenuItem>
             </StyledMenu>
         </div>

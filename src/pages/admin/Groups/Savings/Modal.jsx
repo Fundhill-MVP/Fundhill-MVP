@@ -224,7 +224,6 @@ const SavingsModal = ({ activate, deactivate, groupId }) => {
                 const res = await api.service().fetch(`/dashboard/group-savings-plan/?group=${groupId}&status=DEACTIVATED`, true);
                 console.log(res.data.results)
                 if (api.isSuccessful(res)) {
-                    //   console.log(res)
                     setDeactivatedGroupPlan(res.data.results)
                 }
 
@@ -238,7 +237,7 @@ const SavingsModal = ({ activate, deactivate, groupId }) => {
         allSavingsPlan();
         allDeactivedSavingsPlan();
 
-    }, []);
+    }, [groupId]);
 
 
 
@@ -520,7 +519,7 @@ const SavingsModal = ({ activate, deactivate, groupId }) => {
                                                 {
                                                     groupPlan.map((plan) => {
                                                         return (
-                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                            <MenuItem key={plan.id} value={plan.id} > {plan.name} </MenuItem>
                                                         )
                                                     })
                                                 }
@@ -576,7 +575,7 @@ const SavingsModal = ({ activate, deactivate, groupId }) => {
                                                 {
                                                     deactivatedGroupPlan.map((plan) => {
                                                         return (
-                                                            <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                            <MenuItem key={plan.id} value={plan.id} > {plan.name} </MenuItem>
                                                         )
                                                     })
                                                 }

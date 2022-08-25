@@ -192,11 +192,11 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
         const res = await api.service().fetch(`/dashboard/savings-plan/?user=${customerId}`, true);
         console.log(res.data.results)
         if (api.isSuccessful(res)) {
-            //   console.log(res)
+              console.log(res.data.results)
             setCustomers(res.data.results)
-            setCustomerPlan(false)
+            // setCustomerPlan(false)
         }
-        setCustomerPlan(false)
+        // setCustomerPlan(false)
     }
 
     const allDeactivedSavingsPlan = async () => {
@@ -217,7 +217,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
         allSavingsPlan();
         allDeactivedSavingsPlan();
 
-    }, []);
+    }, [customerId]);
 
     const activatePlan = async (value) => {
         try {
@@ -323,7 +323,6 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
             )}
 
             {!activate && !deactivate ? (
-                // <Button onClick={() => [handleUnlocks(), getCustomer(customerId)]}>Add Plan</Button>
                 <AddPlanActionButton customerId={customerId} handleUnlocks={handleUnlocks} />
             ) : ''}
             <Modal
@@ -515,7 +514,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                                             {
                                                                 customers.map((plan) => {
                                                                     return (
-                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.name} </MenuItem>
                                                                     )
                                                                 })
                                                             }
@@ -583,7 +582,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                                                             {
                                                                 decustomer.map((plan) => {
                                                                     return (
-                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.plan_type} </MenuItem>
+                                                                        <MenuItem key={plan.id} value={plan.id} > {plan.name} </MenuItem>
                                                                     )
                                                                 })
                                                             }
@@ -620,148 +619,7 @@ const SavingsModal = ({ activate, deactivate, customerId, }) => {
                 </Fade>
             </Modal>
 
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={lock}
-                onClose={handleLock}
-                closeAfterTransition
-                BackdropComponent={Backdrop}
-                BackdropProps={{
-                    timeout: 500,
-                }}
-            >
-                <Fade in={lock}>
-                    <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {activate ? `Activate ${user.first_name} Plan ` : `Customer Id: ${user.id} `}
-                        </Typography>
-
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
-                            <IconButton onClick={handleLock}>
-                                <CloseIcon fontSize="small" />
-                            </IconButton>
-                        </Box>
-                        <Divider style={{ marginTop: 40 }} />
-
-                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Targeted Savings Plan</Typography>
-
-
-                        <Formik
-                            initialValues={fixedSavingsFormState(customerId)}
-                            validationSchema={fixedSavingsValidationSchema}
-                            onSubmit={async (values, actions) => {
-                                await savings(values)
-                            }}
-                        >
-                            <Form style={{ display: 'flex', flexDirection: 'column' }} >
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Name</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Frequency</Typography></div>
-                                    <Select
-                                        size="small"
-                                        fullWidth
-                                        label="Select One"
-                                        name="frequency"
-                                        options={frequency}
-                                    />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Amount</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="amount" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Amount Per Cycle</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="amount_per_cycle" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Duration in months</Typography></div>
-                                    <TextField fullWidth variant='outlined' type="number" name="duration_in_months" size='small' />
-
-                                </div>
-
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Interest Rate</Typography></div>
-                                    <TextField
-                                        select={true}
-                                        label="Select One"
-                                        name="interest_rate"
-                                        fullWidth
-                                        variant='outlined'
-                                    >
-                                        {
-                                            interests.map((interest) => {
-                                                return (
-                                                    <MenuItem key={interest.id} value={interest.id} > {interest.name} </MenuItem>
-                                                )
-                                            })
-                                        }
-                                    </TextField>
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Charges Fee</Typography></div>
-                                    <TextField
-                                        select={true}
-                                        fullWidth
-                                        name="fee"
-                                        variant='outlined'
-                                        label="Select One"
-                                    >
-                                        {
-                                            fees.map((fee) => {
-                                                return (
-                                                    <MenuItem key={fee.id} value={fee.id} > {fee.name} </MenuItem>
-                                                )
-                                            })
-                                        }
-                                    </TextField>
-
-                                </div>
-                                <div className={classes.formDiv}>
-                                    <div className={classes.divTypo}><Typography>Fixed Amount</Typography></div>
-                                    <Select
-                                        size='small'
-                                        fullWidth
-                                        name="fixed_amount"
-                                        options={fixedAmount}
-                                        label="Choose One"
-                                    />
-                                </div>
-
-                                {
-                                    planBtn ?
-                                        (<div className={classes.sweet_loading}>
-                                            <DotLoader color={color} loading={loading} css={override} size={80} />
-                                        </div>)
-                                        : (
-                                            <Button type="submit" variant='contained' style={{ marginTop: 10, alignSelf: 'center', textTransform: 'none', width: '100%' }}>
-                                                Submit
-                                            </Button>
-                                        )
-                                }
-
-                            </Form>
-                        </Formik>
-
-                        <Divider style={{ marginTop: 40 }} />
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2, width: '100%' }}>
-                            <Button onClick={handleLock} variant="contained" style={{ textTransform: 'none', background: 'gray' }}>Close</Button>
-                        </Box>
-                    </Box>
-                </Fade>
-            </Modal>
-
+        
         </div>
     )
 }
