@@ -136,7 +136,7 @@ const structure = [
       { label: "Denied Loan", links: "/admin/dashboard/group/denied_loan" },
       { label: "Ongoing Loan", links: "/admin/dashboard/group/ongoing_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/group/disbursed_loan" },
-      { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
+      // { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
      
     ],
   },
