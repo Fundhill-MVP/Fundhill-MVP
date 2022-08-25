@@ -225,11 +225,6 @@ const withdrawCustomer = async(values) => {
 }
 
 
-const withdrawCustomerFormState = () => ({
-    amount: 0,
-    reason: "",
-    plan_id: 0
-  });
 
 
 

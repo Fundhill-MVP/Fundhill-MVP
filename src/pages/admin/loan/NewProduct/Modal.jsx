@@ -87,7 +87,7 @@ export default function OptionModal({ del, productId }) {
 
     const getProducts = (id) => {
         const product = data.filter((item) => item.id === id);
-        // console.log(fee);
+        console.log(product)
         setItem(product[0]);
         console.log(item);
     }
@@ -157,7 +157,7 @@ export default function OptionModal({ del, productId }) {
 
     return (
         <div>
-            <Button style={{ color: 'black', textTransform: 'none' }} onClick={handleOpen && handleProps} >{del ? `Delete` : `Update`}</Button>
+            <Button style={{ color: 'black', textTransform: 'none' }} onClick={() => [handleOpen(), getProducts(productId)]} >{del ? `Delete` : `Update`}</Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
