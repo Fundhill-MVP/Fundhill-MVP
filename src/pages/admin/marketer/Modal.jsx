@@ -121,17 +121,46 @@ const AllmarketerModal = ({ fund,setCurrentId }) => {
                   }
   
   
-  
-        const deleteMarketer = async(id) => {
-          const res = await api.service().remove(`/accounts/auth/${id}/`,true);
-          console.log(res.data)
-          if(api.isSuccessful(res)){
-              setTimeout( () => {
-                  toast.success("Successfully deleted marketer!");
-              },0);
-              }
+
+
+        const deactivateMarketer = async(id) => {
+            try {
+                setDeactiveBtn(true);
+                const res = await api.service().fetch(`/accounts/auth/${id}/deactivate/`,true);
+                console.log(res.data)
+                if(api.isSuccessful(res)){
+                    setTimeout( () => {
+                        trigger("reRenderAllMarketer");
+                        setDeactiveBtn(false)
+                        handleClose()
+                        toast.success("Successfully deactivated marketer!");
+                    },0);
+                    }
+            } catch (error) {
+                setDeactiveBtn(false)
+                console.log(error);
+            }
+          }
     
-        }
+          const deleteMarketer = async(id) => {
+                try {
+                    setDelBtn(true);
+                    const res = await api.service().remove(`/accounts/auth/${id}/`,true);
+                    console.log(res.data)
+                    if(api.isSuccessful(res)){
+                        setTimeout( () => {
+                            trigger("reRenderAllMarketer");
+                            setDelBtn(false);
+                            handleClose()
+                            toast.success("Successfully deleted marketer!");
+                        },0);
+                        }
+              
+                } catch (error) {
+                    setDelBtn(false)
+                    console.log(error)
+                }
+          }
     return (
         <div>
             <Button onClick={handleUnlock && handleProps }>{fund ? 'Fund Wallet' : 'Edit Profile'}</Button>
