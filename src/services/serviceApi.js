@@ -39,7 +39,7 @@ axiosClient.interceptors.response.use(
           break;
         case 403:
         // code block
-            toast.error("Invalid Username or Password",{autoClose: false});
+            toast.error(`${err.response.data.error}.`,{autoClose: false});
             break;
         case 404:
         // code block
