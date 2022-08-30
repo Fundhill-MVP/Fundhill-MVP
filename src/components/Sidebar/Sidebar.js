@@ -73,10 +73,10 @@ const structure = [
     ],
   },
   {
-    id: 5, label: "Marketer", links: "#", icon: <PersonOutlineOutlinedIcon />,
+    id: 5, label: "Admnin Roles", links: "#", icon: <PersonOutlineOutlinedIcon />,
     children: [
-      { label: "New Marketer", links: "/admin/dashboard/marketer/new_marketer" },
-      { label: "All Marketers", links: "/admin/dashboard/marketer/all_marketer" },
+      { label: "Add Admin Roles", links: "/admin/dashboard/marketer/new_marketer" },
+      { label: "All Admin Roles", links: "/admin/dashboard/marketer/all_marketer" },
       // { label: "Marketer Account", links: "/admin/dashboard/marketer/marketer-account" },
     ],
   },
