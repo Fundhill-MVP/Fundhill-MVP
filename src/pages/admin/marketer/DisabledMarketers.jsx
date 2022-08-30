@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useContext, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Button } from '@mui/material';
 // import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
@@ -8,7 +8,7 @@ import { api } from '../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
 import { Context } from "../../../context/Context";
-import PageTitle from "../../../components/PageTitle"
+import PageTitle from "../../../components/PageTitle/PageTitle"
 import Widget from "../../../components/Widget/Widget";
 import useStyles from './styles';
 import {
@@ -19,8 +19,8 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
-import ActionButton from './ActionButton';
-import {on} from "../../../events";
+import ActionButton from './MarketerModal';
+import { on } from '../../../events';
 
 // CONTEXT
 const override = css`
@@ -28,38 +28,31 @@ const override = css`
   margin: 0 auto;
   border-color: red;
 `;
-
-
-function AllMarketer() {
+function DeletedMarketers() {
   const classes = useStyles();
   const [isLoading, setIsLoading] = useState(false);
-  let [loading, setLoading] = useState(true);
+  const [Loading, setLoading] = useState(false)
+  let [loading, setloading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
-  const { user } = useContext(Context);
-  const [marketers, setMarketers] = useState([]);
+  const { user } = useContext(Context)
+  const [data, setData] = useState([]);
 
-  const allMarketer = async () => {
+
+
+  const disabledMarketers = async () => {
     setIsLoading(true)
-    const res = await api.service().fetch("/accounts/manage/?is_staff=True&status=VERIFIED", true);
-    console.log(res.data)
+    const res = await api.service().fetch("/accounts/manage/?is_staff=True&status=DISABLED", true);
+    // console.log(res.data)
     if (api.isSuccessful(res)) {
-      setMarketers(res.data.results)
-      setIsLoading(false);
+      setData(res.data.results)
     }
-
     setIsLoading(false);
 
   }
-
   useEffect(() => {
-
-    allMarketer();
+    disabledMarketers();
   }, [])
-  on("reRenderAllMarketer",allMarketer);
-
- 
-
-
+  on("reRenderDisbledMarketers",disabledMarketers)
 
   return (
     <Fragment>
@@ -78,32 +71,39 @@ function AllMarketer() {
             :
             (
               <Grid item xs={12}>
-                <Widget title="All Marketers" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                <Widget title="All Admin Roles" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
-                        <TableCell >Marketer ID </TableCell>
+                        <TableCell>ID</TableCell>
                         <TableCell >Full Name </TableCell>
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
-                        <TableCell>Role</TableCell>
+                        <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {marketers.map((marketer) => (
+                      {data.map((marketer) => (
                         <TableRow key={marketer?.id}>
                           <TableCell className="pl-3 fw-normal">{marketer?.id}</TableCell>
                           <TableCell>{marketer?.first_name} {marketer?.last_name} </TableCell>
                           <TableCell>{marketer?.phone}</TableCell>
                           <TableCell>{marketer?.email}</TableCell>
-                          <TableCell>{marketer?.user_role} </TableCell>
+                          <TableCell>
+                            <Button
+                              variant='contained'
+                              style={{ textTransform: 'none', fontSize: 12, background: 'red' }}>
+                              {marketer?.status}
+                            </Button>
+                          </TableCell>
                           <TableCell>
                             <ActionButton setCurrentId={marketer?.id} />
                           </TableCell>
                         </TableRow>
-                      ))}
+                      ))
+                      }
                     </TableBody>
                   </Table>
                 </Widget>
@@ -116,4 +116,4 @@ function AllMarketer() {
   )
 }
 
-export default AllMarketer
+export default DeletedMarketers

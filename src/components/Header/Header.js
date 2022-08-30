@@ -151,7 +151,7 @@ export default function Header(props) {
           )}
         </IconButton>
         <Typography variant="h6" weight="medium" className={classes.logotype}>
-          Fundhill
+          {user.data.organisation_name}
         </Typography>
         <div className={classes.grow} />
 
