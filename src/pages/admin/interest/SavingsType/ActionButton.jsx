@@ -1,13 +1,9 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import { Button, MenuItem } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import TargetedSavingsModal from '../modals/TargetedSavingsModal';
-import ThriftSavingsModal from "../modals/ThriftSavings";
-import SavingsTypeModal from '../modals/SavingsType';
-import { api } from '../../../../services';
+import { styled, alpha } from '@mui/material/styles';
+import Menu from '@mui/material/Menu';
+import React, { useState } from 'react';
+import OptionModal from './Modal';
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -50,10 +46,10 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [data, setData] = React.useState([]);
-    const [isLoading, setIsLoading] = React.useState(false);
+
+export default function ActionButton({productId}) {
+    const [anchorEl, setAnchorEl] = useState(null);
+    // let [color, setColor] = useState("#ADD8E6");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -62,27 +58,9 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
         setAnchorEl(null);
     };
 
-    const savingsType = async () => {
-        setIsLoading(true)
-        const products = await api
-          .service()
-          .fetch("/dashboard/savings-plan-type/", true);
-        console.log(products.data.results)
-        console.log(products.data.results[0].is_periodic)
-    
-        if ((api.isSuccessful(products))) {
-          setData(products?.data?.results);
-          setIsLoading(false)
-    
-        } else {
-          setIsLoading(true)
-        }
-      }
-    
-    
-        React.useEffect(() => {
-           savingsType();
-        },[])
+
+
+
 
     return (
         <div>
@@ -91,12 +69,13 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 aria-controls={open ? 'demo-customized-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
-                variant="text"
+                variant="contained"
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDownIcon />}
+                style={{ textTransform: 'none' }}
             >
-                Add Plan
+                Action
             </Button>
             <StyledMenu
                 id="demo-customized-menu"
@@ -107,26 +86,15 @@ const AddPlanActionButton = ({ handleUnlocks,customerId }) => {
                 open={open}
                 onClose={handleClose}
             >
-                {/* <MenuItem onClick={handleUnlocks} disableRipple>
-                    Fixed Savings
-                </MenuItem>
-                <MenuItem disableRipple>
-                    <TargetedSavingsModal customerId={customerId} />
-                </MenuItem>
-                <MenuItem disableRipple>
-                    <ThriftSavingsModal customerId={customerId} />
-                </MenuItem> */}
 
-                {
-                    data.map((product) => (
-                        <MenuItem disableRipple key={product.id}>
-                            <SavingsTypeModal productId={product.id} savingsName={product.name} customerId={customerId} />
-                        </MenuItem>
-                    ))
-                }
+                <MenuItem disableRipple>
+                    <OptionModal productId={productId} />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <OptionModal productId={productId} del />
+                </MenuItem>
             </StyledMenu>
         </div>
     )
-}
 
-export default AddPlanActionButton
+}

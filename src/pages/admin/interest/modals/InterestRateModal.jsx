@@ -67,7 +67,7 @@ function InterestRateModal({del,setInterestRateId}) {
                     const interestRates = await api
                     .service()
                     .fetch("/dashboard/interest-rates/",true);
-                    console.log(interestRates.data.results)
+                    // console.log(interestRates.data.results)
                     
                 if((api.isSuccessful(interestRates))){
                     setData(interestRates.data.results);
