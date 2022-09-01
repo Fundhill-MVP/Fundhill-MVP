@@ -48,17 +48,13 @@ const frequency = {
     "YEARLY": "YEARLY"
 };
 
-const savingsPlan = {
-    "FIXED DEPOSIT SAVINGS": "Fixed Savings",
-    "TARGETED SAVINGS": "Targeted Savings",
-};
+
 
 const fixedAmount = {
     "true": "True",
-    "false": "False"
 };
 
-const TargetedSavingsModal = ({ customerId }) => {
+const SavingsTypeModal = ({ customerId, savingsName, productId }) => {
     const classes = useStyles();
     // modal
     const [lock, setUnlock] = useState(false);
@@ -77,7 +73,7 @@ const TargetedSavingsModal = ({ customerId }) => {
     const allCustomer = async () => {
         setIsLoading(true)
         const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
-        // console.log(res.data.results)
+        console.log(res.data.results)
         if (api.isSuccessful(res)) {
             setData(res.data.results)
             setIsLoading(false)
@@ -92,7 +88,7 @@ const TargetedSavingsModal = ({ customerId }) => {
         const res = await api
             .service()
             .fetch("/dashboard/interest-rates/", true);
-        // console.log(res.data.results)
+        console.log(res.data.results)
 
         if ((api.isSuccessful(res))) {
             setInterest(res.data.results);
@@ -106,7 +102,7 @@ const TargetedSavingsModal = ({ customerId }) => {
     const allfee = async () => {
         setIsLoading(true)
         const res = await api.service().fetch("/dashboard/fees/", true);
-        // console.log(res.data.results)
+        console.log(res.data.results)
         if (api.isSuccessful(res)) {
             setfees(res.data.results)
             setIsLoading(false)
@@ -125,20 +121,20 @@ const TargetedSavingsModal = ({ customerId }) => {
     }, [])
 
 
-    const targetedSavingsFormState = (id) => ({
+    const thriftSavingsFormState = (id) => ({
         user: id,
         name: "",
         frequency: "",
         amount_per_cycle: "",
         duration_in_months: "",
-        plan_type: "TARGETED SAVINGS",
+        plan_type: productId,
         interest_rate: "",
         fee: "",
         fixed_amount: true
     });
 
 
-    const targetedSavingsValidationSchema = yupObject().shape({
+    const thriftSavingsValidationSchema = yupObject().shape({
         user: yupNumber()
             .required("User is required"),
         name: yupString()
@@ -149,10 +145,10 @@ const TargetedSavingsModal = ({ customerId }) => {
             .required("Amount cycle is required"),
         duration_in_months: yupNumber()
             .required("Duration is required"),
-        interest_rate: yupNumber()
-            .required("Select an interest rate"),
-        fee: yupNumber()
-            .required("Select fee"),
+        // interest_rate: yupNumber()
+        //     .required("Select an interest rate"),
+        // fee: yupNumber()
+        //     .required("Select fee"),
         fixed_amount: yupString()
             .required("Select an option")
     });
@@ -162,7 +158,7 @@ const TargetedSavingsModal = ({ customerId }) => {
 
     const savings = async (values) => {
         setPlanBtn(true);
-        // console.log(values)
+        console.log(values)
 
         const response = await api
             .service()
@@ -180,7 +176,7 @@ const TargetedSavingsModal = ({ customerId }) => {
     }
     return (
         <div>
-            <Button variant='text' style={{ color: '#000', textTransform: 'none', padding: 0, fontSize: '1rem', fontWeight: 200 }} onClick={handleUnlock}>Targeted Savings</Button>
+            <Button variant='text' style={{ color: '#000', textTransform: 'none', padding: 0, fontSize: '1rem', fontWeight: 200 }} onClick={handleUnlock}> {savingsName} </Button>
 
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -196,7 +192,7 @@ const TargetedSavingsModal = ({ customerId }) => {
                 <Fade in={lock}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            User ID
+                            User ID: {customerId}
                         </Typography>
 
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
@@ -206,12 +202,12 @@ const TargetedSavingsModal = ({ customerId }) => {
                         </Box>
                         <Divider style={{ marginTop: 40 }} />
 
-                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add Targeted Savings Plan</Typography>
+                        <Typography style={{ fontWeight: 600, marginTop: 10, marginBottom: 10, marginLeft: 10 }}>Add {savingsName} </Typography>
 
                         <>
                             <Formik
-                                initialValues={targetedSavingsFormState(customerId)}
-                                validationSchema={targetedSavingsValidationSchema}
+                                initialValues={thriftSavingsFormState(customerId)}
+                                validationSchema={thriftSavingsValidationSchema}
                                 onSubmit={async (values, actions) => {
                                     await savings(values)
                                 }}
@@ -336,4 +332,4 @@ const TargetedSavingsModal = ({ customerId }) => {
     )
 }
 
-export default TargetedSavingsModal
+export default SavingsTypeModal

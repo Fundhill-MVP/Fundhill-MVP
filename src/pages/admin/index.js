@@ -40,11 +40,11 @@ import DisburseGroupLoan from "./loan/DisburseLoan/DisbursedLoan";
 import OngoingGroupLoan from "./Groups/OngoingGroupLoan/OngoingLoan";
 import GroupPlan from "./Groups/Savings/AddPlan";
 import GroupTrans from "./transaction/Group/GroupTranxs";
+import AddSavingsProduct from "./interest/SavingsType/NewSavingsType";
 
 export {
     Login,
     ConfirmEmail,
-
     NewBranch,
     AllBranches,
     NewCustomer,
@@ -84,5 +84,6 @@ export {
     OngoingGroupLoan,
     GroupPlan,
     GroupTrans,
-    DeletedMarketers
+    DeletedMarketers,
+    AddSavingsProduct,
 }

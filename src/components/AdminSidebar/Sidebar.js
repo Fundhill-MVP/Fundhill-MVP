@@ -77,7 +77,7 @@ const structure = [
       { label: "Interest Rate", links: "/admin/dashboard/customer/interest_rate" },
       { label: "Add Plan", links: "/admin/dashboard/customer/savings_plan" },
       { label: "Fees", links: "/admin/dashboard/customer/fees" },
-
+      { label: "Savings Product", links: "/admin/dashboard/customer/savingsproduct" },
     ],
   },
   {
