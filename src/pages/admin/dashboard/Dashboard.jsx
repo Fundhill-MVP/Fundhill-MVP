@@ -309,7 +309,7 @@ export default function Dashboard(props) {
               <Grid container item alignItems={"center"}>
                 <Grid item xs={6}>
                   <Typography size="xl" weight="bold" noWrap>
-                  {data.fixed_savings}
+                  {data.groups_count}
                   </Typography>
                 </Grid>
               </Grid>

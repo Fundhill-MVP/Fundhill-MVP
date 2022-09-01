@@ -85,7 +85,8 @@ const structure = [
     children: [
       { label: "New Admin Role", links: "/admin/dashboard/marketer/new_marketer" },
       { label: "All Admin Roles", links: "/admin/dashboard/marketer/all_marketer" },
-      // { label: "Marketer Account", links: "/admin/dashboard/marketer/marketer-account" },
+      { label: "Disabled Admin Roles", links: "/admin/dashboard/marketer/disabled_marketer" },
+
     ],
   },
   {
@@ -96,14 +97,7 @@ const structure = [
 
     ],
   },
-  // {
-  //   id: 7, label: "Esusu Management", links: "#", icon: <PointOfSaleOutlinedIcon />,
-  //   children: [
-  //     { label: "Esusu Transaction", links: "/admin/dashboard/esusu/esusu_transaction" },
-  //     { label: "Esusu Performance", links: "/admin/dashboard/esusu/esusu_perform" },
 
-  //   ],
-  // },
   {
     id: 8, label: "Loan Management", links: "#", icon: <CreditScoreOutlinedIcon />,
     children: [
