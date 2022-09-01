@@ -166,13 +166,13 @@ const AddNewProduct = () => {
                 </div>
 
                 <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Number of Cycle of Charge (%)</Typography></div>
+                  <div className={classes.divTypo}><Typography>Number of Cycle to Charge (%)</Typography></div>
                   <TextField fullWidth variant='outlined' type="number" name="number_of_cycles_to_charge" size='small' />
 
                 </div>
 
                 <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Periodic</Typography></div>
+                  <div className={classes.divTypo}><Typography>Is it Periodic</Typography></div>
                   <Select
                       size='small'
                       fullWidth
