@@ -3,40 +3,14 @@ import { Route } from "react-router-dom"
 // element s
 import Layout from "../../components/Layout/Layout"
 
-// pages
-// import Error from "../../pages/error";
-// import Login from "../../pages/login/Login";
-
-// pages
-// import Dashboard from "../../pages/dashboard";
 import {
   NewBranch,
   AllBranches,
   NewCustomer,
   AllCustomer,
-  // EditCustomer,
-  // Transactions,
-  // DepositRecipt,
-  // WithdrawRecipt,
-  // History,
-  // AccountStatement,
-  // DailyReport,
-  // DepositReport,
-  // FixedReport,
-  // RegularReport,
-  // TargetedReport,
-  // WithdrawalReport,
-  // LoanReport,
-  // AllDeposit,
-  // AllFixedSaving,
-  // AllLoan,
-  // AllRegularSaving,
-  // AllTargetedSaving,
-  // AllWithdrawalSaving,
-  // TotalCustomer,
   NewMarketer,
   AllMarketer,
-
+  DeletedMarketers,
   NewProduct,
   AddBorrower,
   DisbursedLoan,
@@ -118,7 +92,7 @@ function AdminRoute() {
         {/* Marketer */}
         <Route path="dashboard/marketer/new_marketer" element={<NewMarketer />} />
         <Route path="dashboard/marketer/all_marketer" element={<AllMarketer />} />
-        {/* <Route path="dashboard/marketer/marketer_account" element={<MarketerAccount />} /> */}
+        <Route path="dashboard/marketer/disabled_marketer" element={<DeletedMarketers />} />
 
 
 
