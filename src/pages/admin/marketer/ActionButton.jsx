@@ -4,6 +4,7 @@ import { styled, alpha } from '@mui/material/styles';
 
 import React, { useState } from 'react';
 import AllmarketerModal from './Modal';
+import MarketerModal from './MarketerModal';
 
 
 const StyledMenu = styled((props) => (
@@ -90,6 +91,9 @@ const ActionButton = ({setCurrentId}) => {
                 </MenuItem>
                 <MenuItem disableRipple>
                     <AllmarketerModal setCurrentId={setCurrentId} fund />
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <MarketerModal setCurrentId={setCurrentId}  />
                 </MenuItem>
             </StyledMenu>
         </div>

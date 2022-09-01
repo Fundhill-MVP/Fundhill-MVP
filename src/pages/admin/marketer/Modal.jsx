@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Fade, IconButton, Modal,MenuItem,Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Backdrop from '@mui/material/Backdrop';
-import {  useState,useEffect,useContext } from "react";
+import React,{  useState,useEffect,useContext } from "react";
 import {DotLoader} from "react-spinners";
 import { Formik, Form} from "formik";
 import { toast } from "react-toastify";
@@ -9,7 +9,8 @@ import { api } from '../../../services';
 import { css } from "@emotion/react";
 import {Context} from "../../../context/Context";
 import useStyles from './styles';
-import {TextField} from "../../../components/FormsUI"
+import {TextField} from "../../../components/FormsUI";
+import {trigger} from "../../../events"
 
 // CONTEXT
 const override = css`
@@ -44,7 +45,12 @@ const AllmarketerModal = ({ fund,setCurrentId }) => {
     const [lock, setUnlock] = useState(false);
     const handleUnlock = () => setUnlock(true);
     const handleLock = () => setUnlock(false);
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [activeBtn,setActiveBtn] = useState(false);
+    const [deactiveBtn,setDeactiveBtn] = useState(false);
+    const [delBtn,setDelBtn] = useState(false);
 
 
 
@@ -53,8 +59,8 @@ const AllmarketerModal = ({ fund,setCurrentId }) => {
           setIsLoading(true)
   
           const allMarketer = async() => {
-            const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
-            console.log(res.data)
+            const res = await api.service().fetch("/accounts/manage/?is_staff=True&status=VERIFIED",true);
+            // console.log(res.data)
             if(api.isSuccessful(res)){
               //   console.log(res)
               setMarketers(res.data.results)
