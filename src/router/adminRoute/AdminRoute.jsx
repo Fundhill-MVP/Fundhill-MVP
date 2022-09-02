@@ -42,7 +42,8 @@ import {
   DisburseGroupLoan,
   OngoingGroupLoan,
   GroupPlan,
-  GroupTrans
+  GroupTrans,
+  AddSavingsProduct
 } from "../../pages/admin"
 
 import AdminRole from "../../middleware/admin_role"
@@ -79,6 +80,8 @@ function AdminRoute() {
         <Route path="dashboard/customer/savings_plan" element={<SavingsPlan />} />
         <Route path="dashboard/customer/fees" element={<Fees />} />
         <Route path="dashboard/customer/tranx" element={<Transaction />} />
+        <Route path="dashboard/customer/savingsproduct" element={<AddSavingsProduct />} />
+
 
 
 
