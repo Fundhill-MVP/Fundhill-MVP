@@ -15,7 +15,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import PrintIcon from '@mui/icons-material/Print';
 import { css } from "@emotion/react";
+import SearchButton from './SearchButton';
 import {BounceLoader} from "react-spinners";
 import { trigger } from '../../../events';
 import { api  } from "../../../services";
@@ -95,6 +97,15 @@ const TransactionHistoryModal = ({customerId}) => {
     };
 
 
+    const Print = () => {
+        //console.log('print');  
+        let printContents = document.getElementById('printable').innerHTML;
+        let originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
     
     const allTransactions = async () => {
         setIsLoading(true)
@@ -125,6 +136,9 @@ const TransactionHistoryModal = ({customerId}) => {
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Transaction History
                 </BootstrapDialogTitle>
+                <DialogActions>
+                    <SearchButton />    
+                </DialogActions>
                 <DialogContent dividers>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="caption table">
@@ -168,6 +182,11 @@ const TransactionHistoryModal = ({customerId}) => {
                                 }
                             </TableBody>
                         </Table>
+                        <DialogActions>
+                                    <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={() => [Print(),handleClose()]}>
+                                        Statement of Account
+                                    </Button>
+                        </DialogActions>
                     </TableContainer>
                 </DialogContent>
                 <DialogActions>
