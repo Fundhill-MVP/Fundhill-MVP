@@ -1,17 +1,19 @@
 import { Box, Button, Divider, Fade, Modal, Typography } from '@mui/material';
-import useStyles from '../styles';
+import useStyles from './styles';
 import Backdrop from '@mui/material/Backdrop';
+
 import React from 'react';
-import {  useEffect, useContext, useState } from 'react'
-import { Formik, Form} from "formik";
+import { Fragment, useEffect, useContext, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
-import { api } from '../../../../services';
+import { api } from '../../../services';
 import { css } from "@emotion/react";
 import { DotLoader } from "react-spinners";
-import { Context } from "../../../../context/Context";
-import { TextField, Select } from '../../../../components/FormsUI';
-import {trigger} from "../../../../events"
+import { Context } from "../../../context/Context";
+import { TextField } from '../../../components/FormsUI';
+
 
 // CONTEXT
 const override = css`
@@ -20,10 +22,6 @@ const override = css`
   border-color: red;
 `;
 
-const is_periodic = {
-  "true": "True",
-  "false": "False"
-};
 
 
 const style = {
@@ -40,18 +38,19 @@ const style = {
   flexDirection: 'column',
 
 };
-const AddNewProduct = () => {
+const SearchButton = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [btnLoading,setBtnLoading] = useState(false)
+
   const [isLoading, setIsLoading] = useState(false);
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
 
 
@@ -60,11 +59,11 @@ const AddNewProduct = () => {
     try {
       setIsLoading(true)
 
-      const newProduct =  async() => {
-        const products = api
+      const newProduct = async () => {
+        const products = await api
           .service()
-          .fetch("dashboard/savings-plan-type/", true);
-        // console.log(products.data.results)
+          .fetch("/dashboard/loan-product", true);
+        console.log(products.data.results)
 
         if ((api.isSuccessful(products))) {
           setData(products.data.results);
@@ -78,49 +77,44 @@ const AddNewProduct = () => {
       console.log(error)
     }
 
-  }, [])
+  }, []);
 
   const initialFormState = () => ({
-    name: "",
-    marketer_earnings: 0,
-    is_periodic: false,
-    number_of_cycles_to_charge: 0
+    min_date: "",
+    max_date: "",
   });
 
   const validationSchema = yupObject().shape({
-    name: yupString()
-      .required("Savings product name is required"),
-    marketer_earnings: yupNumber()
-      .required("marketers fees is required"),
-    is_periodic: yupString()
-      .required("Savings product name is required"),
-    number_of_cycles_to_charge: yupNumber()
-      .required("number of cycles to charge is required"),
+    min_date: yupString()
+      .required("Minimum date is required"),
+    max_date: yupString()
+      .required("Maximum date is required"),
   });
 
-  const add_product =  async(values) => {
-  
-      setBtnLoading(true);
+  const get_tranxs = async (values) => {
+    try {
+      // setBtnLoading(true);
+      setIsLoading(true)
       console.log(values)
 
-      const response = await api
-        .service()
-        .push("/dashboard/savings-plan-type/add/", values, true)
+      const response = await api.service().fetch(`/dashboard/transactions/?min_date=${values.min_date}&max_date=${values.max_date}`, true);
 
       if (api.isSuccessful(response)) {
         setTimeout(() => {
           handleClose()
-          toast.success("Savings product  successfully created!");
-          trigger("reRenderSavingsType")
+          setData(response.data.results)
         }, 0);
       }
-      setBtnLoading(false);
-
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false);
+    }
   }
 
   return (
     <div>
-      <Button variant='contained' style={{ textTransform: 'none', marginLeft: 20 }} onClick={handleOpen} >Add Product</Button>
+      <Button variant='contained' style={{ textTransform: 'none', marginLeft: 20 }} onClick={handleOpen} >Search</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -136,61 +130,42 @@ const AddNewProduct = () => {
           <Box sx={style}>
 
             <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
-              Add New Product
+              Transaction Date
             </Typography>
 
             <Divider />
 
             <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2, fontWeight: 600 }} gutterBottom>
-              Product
+              Enter Disbursement Date
             </Typography>
 
             <Formik
               initialValues={initialFormState()}
               validationSchema={validationSchema}
               onSubmit={async (values, actions) => {
-                await add_product(values)
+                await get_tranxs(values)
               }}
             >
               <Form style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
                 <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Product Name</Typography></div>
-                  <TextField fullWidth variant='outlined' type="text" name="name" size='small' />
+                  <div className={classes.divTypo}><Typography>From</Typography></div>
+                  <TextField fullWidth variant='outlined' type="date" name="min_date" size='small' />
 
                 </div>
-
                 <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Marketer Earning (%)</Typography></div>
-                  <TextField fullWidth variant='outlined' type="number" name="marketer_earnings" size='small' />
+                  <div className={classes.divTypo}><Typography>To</Typography></div>
+                  <TextField fullWidth variant='outlined' type="date" name="max_date" size='small' />
 
                 </div>
-
-                <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Number of Cycle to Charge (%)</Typography></div>
-                  <TextField fullWidth variant='outlined' type="number" name="number_of_cycles_to_charge" size='small' />
-
-                </div>
-
-                <div className={classes.formDiv}>
-                  <div className={classes.divTypo}><Typography>Is it Periodic</Typography></div>
-                  <Select
-                      size='small'
-                      fullWidth
-                      name="is_periodic"
-                      options={is_periodic}
-                      label="Choose One"
-                  />
-               </div>
-
 
                 {
-                  btnLoading ?
+                  isLoading ?
                     (<div className={classes.sweet_loading}>
                       <DotLoader color={color} loading={loading} css={override} size={80} />
                     </div>)
                     : (
                       <Button type="submit" variant='contained' fullWidth style={{ background: 'green', marginTop: 10, alignSelf: 'center' }}>
-                        Add
+                        Search
                       </Button>
                     )
                 }
@@ -209,4 +184,4 @@ const AddNewProduct = () => {
   )
 }
 
-export default AddNewProduct
+export default SearchButton
