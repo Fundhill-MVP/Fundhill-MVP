@@ -8,7 +8,6 @@ import {
   TableHead,
   TableBody,
   TableCell,
-  Chip
 } from "@material-ui/core";
 import useStyles from "../styles";
 import React, { Fragment, useState, useEffect, useContext } from "react";
@@ -18,7 +17,7 @@ import Widget from "../../../../components/Widget/Widget";
 import { api } from '../../../../services';
 import { Box, Button, Divider, Fade, Modal, Typography, IconButton } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 
 import { TextField } from '../../../../components/FormsUI';
