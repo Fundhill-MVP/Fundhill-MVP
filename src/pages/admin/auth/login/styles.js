@@ -59,6 +59,9 @@ export default makeStyles(theme => ({
   },
   form: {
     width: 320,
+    [theme.breakpoints.down("md")]: {
+      width: '80%'
+    },
   },
   tab: {
     fontWeight: 400,
