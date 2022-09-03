@@ -106,29 +106,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +89%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => { navigate("/admin/dashboard/marketer/all_marketer") }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        All Marketers
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.marketers_count}
@@ -136,6 +115,17 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => { navigate("/admin/dashboard/marketer/all_marketer") }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -155,29 +145,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +11%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/customer/allcustomer') }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        All Customer
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.customers_count}
@@ -185,6 +154,17 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/customer/allcustomer') }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -204,31 +184,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +11%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => {
-                          navigate('/admin/dashboard/tranxs/total_deposits')
-                        }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        Total deposites
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.deposits}
@@ -236,6 +193,19 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => {
+                          navigate('/admin/dashboard/tranxs/total_deposits')
+                        }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -255,31 +225,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +11%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={
-                          () => navigate('/admin/dashboard/tranxs/total_withdrawals')
-                        }>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        Totall Withdrawals
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.withdrawals}
@@ -287,6 +234,19 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={
+                          () => navigate('/admin/dashboard/tranxs/total_withdrawals')
+                        }>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -306,31 +266,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          0%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => {
-                          navigate('/admin/dashboard/loan/ongoing_loan')
-                        }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        Totall Ongoing Loans
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.loans}
@@ -338,6 +275,19 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => {
+                          navigate('/admin/dashboard/loan/ongoing_loan')
+                        }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -357,31 +307,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +89%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => {
-                          navigate('/admin/dashboard/expense/all_expenses')
-                        }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        Totall Expenditures
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.expenses}
@@ -389,6 +316,19 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => {
+                          navigate('/admin/dashboard/expense/all_expenses')
+                        }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
@@ -408,6 +348,16 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
+
+                    <div className={classes.progressSection}>
+                      <LinearProgress
+                        variant="determinate"
+                        value={data.groups_count}
+                        classes={{ barColorPrimary: classes.progressBarPrimary }}
+                        className={classes.progress}
+                      />
+                    </div>
+
                     <Grid
                       container
                       direction="row"
@@ -416,28 +366,9 @@ export default function Dashboard(props) {
                     >
 
                       <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +89%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/group/all_group') }}>See more</Button>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/group/all_group') }}>See more</Button>
                       </Grid>
                     </Grid>
-                    <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        All Groups
-                      </Typography>
-                      <LinearProgress
-                        variant="determinate"
-                        value={data.groups_count}
-                        classes={{ barColorPrimary: classes.progressBarPrimary }}
-                        className={classes.progress}
-                      />
-                    </div>
                   </Widget>
                 </Grid>
 
@@ -457,29 +388,8 @@ export default function Dashboard(props) {
                         </Grid>
                       </Grid>
                     </div>
-                    <Grid
-                      container
-                      direction="row"
-                      justify="space-between"
-                      alignItems="center"
-                    >
 
-                      <Grid item xs={12} className={classes.rateGrid}>
-                        <Typography className={classes.percent} color="text" colorBrightness="secondary">
-                          +89%
-                        </Typography>
-                        <Button className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/branch/allbranch') }}>See more</Button>
-                      </Grid>
-                    </Grid>
                     <div className={classes.progressSection}>
-                      <Typography
-                        size="md"
-                        color="text"
-                        colorBrightness="secondary"
-                        className={classes.progressSectionTitle}
-                      >
-                        All Branches
-                      </Typography>
                       <LinearProgress
                         variant="determinate"
                         value={data.branches_count}
@@ -487,6 +397,17 @@ export default function Dashboard(props) {
                         className={classes.progress}
                       />
                     </div>
+
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                      alignItems="center"
+                    >
+                      <Grid item xs={12} className={classes.rateGrid}>
+                        <Button variant='outlined' className={classes.btnSeeMore} onClick={() => { navigate('/admin/dashboard/branch/allbranch') }}>See more</Button>
+                      </Grid>
+                    </Grid>
                   </Widget>
                 </Grid>
 
