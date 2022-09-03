@@ -148,7 +148,7 @@ function TransactionModal({ fund, widthdraw,customerId }) {
     
         const allSavingsPlan = async() => {
                     try {
-                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true&plan_type=TARGETED SAVINGS",true);
+                        const res = await api.service().fetch("/dashboard/savings-plan/?is_active=true",true);
                         console.log(res.data.results)
                         if(api.isSuccessful(res)){
                           //   console.log(res)

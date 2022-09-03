@@ -106,7 +106,7 @@ export default function Reciept(props) {
 
     React.useEffect(() => {
         if (JSON.stringify(props) !== "{}") {
-            console.log("ok working")
+            // console.log("ok working")
             handleClickOpen()
             setData(props)
             // console.log(data);
