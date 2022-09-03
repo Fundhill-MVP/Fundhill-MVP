@@ -166,7 +166,7 @@ export default function Header(props) {
         >
           {user.data.avatar ?
             (
-              <Avatar src={user.avatar} alt="profile" />
+              <Avatar src={user.data.avatar} alt="profile" />
             ) :
             (
               <Avatar src="" alt="profile" classes={{ root: classes.headerIcon }} />

@@ -91,7 +91,7 @@ const SavingsPlan = () => {
                                                     <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
                                                     <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
                                                     <TableCell> {customer.bank_account_number} </TableCell>
-                                                    <TableCell> {customer.wallet.balance} </TableCell>
+                                                    <TableCell> {parseInt(customer.wallet.balance)} </TableCell>
                                                     <TableCell> {customer.phone} </TableCell>
                                                     <TableCell> {customer.email}	</TableCell>
                                                     <TableCell>	{customer.agent.first_name} </TableCell>
