@@ -73,19 +73,14 @@ function Profile() {
       // setLoading(false)
       let data = new FormData(e.target);
       data.append("avatar", avatar);
+      data.append("name",user.data.organisation_name)
 
       console.log(data)
 
 
 
       let values = Object.fromEntries(data.entries())
-      // let remains = {
-      //   user_role: "CUSTOMER",
-      //   password: genPassword()
-      // }
-      // let values = Object.assign(data,remains)
-      // values.append("user_role","CUSTOMER");
-      // values.append("password",genPassword());
+
 
       console.log(values);
       const response = await api.service().update(`/accounts/organisation/${user.data.organisation}/`, data, true, true);

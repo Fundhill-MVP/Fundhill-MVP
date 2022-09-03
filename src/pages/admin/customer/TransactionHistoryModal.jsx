@@ -24,6 +24,29 @@ import { api  } from "../../../services";
 import useStyles from "./styles";
 
 
+import { Box, Divider, Fade, Modal, Typography } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import { Formik, Form} from "formik";
+import { object as yupObject, string as yupString, number as yupNumber } from "yup";
+import { TextField } from '../../../components/FormsUI';
+import {DotLoader} from "react-spinners";
+
+
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 500,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    display: 'flex',
+    flexDirection: 'column',
+  
+  };
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -42,6 +65,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const BootstrapDialogTitle = (props) => {
     const { children, onClose, ...other } = props;
+
 
     return (
         <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
@@ -71,19 +95,17 @@ BootstrapDialogTitle.propTypes = {
 
 
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-]
+
+
+
 
 const TransactionHistoryModal = ({customerId}) => {
+
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const [openTranxs, setOpenTranxs] = React.useState(false);
     const [data, setData] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
     let [loading, setLoading] = React.useState(true);
@@ -92,13 +114,59 @@ const TransactionHistoryModal = ({customerId}) => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-    const handleClose = () => {
-        setOpen(false);
-    };
+
+    const clickOpen = ()=> {
+        setOpenTranxs(true)
+    }
+
+    const closeTrans = () =>{
+        setOpenTranxs(false)
+    }
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+  
+    const [btnLoading, setBtnLoading] = React.useState(false);
+
+    
+    const initialFormState = () => ({
+        min_date: "",
+        max_date: "",
+      });
+    
+      const validationSchema = yupObject().shape({
+        min_date: yupString()
+          .required("Minimum date is required"),
+        max_date: yupNumber()
+          .required("Maximum date is required"),
+      });
+    
+      const get_deposit = async (values) => {
+        try {
+          // setBtnLoading(true);
+          setIsLoading(true)
+          console.log(values)
+    
+          const response = await api.service().fetch(`/dashboard/transactions/?min_date=${values.min_date}&max_date=${values.max_date}&_from=${customerId}`, true);
+    
+          if (api.isSuccessful(response)) {
+            setTimeout(() => {
+              handleClose()
+              setData(response.data.results)
+            }, 0);
+          }
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error)
+          setIsLoading(false);
+        }
+      }
+
 
 
     const Print = () => {
         //console.log('print');  
+        handleClose()
         let printContents = document.getElementById('printable').innerHTML;
         let originalContents = document.body.innerHTML;
         document.body.innerHTML = printContents;
@@ -125,22 +193,91 @@ const TransactionHistoryModal = ({customerId}) => {
 
     return (
         <div>
-            <Button variant="text" onClick={handleClickOpen}>
+            <Button variant="text" onClick={clickOpen}>
                 Transaction History
             </Button>
             <BootstrapDialog
-                onClose={handleClose}
+                onClose={closeTrans}
                 aria-labelledby="customized-dialog-title"
-                open={open}
+                open={openTranxs}
             >
-                <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+                <BootstrapDialogTitle id="customized-dialog-title" onClose={closeTrans}>
                     Transaction History
                 </BootstrapDialogTitle>
-                <DialogActions>
-                    <SearchButton />    
-                </DialogActions>
+                <div>
+              <Button variant='contained' style={{ textTransform: 'none', marginLeft: 20 }} onClick={handleOpen} >Search</Button>
+              <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500,
+                }}
+              >
+                <Fade in={open}>
+                  <Box sx={style}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
+                      <IconButton onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                      </IconButton>
+                    </Box>
+                    <Typography sx={{ mt: 2, mb: 2, fontWeight: 600 }} variant="h6" component="h5" gutterBottom>
+                      Transaction Date
+                    </Typography>
+
+                    <Divider />
+
+                    <Typography id="transition-modal-description" sx={{ mt: 2, mb: 2, fontWeight: 600 }} gutterBottom>
+                      Enter Transaction Date
+                    </Typography>
+
+                    <Formik
+                      initialValues={initialFormState()}
+                      // validationSchema={validationSchema}
+                      onSubmit={async (values, actions) => {
+                        await get_deposit(values)
+                      }}
+                    >
+                      <Form style={{ display: 'flex', flexDirection: 'column', marginBottom: 10 }}>
+                        <div className={classes.formDiv}>
+                          <div className={classes.divTypo}><Typography>From </Typography></div>
+                          <TextField fullWidth variant='outlined' type="date" name="min_date" size='small' />
+
+                        </div>
+                        <div className={classes.formDiv}>
+                          <div className={classes.divTypo}><Typography>To </Typography></div>
+                          <TextField fullWidth variant='outlined' type="date" name="max_date" size='small' />
+
+                        </div>
+
+                        {
+                          isLoading ?
+                            (<div className={classes.sweet_loading}>
+                              <DotLoader color={color} loading={loading} css={override} size={80} />
+                            </div>)
+                            : (
+                              <Button type="submit" variant='contained' fullWidth style={{ background: 'green', marginTop: 10, alignSelf: 'center' }}>
+                                Search
+                              </Button>
+                            )
+                        }
+
+                      </Form>
+                    </Formik>
+
+                    <Divider />
+                    <Button variant='contained' onClick={handleClose} style={{ background: 'gray', marginTop: 10, alignSelf: 'flex-end' }}>
+                      Close
+                    </Button>
+                  </Box>
+                </Fade>
+              </Modal>
+            </div>
                 <DialogContent dividers>
-                    <TableContainer component={Paper}>
+                    <TableContainer component={Paper} id='printable'>
                         <Table sx={{ minWidth: 650 }} aria-label="caption table">
                             <TableHead>
                                 <TableRow>
@@ -183,14 +320,14 @@ const TransactionHistoryModal = ({customerId}) => {
                             </TableBody>
                         </Table>
                         <DialogActions>
-                                    <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={() => [Print(),handleClose()]}>
-                                        Statement of Account
-                                    </Button>
+                            <Button variant='contained' color='info' fullWidth startIcon={<PrintIcon />} onClick={() => [Print(),handleClose()]}>
+                                Statement of Account
+                            </Button>
                         </DialogActions>
                     </TableContainer>
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
+                    <Button autoFocus onClick={closeTrans}>
                         Close
                     </Button>
                 </DialogActions>
