@@ -17,8 +17,8 @@ import { Typography } from "../../components/Wrappers";
 
 export default function Dashboard(props) {
   const navigate = useNavigate();
-  var classes = useStyles();
-  var theme = useTheme();
+  const classes = useStyles();
+  const theme = useTheme();
 
   // local
 

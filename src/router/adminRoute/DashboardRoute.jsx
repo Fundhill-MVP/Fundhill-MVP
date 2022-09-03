@@ -8,11 +8,13 @@ import FixedSavingsRep from "../../pages/dashboard/FixedSavingsRep";
 import AllBranch from "../../pages/dashboard/AllBranch/AllBranch";
 import Allmarketers from "../../pages/dashboard/Allmarketers/Allmarketers";
 import Allcustomers from "../../pages/dashboard/Allcustomers/Allcustomers";
+import Dashboard from "../../pages/dashboard/Dashboard";
 
 
 function DashboardRoute() {
     return (
         <Route path="admin" element={<Layout />} >
+            <Route path="dashboard/segun" element={<Dashboard />} />
 
             {/* Dashboard */}
             <Route path="dashboard/total_deposite" element={<TotalDeposite />} />
