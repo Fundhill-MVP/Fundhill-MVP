@@ -115,7 +115,7 @@ function Profile() {
       setIsLoading(true)
       // setLoading(false)
       let data = new FormData(e.target);
-      data.append("user_role", "CUSTOMER");
+      // data.append("user_role", "CUSTOMER");
       data.append("avatar", photo);
       console.log(data)
 
@@ -156,7 +156,7 @@ function Profile() {
               size='small'
               type='text'
               name="first_name"
-              value={user.data.first_name}
+              defaultValue={user.data.first_name}
             />
           </div>
           <div className={classes.inputDiv}>
@@ -169,7 +169,7 @@ function Profile() {
               size='small'
               type='text'
               name="middle_name"
-              value={user.data.middle_name}
+             defaultValue={user.data.middle_name}
             />
           </div>
           <div className={classes.inputDiv}>
@@ -182,7 +182,7 @@ function Profile() {
               size='small'
               type='text'
               name="last_name"
-              value={user.data.last_name}
+              defaultValue={user.data.last_name}
             />
           </div>
 
@@ -211,7 +211,7 @@ function Profile() {
               size='small'
               type='email'
               name="email"
-              value={user.data.email}
+              defaultValue={user.data.email}
             />
           </div>
 
@@ -225,7 +225,7 @@ function Profile() {
               size='small'
               type='text'
               name="residential_address"
-              value={user.data.residential_address}
+              defaultValue={user.data.residential_address}
             />
           </div>
           <div className={classes.inputDiv}>
@@ -238,10 +238,10 @@ function Profile() {
               size='small'
               type='text'
               name="business_address"
-              value={user.data.business_address}
+              defaultValue={user.data.business_address}
             />
           </div>
-          <div className={classes.inputDiv}>
+          {/* <div className={classes.inputDiv}>
             <div className={classes.label}>
               <Typography >Phone Number</Typography>
             </div>
@@ -249,11 +249,11 @@ function Profile() {
               className={classes.input}
               variant="outlined"
               size='small'
-              type='text'
+              type='number'
               name="phone"
-              value={user.data.phone}
+              defaultValue={user.data.phone}
             />
-          </div>
+          </div> */}
 
           {
             isLoading ?

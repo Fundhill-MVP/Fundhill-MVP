@@ -96,8 +96,8 @@ function Login(props) {
   const orgs = {
     "B": "MFB",
     "I": "MFI",
-    "E": "ESUSU",
-    "C": "COOPERATIVE"
+    // "E": "ESUSU",
+    // "C": "COOPERATIVE"
   }
 
   const login = async (values) => {
