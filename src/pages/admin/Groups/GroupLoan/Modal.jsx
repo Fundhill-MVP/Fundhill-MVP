@@ -183,7 +183,7 @@ export default function OptionModal({loanId}) {
       category: "",
       payment_frequency: "",
       loan_period_in_months: "",
-      payment_schedule: "",
+      // payment_schedule: "",
       loan_officer: "",
       organisation: user.data.organisation
     });
@@ -199,10 +199,8 @@ export default function OptionModal({loanId}) {
         .required("Please select a category."),
       payment_frequency: yupString()
         .required("Select a payment frequency"),
-      payment_schedule: yupString()
-        .required("Select a payment schedule"),
-      // branch: yupNumber()
-      // .required("Select a branch name"),
+      // payment_schedule: yupString()
+      //   .required("Select a payment schedule"),
       loan_period_in_months: yupNumber()
         .required("Enter loan period"),
       loan_officer: yupNumber()
@@ -393,7 +391,7 @@ export default function OptionModal({loanId}) {
 
                             </div>
 
-                            <div className={classes.formDiv}>
+                            {/* <div className={classes.formDiv}>
                                <div className={classes.divTypo}><Typography>Payment Schedule</Typography></div>
 
                                 <FormControl fullWidth >
@@ -405,7 +403,7 @@ export default function OptionModal({loanId}) {
                                             options={schedule}
                                         />
                                 </FormControl>
-                            </div>
+                            </div> */}
 
 
 
