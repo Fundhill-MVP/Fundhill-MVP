@@ -9,7 +9,7 @@ import useStyles from "./styles";
 // context
 
 
-import assets from "../../../../components/assets/";
+import assets from "../../../../components/assets";
 
 import { TextField, Button, Select } from "../../../../components/FormsUI"
 
@@ -28,15 +28,15 @@ import * as Yup from 'yup';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { api } from "../../../../services";
-;
 
 
 
 const registerInitialFormState = () => ({
   first_name: "",
   last_name: "",
-  "org_name": "",
-  "org_type": "",
+  org_name: "",
+  org_type: "",
+  bvn: "",
   email: "",
   phone: "",
   password: "",
@@ -111,8 +111,15 @@ function Login(props) {
       localStorage.setItem("token", response?.data?.data?.token)
       dispatch({ type: "LOGIN_SUCCESS", payload: response?.data });
       setTimeout(() => {
-        response?.data?.data?.user_role === "ADMIN" &&   toast.success('Logged in successfully!');
-        navigate("/admin/dashboard", { replace: true })
+        // response?.data?.data?.user_role === "ADMIN" &&   toast.success('Logged in successfully!');
+        // navigate("/admin/dashboard", { replace: true });
+        if(response?.data?.data?.user_role === "ADMIN"){
+          toast.success('Logged in successfully!');
+          navigate("/admin/dashboard", { replace: true });  
+        }else if(response?.data?.data?.user_role === "AGENT" || response?.data?.data?.user_role === "TELLER"){
+          toast.success('Logged in successfully!');
+          navigate("/agent/dashboard", { replace: true });
+        }
       }, 0);
     }
 
@@ -255,7 +262,6 @@ function Login(props) {
                     id="first_name"
                     InputProps={{
                       classes: {
-                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -271,7 +277,6 @@ function Login(props) {
                     id="last_name"
                     InputProps={{
                       classes: {
-                        // underline: classes.textFieldUnderline,
                         input: classes.textField,
                       },
                     }}
@@ -352,6 +357,21 @@ function Login(props) {
                     }}
                     margin="normal"
                     placeholder="Address location of company"
+                    type="text"
+                    fullWidth
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="bvn"
+                    id="last_name"
+                    InputProps={{
+                      classes: {
+                        input: classes.textField,
+                      },
+                    }}
+                    margin="normal"
+                    placeholder="BVN"
                     type="text"
                     fullWidth
                   />
