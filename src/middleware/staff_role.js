@@ -1,27 +1,28 @@
-import {ReactElement,useContext,Fragment} from "react";
-import { Navigate } from "react-router";
-import { Context } from "../context/Context";
-import { toast } from "react-toastify";
+import {useContext,Fragment} from "react";
+import {Navigate} from "react-router";
+import {Context} from "../context/Context";
+import {toast} from "react-toastify";
 
 
-const StaffRole = ({children: ReactElement}) => {
+const AgentRole = ({children}) => {
     const toastOptions = {
-        autoClose: false
+        autoClose: false,
     };
-    const {user} = useContext(Context);
-    const isStaff = user?.user_role ==='AGENT';
     
-    // if(!isStaff) { <Navigate to={"/auth/login"} replace={true}  />}
+    const {user} = useContext(Context);
 
-    return isStaff ? (
+    const isAdmin = user?.data?.user_role === "AGENT" || "TELLER";
+
+
+    return isAdmin ? (
         children
     ): (
-        <Fragment >
-            {toast.error("Unauthorize Access!",toastOptions)}
-            <Navigate to={"/auth/login"} replace={true} />
+        <Fragment>
+        {toast.error("Unauthorized access!",toastOptions)}
+        <Navigate to="/auth/login" replace={true} state={{path: "/auth/login"}} />
         </Fragment>
     )
 }
 
 
-export default StaffRole;
+export default AgentRole;

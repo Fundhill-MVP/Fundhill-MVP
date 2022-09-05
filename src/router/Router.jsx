@@ -8,6 +8,7 @@ import HomeRoute from "./adminRoute/HomeRoute";
 import DashboardRoute from "./adminRoute/DashboardRoute";
 import { ContextProvider } from "../context/Context"
 import FundhillAdminRoute from "./adminRoute/FundhillAdminRoute";
+import AgentRoute from "./agentRoute/AgentRoute";
 
 const Router = () => {
   return (
@@ -15,10 +16,11 @@ const Router = () => {
       <ContextProvider>
         <Routes >
           {AdminRoute()}
-          {AuthRoute()}
           {HomeRoute()}
           {DashboardRoute()}
           {FundhillAdminRoute()}
+          {AuthRoute()}
+          {AgentRoute()}
         </Routes>
       </ContextProvider>
 

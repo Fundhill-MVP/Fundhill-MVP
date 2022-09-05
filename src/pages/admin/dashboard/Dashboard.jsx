@@ -67,9 +67,9 @@ export default function Dashboard(props) {
   const [org, setOrg] = useState(false);
   const { user } = useContext(Context)
 
-  if (user.created_by === "FUNDHILL") {
-    setOrg(true)
-  }
+  // if (user.created_by === "FUNDHILL") {
+  //   setOrg(true)
+  // }
 
   useEffect(() => {
     const dashboard = async () => {

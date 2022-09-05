@@ -1,5 +1,5 @@
 import {Route} from "react-router-dom"
-import {Login} from "../../pages/admin"
+import {Login} from "../../pages/admin/auth"
 
 function HomeRoute() {
   return (
