@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import {
   useLocation,
   Outlet,
@@ -12,7 +12,8 @@ import Icon from '@mdi/react'
 import {
   mdiFacebook as FacebookIcon,
   mdiTwitter as TwitterIcon,
-  mdiGithub as GithubIcon,
+  // mdiGithub as GithubIcon,
+  mdiInstagram as InstagramIcon,
 } from '@mdi/js'
 
 // styles
@@ -22,7 +23,7 @@ import useStyles from "./styles";
 import Header from "../Header";
 import Sidebar from "../Sidebar";
 import AdminSideBar from "../AdminSidebar";
-import {Context} from "../../context/Context"
+import { Context } from "../../context/Context"
 
 
 // context
@@ -33,7 +34,7 @@ function Layout(props) {
   // global
   const layoutState = useLayoutState();
   let location = useLocation();
-  const {user} = useContext(Context);
+  const { user } = useContext(Context);
 
   return (
     <div className={classes.root}>
@@ -42,14 +43,14 @@ function Layout(props) {
         {/* <Sidebar location={location} /> */}
         {
           user.data.created_by === "FUNDHILL" ?
-          (
-            <AdminSideBar location={location} />
-          )
-          :
-          (
-            <Sidebar location={location} />
+            (
+              <AdminSideBar location={location} />
+            )
+            :
+            (
+              <Sidebar location={location} />
 
-          )
+            )
         }
         <div
           className={classnames(classes.content, {
@@ -68,35 +69,39 @@ function Layout(props) {
             justifyContent="space-between"
           >
             <div>
-              <Link
+              <a
                 color={'primary'}
-                to="#"
+                href="http://fundhill.com.ng/"
                 target={'_blank'}
+                rel="noreferrer"
                 className={classes.link}
               >
                 Fundhill
-              </Link>
-              <Link
+              </a>
+              <a
                 color={'primary'}
-                to="#"
+                href="http://fundhill.com.ng/about"
                 target={'_blank'}
+                rel="noreferrer"
                 className={classes.link}
               >
                 About Us
-              </Link>
-              <Link
+              </a>
+              <a
                 color={'primary'}
-                to="#"
+                href="http://fundhill.com.ng/"
                 target={'_blank'}
+                rel="noreferrer"
                 className={classes.link}
               >
                 Blog
-              </Link>
+              </a>
             </div>
             <div>
-              <Link
-                to="#"
+              <a
+                href="https://web.facebook.com/fundhill"
                 target={'_blank'}
+                rel="noreferrer"
               >
                 <IconButton aria-label="facebook">
                   <Icon
@@ -105,10 +110,11 @@ function Layout(props) {
                     color="#6E6E6E99"
                   />
                 </IconButton>
-              </Link>
-              <Link
-                to="#"
+              </a>
+              <a
+                href="https://twitter.com/fundhill_hq"
                 target={'_blank'}
+                rel="noreferrer"
               >
                 <IconButton aria-label="twitter">
                   <Icon
@@ -117,22 +123,24 @@ function Layout(props) {
                     color="#6E6E6E99"
                   />
                 </IconButton>
-              </Link>
-              <Link
-                to="#"
+              </a>
+              <a
+                href="https://www.instagram.com/accounts/login/?next=/fundhill_hq/"
                 target={'_blank'}
+                rel="noreferrer"
+
               >
                 <IconButton
                   aria-label="github"
                   style={{ marginRight: -12 }}
                 >
                   <Icon
-                    path={GithubIcon}
+                    path={InstagramIcon}
                     size={1}
                     color="#6E6E6E99"
                   />
                 </IconButton>
-              </Link>
+              </a>
             </div>
           </Box>
         </div>
