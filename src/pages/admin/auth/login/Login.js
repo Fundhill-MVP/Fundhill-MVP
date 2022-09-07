@@ -40,7 +40,8 @@ const registerInitialFormState = () => ({
   email: "",
   phone: "",
   password: "",
-  user_role: "ADMIN"
+  user_role: "ADMIN",
+  country: "Nigeria"
 });
 
 const registerFormValidation = Yup.object().shape({
