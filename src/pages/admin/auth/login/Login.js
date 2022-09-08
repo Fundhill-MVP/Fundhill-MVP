@@ -8,6 +8,10 @@ import { Context } from "../../../../context/Context";
 import useStyles from "./styles";
 // context
 
+import { InputAdornment, IconButton } from '@mui/material/';
+
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import assets from "../../../../components/assets";
 
@@ -114,10 +118,10 @@ function Login(props) {
       setTimeout(() => {
         // response?.data?.data?.user_role === "ADMIN" &&   toast.success('Logged in successfully!');
         // navigate("/admin/dashboard", { replace: true });
-        if(response?.data?.data?.user_role === "ADMIN"){
+        if (response?.data?.data?.user_role === "ADMIN") {
           toast.success('Logged in successfully!');
-          navigate("/admin/dashboard", { replace: true });  
-        }else if(response?.data?.data?.user_role === "AGENT" || response?.data?.data?.user_role === "TELLER"){
+          navigate("/admin/dashboard", { replace: true });
+        } else if (response?.data?.data?.user_role === "AGENT" || response?.data?.data?.user_role === "TELLER") {
           toast.success('Logged in successfully!');
           navigate("/agent/dashboard", { replace: true });
         }
@@ -149,6 +153,13 @@ function Login(props) {
       setIsLoading(false);
     }
   }
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const [showCpassword, setShowCpassword] = useState(false);
+  const handleShowCpassword = () => setShowCpassword(!showCpassword);
+
   return (
     <Grid container className={classes.container}>
       <div className={classes.logotypeContainer}>
@@ -208,10 +219,17 @@ function Login(props) {
                       classes: {
                         input: classes.textField,
                       },
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowPassword}>
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
                     }}
                     margin="normal"
                     placeholder="Password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     fullWidth
                   />
                   <div className={classes.formButtons}>
@@ -390,6 +408,30 @@ function Login(props) {
                     margin="normal"
                     placeholder="Password"
                     type="password"
+                    fullWidth
+                    autocomplete="off"
+                  />
+
+                  <TextField
+                    variant="outlined"
+                    name="confirm_password"
+                    id="confirm_password"
+                    InputProps={{
+                      classes: {
+                        // underline: classes.textFieldUnderline,
+                        input: classes.textField,
+                      },
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={handleShowCpassword}>
+                            {showCpassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    margin="normal"
+                    placeholder="Confirm Password"
+                    type={showCpassword ? "text" : "password"}
                     fullWidth
                     autocomplete="off"
                   />
