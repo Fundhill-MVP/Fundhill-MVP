@@ -8,7 +8,9 @@ import useStyles from '../styles';
 import ActionButton from './Modal';
 import { api } from '../../../services';
 import { Context } from "../../../context/Context";
-import {on} from "../../../events";
+import { on } from "../../../events";
+import Paginate from './Paginate';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -19,6 +21,10 @@ border-color: green;
 align-items: center;
 `;
 
+// stuff i tried to do 
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
 
 const Organisation = () => {
     const classes = useStyles();
@@ -45,52 +51,57 @@ const Organisation = () => {
         allActiveOrgs();
 
     }, [])
-    on("reRenderActiveOrg",allActiveOrgs);
+    on("reRenderActiveOrg", allActiveOrgs);
 
+    // stuff i tried to do 
+
+    const query = useQuery();
+    const page = query.get('page') || 1;
     return (
         <Fragment>
             <PageTitle title="Organisations" />
             {
                 isLoading ?
-                (
-                    <div className={classes.sweet_loading}>
-                    <BounceLoader color={color} loading={loading} css={override} size={150} />
-                    </div>
-                ):
-                (
-                    <Container>
-                <Widget title="All Collections of Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
-                    <Table className="mb-0">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell > ID </TableCell>
-                                <TableCell >Name</TableCell>
-                                <TableCell>Organisation Type</TableCell>
-                                <TableCell >Transactions</TableCell>
-                                <TableCell>Joined Date</TableCell>
-                                <TableCell>Total Branches Branches</TableCell>
-                                <TableCell>Action</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {data.map((org) => (
-                                <TableRow key={org.id} >
-                                    <TableCell className="pl-3 fw-normal"> {org.id} </TableCell>
-                                    <TableCell> {org.name}</TableCell>
-                                    <TableCell> {org.type} </TableCell>
-                                    <TableCell> {org.transactions} </TableCell>
-                                    <TableCell> {org.created} </TableCell>    
-                                    <TableCell> {org.branches} </TableCell>    
-                                    <TableCell>
-                                        <ActionButton orgId={org?.id} />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Widget>
-            </Container>
-                )
+                    (
+                        <div className={classes.sweet_loading}>
+                            <BounceLoader color={color} loading={loading} css={override} size={150} />
+                        </div>
+                    ) :
+                    (
+                        <Container>
+                            <Widget title="All Collections of Branches" upperTitle noBodyPadding bodyClass={classes.tableOverflow}>
+                                <Table className="mb-0">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell > ID </TableCell>
+                                            <TableCell >Name</TableCell>
+                                            <TableCell>Organisation Type</TableCell>
+                                            <TableCell >Transactions</TableCell>
+                                            <TableCell>Joined Date</TableCell>
+                                            <TableCell>Total Branches Branches</TableCell>
+                                            <TableCell>Action</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {data.map((org) => (
+                                            <TableRow key={org.id} >
+                                                <TableCell className="pl-3 fw-normal"> {org.id} </TableCell>
+                                                <TableCell> {org.name}</TableCell>
+                                                <TableCell> {org.type} </TableCell>
+                                                <TableCell> {org.transactions} </TableCell>
+                                                <TableCell> {org.created} </TableCell>
+                                                <TableCell> {org.branches} </TableCell>
+                                                <TableCell>
+                                                    <ActionButton orgId={org?.id} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                                <Paginate page={page} />
+                            </Widget>
+                        </Container>
+                    )
             }
         </Fragment>
     )
