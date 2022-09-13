@@ -32,6 +32,7 @@ import * as Yup from 'yup';
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { api } from "../../../../services";
+import SignupModal from "./SignupModal";
 
 
 
@@ -176,7 +177,8 @@ function Login(props) {
             centered
           >
             <Tab label="Login" classes={{ root: classes.tab }} />
-            <Tab label="New User" classes={{ root: classes.tab }} />
+            {/* <Tab label="New User" classes={{ root: classes.tab }} /> */}
+            <SignupModal />
           </Tabs>
           {activeTabId === 0 && (
             <React.Fragment>
