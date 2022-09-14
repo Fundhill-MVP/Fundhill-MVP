@@ -438,7 +438,7 @@ function Login(props) {
                     placeholder="Confirm Password"
                     type={showCpassword ? "text" : "password"}
                     fullWidth
-                    autocomplete="off"
+                    autoComplete="off"
                   />
 
                   <div className={classes.creatingButtonContainer}>
