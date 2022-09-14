@@ -44,6 +44,7 @@ const registerInitialFormState = () => ({
   email: "",
   phone: "",
   password: "",
+  confirm_password: "",
   user_role: "ADMIN",
   country: "Nigeria"
 });
@@ -66,6 +67,8 @@ const registerFormValidation = Yup.object().shape({
     .required('Required'),
   password: Yup.string()
     .required('Required'),
+  confirm_password: Yup.string()
+    .oneOf([Yup.ref("password"), null],"Passwords does not match")
 });
 
 const loginInitialFormState = () => ({
