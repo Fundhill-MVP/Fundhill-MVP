@@ -100,7 +100,8 @@ const ResetPassword = () => {
     const initialFormState = () => ({
         uidb64: `${userid}`,
         token: `${token}`,
-        password: ""
+        password: "",
+        confirm_password: ""
     });
 
     // const initialFormState = () => ({
@@ -112,6 +113,9 @@ const ResetPassword = () => {
     const formValidation = Yup.object().shape({
         password: Yup.string()
             .required('Required'),
+        confirm_password: Yup.string()
+        .oneOf([Yup.ref("password"), null],"Passwords does not match")
+
     });
 
     const submitResetPassword = async (values) => {
@@ -143,12 +147,13 @@ const ResetPassword = () => {
                     <Form className={classes.form}>
                         <Typography variant='h5' gutterBottom className={classes.title}>Reset Password?</Typography>
                         <TextField className={classes.input} variant='outlined' name="password" fullWidth type='password' placeholder='Insert New Password' />
-                        <FormControl className={classes.input} fullWidth variant="outlined">
+                        <FormControl name="confirm_password" className={classes.input} fullWidth variant="outlined">
                             <OutlinedInput
+                                name="confirm_password"
                                 placeholder="Confirm password"
                                 id="outlined-adornment-password"
                                 type={values.showPassword ? 'text' : 'password'}
-                                value={values.password}
+                                // value={values.password}
                                 onChange={handleChange('password')}
                                 endAdornment={
                                     <InputAdornment position="end">
