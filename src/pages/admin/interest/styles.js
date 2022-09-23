@@ -193,5 +193,18 @@ export default makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+
+  // pagination styles
+
+  paginationContain: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  paginateRow: {
+  },
+  paginate: {
+    marginRight: 5
   }
 }));

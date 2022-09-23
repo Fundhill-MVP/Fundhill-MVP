@@ -15,12 +15,13 @@ import { Context } from "../../../../context/Context";
 import PageTitle from "../../../../components/PageTitle/PageTitle";
 import Widget from "../../../../components/Widget/Widget";
 import { api } from '../../../../services';
-import { Box, Button, Divider, Fade, Modal, Typography, IconButton } from '@mui/material';
+import { Box, Button, Divider, Fade, Modal, Typography, IconButton, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import { Formik, Form } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
 
 import { TextField } from '../../../../components/FormsUI';
+import { useSearchParams } from "react-router-dom";
 
 
 const style = {
@@ -58,31 +59,18 @@ const AllWithdrawals = () => {
   const { user } = useContext(Context)
   const [data, setData] = useState([]);
 
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPage = searchParams.get('page');
+  const [limit, setLimit] = useState(5);
+  const [offset, setOffset] = useState(0);
+
   let today = new Date();
   let dd = String(today.getDate()).padStart(2, '0');
   let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   let yyyy = today.getFullYear();
   today = yyyy + '-' + mm + '-' + dd;
-  useEffect(() => {
-    try {
-      setIsLoading(true)
-
-      const AllWithdrawals = async () => {
-        const res = await api.service().fetch(`/dashboard/transactions/?min_date=${today}&max_date=${today}&trx_type=WITHDRAWAL`, true);
-        console.log(res.data)
-        if (api.isSuccessful(res)) {
-          setData(res.data.results)
-        }
-        setIsLoading(false);
-
-      }
-
-      AllWithdrawals();
-    } catch (error) {
-      console.log(error)
-    }
-  }, [])
-
 
   const initialFormState = () => ({
     min_date: "",
@@ -117,6 +105,56 @@ const AllWithdrawals = () => {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    try {
+      setIsLoading(true)
+
+      const AllWithdrawals = async () => {
+        const res = await api.service().fetch(`/dashboard/transactions/?min_date=${today}&max_date=${today}&trx_type=WITHDRAWAL?limit=${limit}&offset=${offset}`, true);
+        console.log(res.data)
+        if (api.isSuccessful(res)) {
+          setData(res.data.results)
+          setCount(res.data.count)
+        }
+        setIsLoading(false);
+
+      }
+
+      AllWithdrawals();
+    } catch (error) {
+      console.log(error)
+    }
+  }, [offset, limit])
+
+  const nextPage = () => {
+    setSearchParams({ page: currentPage + 1 })
+    setCurrentPage(currentPage + 1);
+    setOffset(offset + limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const previousPage = () => {
+    setSearchParams({ page: currentPage - 1 })
+    setCurrentPage(currentPage - 1);
+    setOffset(offset - limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const handleRowPerPage = (event) => {
+    setLimit(event.target.value)
+  }
+
+  const isNextBtnDisabled = () => count > offset && (offset + limit) < count
+  const isPrevBtnDisabled = () => offset > 0
+
+  useEffect(() => {
+    if (queryPage === null) {
+      setSearchParams({ page: currentPage })
+    }
+  }, [])
 
   return (
     <Fragment>
@@ -236,6 +274,37 @@ const AllWithdrawals = () => {
                   </Table>
                 )
             }
+            <div className={classes.paginationContain}>
+              <div className={classes.paginateRow}>
+                <FormControl sx={{ m: 1 }} size="small">
+                  <InputLabel id="demo-select-small">Row Per Page</InputLabel>
+                  <Select
+                    labelId="demo-select-small"
+                    id="demo-select-small"
+                    value={limit}
+                    label="Row Per Page"
+                    onChange={handleRowPerPage}
+                  >
+                    <MenuItem value={5}>5</MenuItem>
+                    <MenuItem value={10}>10</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div className={classes.paginate}>
+                <Button
+                  size='small'
+                  disabled={!isPrevBtnDisabled()}
+                  onClick={previousPage}>
+                  previous
+                </Button>
+                <Button
+                  size='small'
+                  disabled={!isNextBtnDisabled()}
+                  onClick={nextPage}>
+                  next
+                </Button>
+              </div>
+            </div>
           </Widget>
         </Grid>
       </Grid>

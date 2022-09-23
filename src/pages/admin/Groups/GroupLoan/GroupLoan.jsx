@@ -1,5 +1,5 @@
-import { Container, Table, TableBody, TableCell, TableHead, TableRow, Button } from '@mui/material'
-import React, { Fragment, useState, useEffect,useContext } from 'react'
+import { Container, Table, TableBody, TableCell, TableHead, TableRow, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
+import React, { Fragment, useState, useEffect, useContext } from 'react'
 import PageTitle from '../../../../components/PageTitle/PageTitle'
 import Widget from '../../../../components/Widget/Widget'
 import useStyles from './styles';
@@ -9,8 +9,9 @@ import AddLoan from './Modal';
 import { api } from '../../../../services';
 import { css } from "@emotion/react";
 import { BounceLoader } from "react-spinners";
-import {Context} from "../../../../context/Context";
-import {on} from "../../../../events";
+import { Context } from "../../../../context/Context";
+import { on } from "../../../../events";
+import { useSearchParams } from 'react-router-dom';
 
 
 
@@ -30,28 +31,68 @@ const GroupLoan = () => {
   let [color, setColor] = useState("#ADD8E6");
   const [loans, setLoans] = useState([]);
   const [currentId, setCurrentId] = useState("");
-  const {user} = useContext(Context);
-
+  const { user } = useContext(Context);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPage = searchParams.get('page');
+  const [limit, setLimit] = useState(5);
+  const [offset, setOffset] = useState(0);
 
   const allGroupLoan = async () => {
     setIsLoading(true)
-    const res = await api.service().fetch("/dashboard/group-loan/?status=PENDING", true);
+    const res = await api.service().fetch(`/dashboard/group-loan/?status=PENDING?limit=${limit}&offset=${offset}`, true);
     console.log(res.data)
     if (api.isSuccessful(res)) {
       // console.log(res.data.results)
       setLoans(res.data.results)
+      setCount(res.data.count)
+
     }
     setIsLoading(false);
 
   }
 
 
+  const nextPage = () => {
+    setSearchParams({ page: currentPage + 1 })
+    setCurrentPage(currentPage + 1);
+    setOffset(offset + limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const previousPage = () => {
+    setSearchParams({ page: currentPage - 1 })
+    setCurrentPage(currentPage - 1);
+    setOffset(offset - limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const handleRowPerPage = (event) => {
+    setLimit(event.target.value)
+  }
+
+  const isNextBtnDisabled = () => count > offset && (offset + limit) < count
+  const isPrevBtnDisabled = () => offset > 0
+
   useEffect(() => {
     allGroupLoan();
 
   }, []);
-  on("reRenderGroupLoan",allGroupLoan)
+  on("reRenderGroupLoan", allGroupLoan)
 
+
+  useEffect(() => {
+    if (queryPage === null) {
+      setSearchParams({ page: currentPage })
+    }
+  }, [])
+
+  useEffect(() => {
+    allGroupLoan();
+  }, [offset, limit])
   return (
     <Fragment>
       <PageTitle title={`${user.data.organisation_name}`} />
@@ -71,7 +112,7 @@ const GroupLoan = () => {
                 <Table className="mb-0">
                   <TableHead>
                     <TableRow>
-                      <TableCell >ID </TableCell>
+                      <TableCell > S/N </TableCell>
                       <TableCell >Group Name</TableCell>
                       <TableCell >Amount</TableCell>
                       <TableCell>Amount to Repay</TableCell>
@@ -87,9 +128,9 @@ const GroupLoan = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                  {loans.map((loan) => (
+                    {loans.map((loan, index) => (
                       <TableRow key={loan?.id}>
-                        <TableCell className="pl-3 fw-normal">{loan?.id}</TableCell>
+                        <TableCell className="pl-3 fw-normal">{++index}</TableCell>
                         <TableCell>{loan?.group?.name}  </TableCell>
                         <TableCell>{loan?.amount}</TableCell>
                         <TableCell>{loan?.amount_to_repay}</TableCell>
@@ -116,6 +157,37 @@ const GroupLoan = () => {
                 </Table>
               )
           }
+          <div className={classes.paginationContain}>
+            <div className={classes.paginateRow}>
+              <FormControl sx={{ m: 1 }} size="small">
+                <InputLabel id="demo-select-small">Row Per Page</InputLabel>
+                <Select
+                  labelId="demo-select-small"
+                  id="demo-select-small"
+                  value={limit}
+                  label="Row Per Page"
+                  onChange={handleRowPerPage}
+                >
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+            <div className={classes.paginate}>
+              <Button
+                size='small'
+                disabled={!isPrevBtnDisabled()}
+                onClick={previousPage}>
+                previous
+              </Button>
+              <Button
+                size='small'
+                disabled={!isNextBtnDisabled()}
+                onClick={nextPage}>
+                next
+              </Button>
+            </div>
+          </div>
         </Widget>
       </Container>
     </Fragment>

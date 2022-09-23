@@ -17,7 +17,9 @@ import ActionButton from "./ActionButton";
 import { api } from '../../../services';
 import { BounceLoader } from "react-spinners";
 import { css } from "@emotion/react";
-import {on} from "../../../events";
+import { on } from "../../../events";
+import { useSearchParams } from "react-router-dom";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 
 const override = css`
@@ -39,25 +41,64 @@ function Transaction() {
     let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const [marketers, setMarketers] = useState([]);
+    const [count, setCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1)
+    const [searchParams, setSearchParams] = useSearchParams();
+    const queryPage = searchParams.get('page');
+    const [limit, setLimit] = useState(5);
+    const [offset, setOffset] = useState(0);
 
     const transCustomer = async () => {
         setIsLoading(true)
 
-        const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED", true);
+        const res = await api.service().fetch(`/accounts/manage/?user_role=CUSTOMER&status=VERIFIED?limit=${limit}&offset=${offset}`, true);
         console.log(res.data)
         if (api.isSuccessful(res)) {
             setData(res.data.results)
+            setCount(res.data.count)
         }
         setIsLoading(false);
     }
 
+    const nextPage = () => {
+        setSearchParams({ page: currentPage + 1 })
+        setCurrentPage(currentPage + 1);
+        setOffset(offset + limit)
+        console.clear()
+        console.log(offset)
+    }
+
+    const previousPage = () => {
+        setSearchParams({ page: currentPage - 1 })
+        setCurrentPage(currentPage - 1);
+        setOffset(offset - limit)
+        console.clear()
+        console.log(offset)
+    }
+
+    const handleRowPerPage = (event) => {
+        setLimit(event.target.value)
+    }
+
+    const isNextBtnDisabled = () => count > offset && (offset + limit) < count
+    const isPrevBtnDisabled = () => offset > 0
 
     useEffect(() => {
         transCustomer();
 
     }, [])
-    on("reRenderTransCustomer",transCustomer);
+    on("reRenderTransCustomer", transCustomer);
 
+
+    useEffect(() => {
+        if (queryPage === null) {
+            setSearchParams({ page: currentPage })
+        }
+    }, [])
+
+    useEffect(() => {
+        transCustomer();
+    }, [offset, limit])
 
     return (
         <Fragment>
@@ -75,7 +116,7 @@ function Transaction() {
                                     <Table className="mb-0">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell >ID</TableCell>
+                                                <TableCell >S/N</TableCell>
                                                 <TableCell >Full Name</TableCell>
                                                 <TableCell >Account Number</TableCell>
                                                 <TableCell>Wallet Balance</TableCell>
@@ -88,9 +129,9 @@ function Transaction() {
                                         </TableHead>
                                         <TableBody>
                                             {/* <TableRow> */}
-                                            {data.map((customer) => (
+                                            {data.map((customer, index) => (
                                                 <TableRow key={customer.id} >
-                                                    <TableCell className="pl-3 fw-normal"> {customer.id} </TableCell>
+                                                    <TableCell className="pl-3 fw-normal"> {++index} </TableCell>
                                                     <TableCell> {customer.first_name} {customer.last_name}	</TableCell>
                                                     <TableCell> {customer.bank_account_number} </TableCell>
                                                     <TableCell> {customer.wallet.balance} </TableCell>
@@ -106,6 +147,37 @@ function Transaction() {
                                             {/* </TableRow> */}
                                         </TableBody>
                                     </Table>
+                                    <div className={classes.paginationContain}>
+                                        <div className={classes.paginateRow}>
+                                            <FormControl sx={{ m: 1 }} size="small">
+                                                <InputLabel id="demo-select-small">Row Per Page</InputLabel>
+                                                <Select
+                                                    labelId="demo-select-small"
+                                                    id="demo-select-small"
+                                                    value={limit}
+                                                    label="Row Per Page"
+                                                    onChange={handleRowPerPage}
+                                                >
+                                                    <MenuItem value={5}>5</MenuItem>
+                                                    <MenuItem value={10}>10</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </div>
+                                        <div className={classes.paginate}>
+                                            <Button
+                                                size='small'
+                                                disabled={!isPrevBtnDisabled()}
+                                                onClick={previousPage}>
+                                                previous
+                                            </Button>
+                                            <Button
+                                                size='small'
+                                                disabled={!isNextBtnDisabled()}
+                                                onClick={nextPage}>
+                                                next
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </Widget>
                             </Grid>
                         )
