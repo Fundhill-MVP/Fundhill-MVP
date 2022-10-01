@@ -15,6 +15,7 @@ import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import CreditScoreOutlinedIcon from '@mui/icons-material/CreditScoreOutlined';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import GroupsIcon from '@mui/icons-material/Groups';
 // styles
 import useStyles from "./styles";
 
@@ -32,11 +33,11 @@ const structure = [
   {
     id: 0, label: "Dashboard", links: "/admin/dashboard", icon: <HomeIcon />,
   },
-  
+
   {
     id: 11, label: "Funhill Admin", links: "#", icon: <AdminPanelSettingsIcon />,
     children: [
-      { label: "Organisations", links: "/admin/fundhill/organisation" },
+      { label: "Organisations", links: "/admin/fundhill/organisation/" },
       { label: "Users", links: "/admin/fundhill/users" },
     ],
   },
@@ -120,7 +121,7 @@ const structure = [
     ],
   },
   {
-    id: 10, label: "Group Managment", links: "#", icon: <PaymentsOutlinedIcon />,
+    id: 10, label: "Group Managment", links: "#", icon: <GroupsIcon />,
     children: [
       { label: "New Groups", links: "/admin/dashboard/group/new_group" },
       { label: "All Groups", links: "/admin/dashboard/group/all_group" },
@@ -131,7 +132,7 @@ const structure = [
       { label: "Ongoing Loan", links: "/admin/dashboard/group/ongoing_loan" },
       { label: "Disbursed Loan", links: "/admin/dashboard/group/disbursed_loan" },
       // { label: "Group Savings", links: "/admin/dashboard/group/add_groupsavings" },
-     
+
     ],
   },
 

@@ -200,5 +200,18 @@ export default makeStyles(theme => ({
   secondary: {
     backgroundColor: theme.palette.secondary.main,
     color: '#fff',
+  },
+
+  // pagination styles
+
+  paginationContain: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  paginateRow: {
+  },
+  paginate: {
+    marginRight: 5
   }
 }));
