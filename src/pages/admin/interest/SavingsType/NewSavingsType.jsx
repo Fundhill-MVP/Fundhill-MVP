@@ -41,8 +41,7 @@ function SavingsType() {
     const products = await api
       .service()
       .fetch("/dashboard/savings-plan-type/", true);
-    console.log(products.data.results)
-    console.log(products.data.results[0].is_periodic)
+
 
     if ((api.isSuccessful(products))) {
       setData(products?.data?.results);
