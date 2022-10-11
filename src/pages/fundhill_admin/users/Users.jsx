@@ -101,8 +101,7 @@ function PendingCustomer() {
                         <TableCell >Telephone </TableCell>
                         <TableCell>Email</TableCell>
                         <TableCell>Marketer</TableCell>
-                        {/* <TableCell>Customer Id</TableCell>
-                        <TableCell>Utility Bill</TableCell> */}
+
                         <TableCell>Status</TableCell>
                         <TableCell>Action</TableCell>
 
@@ -117,16 +116,7 @@ function PendingCustomer() {
                           <TableCell>{customer?.phone}</TableCell>
                           <TableCell>{customer?.email}</TableCell>
                           <TableCell>{customer?.agent.first_name} </TableCell>
-                          {/* <TableCell>
-                          <Button onClick={ downloadId(customer?.id_document)} variant="contained"color="#ffa726">
-                            Download
-                          </Button>
-                          </TableCell> */}
-                          {/* <TableCell>
-                          <Button onClick={onDownload} variant="contained" color="primary">
-                            Download
-                          </Button>
-                          </TableCell> */}
+                
                           <TableCell>
                             <Button
                               variant='contained'
