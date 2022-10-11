@@ -54,7 +54,6 @@ function AdminRoute() {
         <Route
           path="admin"
           element={
-            // <Layout />
             <AdminRole>
               <Layout />
             </AdminRole>
