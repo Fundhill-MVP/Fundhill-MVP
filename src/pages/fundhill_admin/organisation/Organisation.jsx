@@ -9,9 +9,7 @@ import ActionButton from './Modal';
 import { api } from '../../../services';
 import { Context } from "../../../context/Context";
 import { on } from "../../../events";
-import { useLocation, useSearchParams } from 'react-router-dom';
-
-
+import { useSearchParams } from 'react-router-dom';
 
 const override = css`
 display: block;
@@ -19,11 +17,6 @@ margin: 0 auto;
 border-color: green;
 align-items: center;
 `;
-
-// stuff i tried to do 
-function useQuery() {
-    return new URLSearchParams(useLocation().search);
-}
 
 const Organisation = () => {
     const classes = useStyles();
@@ -78,6 +71,7 @@ const Organisation = () => {
         allActiveOrgs();
 
     }, [])
+
     on("reRenderActiveOrg", allActiveOrgs);
 
     useEffect(() => {
@@ -164,7 +158,6 @@ const Organisation = () => {
                                 </div>
                             </Widget>
                         </Container>
-
                     )
             }
 

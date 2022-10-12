@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useContext, useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 // import "./Dashboard.css"
 import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString, number as yupNumber } from "yup";
@@ -20,7 +20,8 @@ import {
   Grid,
 } from "@material-ui/core";
 import ActionButton from './ActionButton';
-import {on} from "../../../events";
+import { on } from "../../../events";
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 // CONTEXT
 const override = css`
@@ -37,13 +38,20 @@ function AllMarketer() {
   let [color, setColor] = useState("#ADD8E6");
   const { user } = useContext(Context);
   const [marketers, setMarketers] = useState([]);
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPage = searchParams.get('page');
+  const [limit, setLimit] = useState(5);
+  const [offset, setOffset] = useState(0);
 
   const allMarketer = async () => {
     setIsLoading(true)
-    const res = await api.service().fetch("/accounts/manage/?is_staff=True&status=VERIFIED", true);
+    const res = await api.service().fetch(`/accounts/manage/?is_staff=True&status=VERIFIED?limit=${limit}&offset=${offset}`, true);
     console.log(res.data)
     if (api.isSuccessful(res)) {
       setMarketers(res.data.results)
+      setCount(res.data.count)
       setIsLoading(false);
     }
 
@@ -51,14 +59,45 @@ function AllMarketer() {
 
   }
 
+  const nextPage = () => {
+    setSearchParams({ page: currentPage + 1 })
+    setCurrentPage(currentPage + 1);
+    setOffset(offset + limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const previousPage = () => {
+    setSearchParams({ page: currentPage - 1 })
+    setCurrentPage(currentPage - 1);
+    setOffset(offset - limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const handleRowPerPage = (event) => {
+    setLimit(event.target.value)
+  }
+
+  const isNextBtnDisabled = () => count > offset && (offset + limit) < count
+  const isPrevBtnDisabled = () => offset > 0
+
   useEffect(() => {
 
     allMarketer();
   }, [])
-  on("reRenderAllMarketer",allMarketer);
+  on("reRenderAllMarketer", allMarketer);
 
- 
 
+  useEffect(() => {
+    if (queryPage === null) {
+      setSearchParams({ page: currentPage })
+    }
+  }, [])
+
+  useEffect(() => {
+    allMarketer();
+  }, [offset, limit])
 
 
   return (
@@ -92,9 +131,9 @@ function AllMarketer() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {marketers.map((marketer) => (
+                      {marketers.map((marketer, index) => (
                         <TableRow key={marketer?.id}>
-                          <TableCell className="pl-3 fw-normal">{marketer?.id}</TableCell>
+                          <TableCell className="pl-3 fw-normal">{++index}</TableCell>
                           <TableCell>{marketer?.first_name} {marketer?.last_name} </TableCell>
                           <TableCell>{marketer?.phone}</TableCell>
                           <TableCell>{marketer?.email}</TableCell>
@@ -106,6 +145,37 @@ function AllMarketer() {
                       ))}
                     </TableBody>
                   </Table>
+                  <div className={classes.paginationContain}>
+                    <div className={classes.paginateRow}>
+                      <FormControl sx={{ m: 1 }} size="small">
+                        <InputLabel id="demo-select-small">Row Per Page</InputLabel>
+                        <Select
+                          labelId="demo-select-small"
+                          id="demo-select-small"
+                          value={limit}
+                          label="Row Per Page"
+                          onChange={handleRowPerPage}
+                        >
+                          <MenuItem value={5}>5</MenuItem>
+                          <MenuItem value={10}>10</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className={classes.paginate}>
+                      <Button
+                        size='small'
+                        disabled={!isPrevBtnDisabled()}
+                        onClick={previousPage}>
+                        previous
+                      </Button>
+                      <Button
+                        size='small'
+                        disabled={!isNextBtnDisabled()}
+                        onClick={nextPage}>
+                        next
+                      </Button>
+                    </div>
+                  </div>
                 </Widget>
               </Grid>
             )
