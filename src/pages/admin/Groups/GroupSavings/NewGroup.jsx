@@ -1,7 +1,7 @@
 import { Fragment, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, FieldArray } from "formik";
-import { object as yupObject, string as yupString,array as yupArray, number as yupNumber } from "yup";
+import { object as yupObject, string as yupString, array as yupArray, number as yupNumber } from "yup";
 import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import { DotLoader } from "react-spinners";
@@ -116,10 +116,10 @@ function NewGroup() {
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Members</Typography></div>
                                 <SearchGroup
-                                    setSelectedOption = {(value) => {
-                                        prop.setFieldValue("members",value)
+                                    setSelectedOption={(value) => {
+                                        prop.setFieldValue("members", value)
                                     }}
-                                  />
+                                />
                             </div>
                             <div className={classes.formDiv}>
                                 <div className={classes.divTypo}><Typography>Description</Typography></div>

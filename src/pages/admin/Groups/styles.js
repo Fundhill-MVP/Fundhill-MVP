@@ -229,5 +229,18 @@ export default makeStyles(theme => ({
   invoiceBox1: {
     display: 'flex',
     justifyContent: 'space-between',
+  },
+
+  // pagination styles
+
+  paginationContain: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  paginateRow: {
+  },
+  paginate: {
+    marginRight: 5
   }
 }));

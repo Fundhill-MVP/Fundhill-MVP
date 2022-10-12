@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect, useContext } from 'react'
 import { makeStyles } from "@material-ui/styles";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { toast } from "react-toastify";
 
@@ -16,12 +16,13 @@ import {
   TableCell,
   Grid,
 } from "@material-ui/core";
-  import useStyles from "../styles";
+import useStyles from "../styles";
 import PageTitle from "../../../../components/PageTitle"
 import Widget from "../../../../components/Widget/Widget";
 import { Context } from "../../../../context/Context"
 import ActionButton from './ActionButton';
-import {on} from "../../../../events"
+import { on } from "../../../../events"
+import { Button, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 
 const override = css`
@@ -51,37 +52,67 @@ function GroupPlan() {
   const { user } = useContext(Context);
   const [marketers, setMarketers] = useState([]);
   const navigate = useNavigate();
-  const [currentId,setCurrentId] = useState("");
-
+  const [currentId, setCurrentId] = useState("");
+  const [count, setCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryPage = searchParams.get('page');
+  const [limit, setLimit] = useState(5);
+  const [offset, setOffset] = useState(0);
   //  var keys = Object.keys(data[0]).map(i => i.toUpperCase());
   //  keys.shift(); // delete "id" key
 
-
-
-
   const allGroup = async () => {
     setIsLoading(true)
-    const res = await api.service().fetch("/accounts/group/", true);
+    const res = await api.service().fetch(`/accounts/group/?limit=${limit}&offset=${offset}`, true);
     console.log(res.data)
     if (api.isSuccessful(res)) {
       setData(res.data.results)
+      setCount(res.data.count)
     }
 
     setIsLoading(false);
 
   }
+
+
+  const nextPage = () => {
+    setSearchParams({ page: currentPage + 1 })
+    setCurrentPage(currentPage + 1);
+    setOffset(offset + limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const previousPage = () => {
+    setSearchParams({ page: currentPage - 1 })
+    setCurrentPage(currentPage - 1);
+    setOffset(offset - limit)
+    console.clear()
+    console.log(offset)
+  }
+
+  const handleRowPerPage = (event) => {
+    setLimit(event.target.value)
+  }
+
+  const isNextBtnDisabled = () => count > offset && (offset + limit) < count
+  const isPrevBtnDisabled = () => offset > 0
+
   useEffect(() => {
     allGroup();
   }, []);
-  on("reRenderAllGroup",allGroup)
+  on("reRenderAllGroup", allGroup)
 
+  useEffect(() => {
+    if (queryPage === null) {
+      setSearchParams({ page: currentPage })
+    }
+  }, [])
 
-
-
-
-
-
-
+  useEffect(() => {
+    allGroup();
+  }, [offset, limit])
 
   return (
     <Fragment>
@@ -92,7 +123,7 @@ function GroupPlan() {
             (
 
 
-                <div className={classes.sweet_loading}>
+              <div className={classes.sweet_loading}>
                 <BounceLoader color={color} loading={loading} css={override} size={150} />
               </div>
 
@@ -105,7 +136,7 @@ function GroupPlan() {
                   <Table className="mb-0">
                     <TableHead>
                       <TableRow>
-                        <TableCell >Group ID </TableCell>
+                        <TableCell > S/N </TableCell>
                         <TableCell >Group Name </TableCell>
                         <TableCell >Group Description </TableCell>
                         {/* <TableCell>Head of group</TableCell> */}
@@ -114,19 +145,50 @@ function GroupPlan() {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {data.map((group) => (
+                      {data.map((group, index) => (
                         <TableRow key={group?.id}>
-                          <TableCell className="pl-3 fw-normal">{group?.id}</TableCell>
+                          <TableCell className="pl-3 fw-normal">{++index}</TableCell>
                           <TableCell>{group?.name}</TableCell>
                           <TableCell>{group?.description}</TableCell>
                           {/* <TableCell>{group?.branch_head.first_name} {group?.branch_head.last_name}</TableCell> */}
                           <TableCell>
-                            <ActionButton groupId={group?.id}  />
+                            <ActionButton groupId={group?.id} />
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
+                  <div className={classes.paginationContain}>
+                    <div className={classes.paginateRow}>
+                      <FormControl sx={{ m: 1 }} size="small">
+                        <InputLabel id="demo-select-small">Row Per Page</InputLabel>
+                        <Select
+                          labelId="demo-select-small"
+                          id="demo-select-small"
+                          value={limit}
+                          label="Row Per Page"
+                          onChange={handleRowPerPage}
+                        >
+                          <MenuItem value={5}>5</MenuItem>
+                          <MenuItem value={10}>10</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className={classes.paginate}>
+                      <Button
+                        size='small'
+                        disabled={!isPrevBtnDisabled()}
+                        onClick={previousPage}>
+                        previous
+                      </Button>
+                      <Button
+                        size='small'
+                        disabled={!isNextBtnDisabled()}
+                        onClick={nextPage}>
+                        next
+                      </Button>
+                    </div>
+                  </div>
                 </Widget>
               </Grid>
             )
